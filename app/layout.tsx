@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import GlobalWrapper from "@/components/global-wrapper";
+import Header from "@/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,16 +28,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <GlobalWrapper>
-          <header className="grid grid-cols-12">
-            <section className="col-[2_/_span_10] bg-white border border-red-500 text-black">
-              Header
-            </section>
-          </header>
-          <main className="grid grid-cols-12">
+          <Header />
+          <main className="grid grid-cols-[1fr_min(100%,800px)_1fr]">
             {children}
           </main>
-          <footer className="grid grid-cols-12">
-            <section className="col-[2_/_span_10] bg-white border border-red-500 text-black">
+          <footer className="grid grid-cols-[1fr_min(100%,800px)_1fr] bg-white">
+            <section className="col-2 border border-red-500 text-black">
               Footer
             </section>
           </footer>
