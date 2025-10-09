@@ -29,10 +29,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <GlobalWrapper>
           <Header />
-          <main className="grid grid-cols-[1fr_min(100%,800px)_1fr]">
+          <main className="content-grid">
             {children}
           </main>
-          <footer className="grid grid-cols-[1fr_min(100%,800px)_1fr] bg-white">
+          <footer className="content-grid bg-white">
             <section className="col-2 border border-red-500 text-black">
               Footer
             </section>
