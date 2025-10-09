@@ -15,7 +15,7 @@ export default function Header() {
     ];
 
     return (
-        <header className="grid grid-cols-[1fr_min(100%,800px)_1fr] bg-white">
+        <header className="content-grid bg-white">
             <section className="col-2 flex flex-row items-center justify-between border border-red-500 text-black p-2">
                 <h1>PROJECT</h1>
                 <nav>
