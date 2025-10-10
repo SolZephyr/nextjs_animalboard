@@ -3,9 +3,10 @@ export interface Post {
     type: string;
     title: string;
     content: string;
-    images?: [string];
+    images?: string[];
     profile: {
         name: string;
+        avatar: string;
         user: string;
     }
     created: string;

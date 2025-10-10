@@ -1,38 +1,62 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Item, ItemActions, ItemContent, ItemDescription, ItemHeader, ItemMedia, ItemTitle } from "./ui/item";
+import { Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemMedia, ItemTitle } from "./ui/item";
 import { Post } from "@/lib/types";
 import Image from "next/image";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
+import { Button } from "./ui/button";
+import { Heart, MessageSquareText } from "lucide-react";
+import { writeTime } from "@/lib/utils";
 
 export default function PostItem({ post }: { post: Post }) {
+
     return (
         <article className="flex w-full flex-col gap-6">
-            <Item variant="outline">
+            <Item variant="outline" className="p-4">
                 <ItemHeader>
                     <ItemMedia>
                         <Avatar className="size-10">
-                            <AvatarImage src="https://github.com/evilrabbit.png" className="rounded-full" />
+                            <AvatarImage src={post.profile.avatar} className="rounded-full" />
                             <AvatarFallback>ER</AvatarFallback>
                         </Avatar>
                     </ItemMedia>
                     <ItemContent>
                         <ItemTitle>{post.profile.name}</ItemTitle>
                     </ItemContent>
-                    <ItemContent className="flex-none">
-                        <ItemDescription>{post.profile.user}</ItemDescription>
-                        <ItemDescription>{post.created}</ItemDescription>
+                    <ItemContent className="flex-none text-right">
+                        <ItemDescription>Poster: {post.profile.user}</ItemDescription>
+                        <ItemDescription>{writeTime(post.created)}</ItemDescription>
                     </ItemContent>
                 </ItemHeader>
                 <ItemContent>
-                    <ItemTitle>{post.title}</ItemTitle>
+                    <ItemTitle className="text-xl">{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
                     {post?.images ?
-                        <ItemMedia>
-                            <Image src={post.images[0]} width={150} height={150} alt="image" />
+                        <ItemMedia className="flex flex-row justify-center w-full">
+                            <Carousel
+                                opts={{
+                                    align: "start",
+                                    loop: true
+                                }}
+                                className="w-[96%]">
+                                <CarouselContent>
+                                    {post.images.map((img, index) => (
+                                        <CarouselItem key={index} className="basis-initial">
+                                            <Image src={img} width={150} height={150} className="w-full h-auto" alt="image" />
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="-left-4" />
+                                <CarouselNext className="-right-4" />
+                            </Carousel>
                         </ItemMedia> : ""
                     }
                 </ItemContent>
-                <ItemActions>
-                </ItemActions>
+                <ItemFooter>
+                    <ItemActions>
+                        <Button><Heart />&nbsp;0</Button>
+                        <Button><MessageSquareText />&nbsp;0</Button>
+                    </ItemActions>
+                </ItemFooter>
             </Item>
         </article>
     )
