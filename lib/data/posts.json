@@ -1,9 +1,10 @@
 [
     {
         "id": 1,
+        "type": "Test",
         "title": "Lorem ipsum dolor",
         "content": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis vel ea asperiores? Quasi, voluptatum?",
-        "type": "Test",
+        "images": ["https://dummyjson.com/image/150"],
         "profile": {
             "name": "Doge",
             "user": "Husse"
@@ -13,9 +14,9 @@
     },
     {
         "id": 2,
+        "type": "Test",
         "title": "Proin dignissim urna nisi",
         "content": "Proin dignissim urna nisi, vel commodo nisl sagittis id. Suspendisse fringilla enim quis euismod bibendum.",
-        "type": "Test",
         "profile": {
             "name": "Doge",
             "user": "Husse"
@@ -25,9 +26,9 @@
     },
     {
         "id": 3,
+        "type": "Test",
         "title": "Fusce consectetur id massa eget ornare.",
         "content": "Fusce consectetur id massa eget ornare. Nulla facilisi. Nunc porta, justo ac convallis egestas, lorem odio consectetur leo, sed vulputate turpis odio ac sem.",
-        "type": "Test",
         "profile": {
             "name": "Doge",
             "user": "Husse"
@@ -37,9 +38,9 @@
     },
     {
         "id": 4,
+        "type": "Test",
         "title": "Etiam commodo dui sit amet.",
         "content": "Etiam commodo dui sit amet mauris aliquam facilisis. Praesent lobortis nec sem vel feugiat. Ut vestibulum nisi a est dignissim ultricies. ",
-        "type": "Test",
         "profile": {
             "name": "Doge",
             "user": "Husse"
@@ -49,9 +50,9 @@
     },
     {
         "id": 5,
+        "type": "Test",
         "title": "Nulla convallis turpis scelerisque, commodo metus quis.",
         "content": "Nulla convallis turpis scelerisque, commodo metus quis, fermentum tortor. Quisque accumsan egestas massa, nec consequat lorem euismod eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-        "type": "Test",
         "profile": {
             "name": "Doge",
             "user": "Husse"
@@ -61,9 +62,9 @@
     },
     {
         "id": 6,
+        "type": "Test",
         "title": "Nulla convallis turpis scelerisque, commodo metus quis.",
         "content": "Nulla convallis turpis scelerisque, commodo metus quis, fermentum tortor. Quisque accumsan egestas massa, nec consequat lorem euismod eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-        "type": "Test",
         "profile": {
             "name": "Doge",
             "user": "Husse"

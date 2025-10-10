@@ -1,8 +1,9 @@
 export interface Post {
     id: number;
+    type: string;
     title: string;
     content: string;
-    type: string;
+    images?: [string];
     profile: {
         name: string;
         user: string;

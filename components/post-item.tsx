@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemHeader, ItemMedia, ItemTitle } from "./ui/item";
 import { Post } from "@/lib/types";
+import Image from "next/image";
 
 export default function PostItem({ post }: { post: Post }) {
     return (
@@ -24,6 +25,11 @@ export default function PostItem({ post }: { post: Post }) {
                 <ItemContent>
                     <ItemTitle>{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
+                    {post?.images ?
+                        <ItemMedia>
+                            <Image src={post.images[0]} width={150} height={150} alt="image" />
+                        </ItemMedia> : ""
+                    }
                 </ItemContent>
                 <ItemActions>
                 </ItemActions>
