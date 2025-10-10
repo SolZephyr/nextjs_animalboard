@@ -12,17 +12,23 @@ export default function ContentHome() {
     });
 
     return (
-        <div className="text-black py-4 grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-4">
-            <aside className="hidden md:block bg-white border border-red-500">
+        <div className="grid grid-content-home">
+            <main className="grid-area-content">
                 <section>
-                    Sidebar
+                    <Suspense fallback={<p>Loading...</p>}>
+                        <PostsList data={data} />
+                    </Suspense>
+                </section>
+            </main>
+            <aside className="grid-area-sidebar hidden md:block max-h-full w-50 border border-red-500">
+                <section className="max-h-(--sidebar-height) bg-white sticky top-(--header-height)">
+                    <ul>
+                        <li>Sidebar</li>
+                        <li>Sidebar</li>
+                        <li>Sidebar</li>
+                    </ul>
                 </section>
             </aside>
-            <section>
-                <Suspense fallback={<p>Loading...</p>}>
-                    <PostsList data={data} />
-                </Suspense>
-            </section>
         </div>
     );
 }

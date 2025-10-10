@@ -41,6 +41,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --header-height: 60px;
+  --sidebar-height: calc(100vh - --header-height);
 }
 
 /* Breakout */
@@ -154,4 +157,20 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.basic-initial {
+  flex-basis: initial;
+}
+
+.grid-content-home {
+  grid-template-areas: "sidebar . content";
+}
+
+.grid-area-sidebar {
+  grid-area: sidebar;
+}
+
+.grid-area-content {
+  display: contents;
 }
