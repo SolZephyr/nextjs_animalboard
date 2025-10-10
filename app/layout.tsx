@@ -29,14 +29,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <GlobalWrapper>
           <Header />
-          <main className="content-grid">
+          <main>
             {children}
           </main>
-          <footer className="content-grid bg-white">
-            <section className="col-2 border border-red-500 text-black">
-              Footer
-            </section>
-          </footer>
         </GlobalWrapper>
       </body>
     </html>
