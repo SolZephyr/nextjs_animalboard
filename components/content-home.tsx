@@ -3,6 +3,7 @@ import { Post } from "@/lib/types";
 import PostsList from "./posts-list";
 import { Suspense } from "react";
 import { PostsFilter } from "./posts-filter";
+import { PaginationPaging } from "./pagination";
 
 export default function ContentHome() {
 
@@ -21,6 +22,7 @@ export default function ContentHome() {
                         <PostsList data={data} />
                     </Suspense>
                 </section>
+                <PaginationPaging page={1} limit={10} total={10} />
             </main>
             <aside className="grid-area-sidebar hidden md:block max-h-full w-50 border border-red-500">
                 <section className="max-h-(--sidebar-height) bg-white sticky top-(--header-height)">
