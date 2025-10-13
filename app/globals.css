@@ -170,7 +170,3 @@
 .grid-area-sidebar {
   grid-area: sidebar;
 }
-
-.grid-area-content {
-  display: contents;
-}
