@@ -18,8 +18,8 @@ export default function Sidebar() {
     ];
 
     return (
-        <aside className="grid-area-sidebar hidden md:block max-h-full w-50">
-            <section className="min-h-(sidebar-height) border border-red-500 max-h-(--sidebar-height) bg-white sticky top-(--header-height)">
+        <aside className="grid-area-sidebar hidden md:block max-h-full w-50 bg-gray-50">
+            <section className="border border-red-500 max-h-(--sidebar-height) sticky top-(--header-height)">
                 <ScrollArea>
                     <Separator />
                     <nav>
@@ -33,7 +33,7 @@ export default function Sidebar() {
                     </nav>
                     <Separator />
                     <Collapsible className="flex flex-col gap-2 justify-start items-start">
-                        <CollapsibleTrigger className="w-full text-left inline-block hover:bg-black hover:text-white p-2">Explore</CollapsibleTrigger>
+                        <CollapsibleTrigger className="w-full text-left inline-block hover:bg-black hover:text-white p-2 cursor-pointer">Explore</CollapsibleTrigger>
                         <CollapsibleContent className="w-full">
                             <ul>
                                 <li><Link href="" className="w-full inline-block hover:bg-black hover:text-white p-2">Tag</Link></li>
