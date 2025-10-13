@@ -2,6 +2,7 @@ import getPosts from "@/lib/data/posts.json";
 import { Post } from "@/lib/types";
 import PostsList from "./posts-list";
 import { Suspense } from "react";
+import { PostsFilter } from "./posts-filter";
 
 export default function ContentHome() {
 
@@ -13,7 +14,8 @@ export default function ContentHome() {
 
     return (
         <div className="grid grid-content-home">
-            <main className="grid-area-content">
+            <main className="grid-area-content grid grid-cols-1 ml-2">
+                <PostsFilter />
                 <section>
                     <Suspense fallback={<p>Loading...</p>}>
                         <PostsList data={data} />

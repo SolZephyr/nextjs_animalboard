@@ -12,3 +12,5 @@ export interface Post {
     created: string;
     updated: string;
 }
+
+export type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
