@@ -14,3 +14,5 @@ export interface Post {
 }
 
 export type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export const LimitOptions = [10];
