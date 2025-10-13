@@ -4,6 +4,7 @@ import PostsList from "./posts-list";
 import { Suspense } from "react";
 import { PostsFilter } from "./posts-filter";
 import { PaginationPaging } from "./pagination";
+import Sidebar from "./sidebar";
 
 export default function ContentHome() {
 
@@ -24,15 +25,7 @@ export default function ContentHome() {
                 </section>
                 <PaginationPaging page={1} limit={10} total={10} />
             </main>
-            <aside className="grid-area-sidebar hidden md:block max-h-full w-50 border border-red-500">
-                <section className="max-h-(--sidebar-height) bg-white sticky top-(--header-height)">
-                    <ul>
-                        <li>Sidebar</li>
-                        <li>Sidebar</li>
-                        <li>Sidebar</li>
-                    </ul>
-                </section>
-            </aside>
+            <Sidebar/>
         </div>
     );
 }
