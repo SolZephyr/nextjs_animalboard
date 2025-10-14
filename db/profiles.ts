@@ -26,7 +26,7 @@ export async function createProfile(profile: Profile): Promise<number> {
 }
 
 export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
-    const limit = params?.limit ?? 1;
+    const limit = params?.limit ?? 10;
     const page = params?.page ?? 1;
     const offset = (page - 1) * limit;
     const where = undefined;
