@@ -14,6 +14,58 @@ export interface PostListResult {
     total: number;
 }
 
+export interface ProfileListParams {
+    page: number;
+    limit?: number | undefined;
+    sort?: string | undefined;
+}
+
+export interface ProfileListResult {
+    profiles: Profile[];
+    page: number;
+    limit: number;
+    total: number;
+}
+
+export enum Animal {
+    NONE = "Unknown",
+    Cat = "Cat",
+    Dog = "Dog"
+    // TODO: More
+}
+
+export enum Country {
+    None = "Unknown"
+}
+
+export interface Profile {
+    id: number;
+    name: string;
+    nicknames: string;
+    user: string;   // TODO: User
+    avatar: string; // TODO: Media
+    animal: string;
+    breed: string;
+    country: string;
+    home: string;
+    about: string;
+    dateOfBirth: Date | null;
+    created: Date;
+    updated: Date | null;
+}
+
+export interface ProfileState {
+    name?: string;
+    nicknames?: string;
+    avatar?: string;
+    animal?: string;
+    breed?: string;
+    country?: string;
+    home?: string;
+    about?: string;
+    dateOfBirth?: Date;
+}
+
 export interface Post {
     id: number;
     type: string;
