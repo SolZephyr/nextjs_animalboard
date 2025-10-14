@@ -18,8 +18,8 @@ export default function Sidebar() {
     ];
 
     return (
-        <aside className="grid-area-sidebar hidden md:block max-h-full w-50 bg-gray-50">
-            <section className="border border-red-500 max-h-(--sidebar-height) sticky top-(--header-height)">
+        <aside className="grid-area-sidebar hidden md:block min-h-(--sidebar-height) w-50 bg-gray-50">
+            <section className="border border-red-500 sticky top-(--header-height)">
                 <ScrollArea>
                     <Separator />
                     <nav>
