@@ -1,15 +1,15 @@
-import { createProfile, readProfile } from "@/db/profiles";
+import { createProfile, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
-import { Profile } from "../types";
+import { Profile, ProfileListParams, ProfileListResult } from "../types";
 
 export const ProfileService = () => {
 
-    const getProfiles = () => {
+    const getProfiles = (params: ProfileListParams): Promise<ProfileListResult> | null => {
         try {
-            const profiles = readProfile();
-            return profiles;
+            return readProfiles(params);
         } catch {
             console.error("ERROR!");
+            return null;
         }
     }
 
@@ -34,9 +34,9 @@ export const ProfileService = () => {
             return profile;
         });
         console.log(profiles);
-        // profiles.map(profile => {
-        //     createProfile(profile);
-        // });
+        profiles.map(profile => {
+            createProfile(profile);
+        });
     }
 
     return { getProfiles, populate };

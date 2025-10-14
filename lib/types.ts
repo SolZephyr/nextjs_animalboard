@@ -14,6 +14,19 @@ export interface PostListResult {
     total: number;
 }
 
+export interface ProfileListParams {
+    page: number;
+    limit?: number | undefined;
+    sort?: string | undefined;
+}
+
+export interface ProfileListResult {
+    profiles: Profile[];
+    page: number;
+    limit: number;
+    total: number;
+}
+
 export enum Animal {
     NONE = "Unknown",
     Cat = "Cat",

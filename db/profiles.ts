@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { dbProfiles } from './schema';
-import { Profile, ProfileState } from '@/lib/types';
+import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
 
 const db = drizzle(process.env.DATABASE_URL!);
 
@@ -25,12 +25,35 @@ export async function createProfile(profile: Profile): Promise<number> {
     return (result.oid);
 }
 
-export async function readProfile(id?: number): Promise<Profile[]> {
-    if (id) {
-        return await db.select().from(dbProfiles).where(eq(dbProfiles.id, id));
-    } else {
-        return await db.select().from(dbProfiles);
+export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
+    const limit = params?.limit ?? 1;
+    const page = params?.page ?? 1;
+    const offset = (page - 1) * limit;
+    const where = undefined;
+    const sort = desc(dbProfiles.created);
+    const data = await db.select().from(dbProfiles)
+        .where(where)
+        .orderBy(sort)
+        .limit(limit)
+        .offset(offset);
+
+    const count = await db.$count(dbProfiles, where);
+
+    const result: ProfileListResult = {
+        profiles: data,
+        page: page,
+        limit: limit,
+        total: count
     }
+    return result;
+}
+
+export async function readProfile(id: number): Promise<Profile | null> {
+    const data = await db.select().from(dbProfiles)
+        .where(eq(dbProfiles.id, id))
+        .limit(1)
+        .offset(0);
+    return data.length ? data[0] : null;
 }
 
 export async function updateProfile(profileId: number, data: ProfileState): Promise<Profile[]> {
