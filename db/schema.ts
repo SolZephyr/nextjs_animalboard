@@ -1,4 +1,4 @@
-import { integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 const timestamps = {
     created: timestamp().defaultNow().notNull(),
@@ -26,7 +26,7 @@ export const dbProfiles = pgTable("profiles", {
     breed: varchar({ length: 50 }).notNull(),
     country: varchar({ length: 50 }).notNull(),
     home: varchar({ length: 50 }).notNull(),
-    about: varchar({ length: 500 }).notNull(),
+    about: text().notNull(),
     dateOfBirth: timestamp(),
     ...timestamps
 });
