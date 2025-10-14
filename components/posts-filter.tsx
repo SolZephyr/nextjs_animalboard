@@ -33,7 +33,7 @@ export function PostsFilter() {
     return (
         <section className="flex flex-row my-2">
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
-                <SelectTrigger className="w-30">
+                <SelectTrigger className="w-30 cursor-pointer">
                     <SelectValue placeholder="Sort" />
                 </SelectTrigger>
                 <SelectContent>
@@ -42,7 +42,7 @@ export function PostsFilter() {
                 </SelectContent>
             </Select>
             <Select defaultValue={filter} onValueChange={(e) => onFilterChange(e)}>
-                <SelectTrigger className="w-30 mx-2">
+                <SelectTrigger className="w-30 mx-2 cursor-pointer">
                     <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>

@@ -1,31 +1,33 @@
 import getPosts from "@/lib/data/posts.json";
-import { Post } from "@/lib/types";
-import PostsList from "./posts-list";
+import { Post, PostListParams, PostListResult } from "@/lib/types";
 import { Suspense } from "react";
 import { PostsFilter } from "./posts-filter";
-import { PaginationPaging } from "./pagination";
 import Sidebar from "./sidebar";
+import PostsFeed from "./posts-feed";
 
-export default function ContentHome() {
+export default function ContentHome({ params }: { params: PostListParams }) {
 
     // Test promise data
-    const data = new Promise<Post[]>(function (resolve) {
+    const data = new Promise<PostListResult>(function (resolve) {
         const posts: Post[] = getPosts ?? [];
-        resolve(posts);
+        const data: PostListResult = {
+            posts: posts,
+            page: params.page,
+            limit: 10,
+            total: 10
+        }
+        resolve(data);
     });
 
     return (
         <div className="grid grid-content-home">
             <main className="grid-area-content grid grid-cols-1 ml-2">
                 <PostsFilter />
-                <section>
-                    <Suspense fallback={<p>Loading...</p>}>
-                        <PostsList data={data} />
-                    </Suspense>
-                </section>
-                <PaginationPaging page={1} limit={10} total={10} />
+                <Suspense fallback={<p>Loading...</p>}>
+                    <PostsFeed data={data} />
+                </Suspense>
             </main>
-            <Sidebar/>
+            <Sidebar />
         </div>
     );
 }

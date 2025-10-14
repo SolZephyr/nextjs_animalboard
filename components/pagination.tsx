@@ -9,20 +9,16 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "./ui/pagination";
-import { LimitOptions } from "@/lib/types";
+import { LimitOptions, PostListResult } from "@/lib/types";
 
-type Props = { page: number; limit: number; total: number };
-
-export function PaginationPaging({
-    page = 1,
-    limit = LimitOptions[0],
-    total = 0,
-}: Props) {
+export function PaginationPaging({ params }: { params: PostListResult }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const params = new URLSearchParams(searchParams);
+    const urlParams = new URLSearchParams(searchParams);
 
-    limit = LimitOptions.includes(limit) ? limit : LimitOptions[0];
+    const limit = LimitOptions.includes(params.limit) ? params.limit : LimitOptions[0];
+    const total = params.total;
+    const page = params.page;
     const pageEnd = Math.ceil(total / limit);
 
     const pageParams = (params: URLSearchParams, page: number): string => {
@@ -37,7 +33,7 @@ export function PaginationPaging({
                     {total > 0 && page > 1 ? (
                         <PaginationItem>
                             <PaginationPrevious
-                                href={pageParams(params, page - 1)}
+                                href={pageParams(urlParams, page - 1)}
                                 className="rounded"
                             />
                         </PaginationItem>
@@ -46,13 +42,13 @@ export function PaginationPaging({
                     )}
                     {
                         <PaginationItem key={page}>
-                            <PaginationLink href={pageParams(params, page)} className="text-black-500"> {page}</PaginationLink>
+                            <PaginationLink href={pageParams(urlParams, page)} className="text-black-500"> {page}</PaginationLink>
                         </PaginationItem>
                     }
                     {total > 0 && page < pageEnd ? (
                         <PaginationItem>
                             <PaginationNext
-                                href={pageParams(params, page + 1)}
+                                href={pageParams(urlParams, page + 1)}
                                 className="rounded"
                             />
                         </PaginationItem>
