@@ -4,20 +4,21 @@ import { useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useRouter } from "next/navigation";
 import { use } from "react";
+import SelectClear from "./ui/select-clear";
 
 export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }) {
     const [animals, countries] = use(data);
-    const ANIMAL_DEFAUT = "all";
+    const ANIMAL_DEFAULT = "all";
     const COUNTRY_DEFAULT = "all";
 
     const { replace } = useRouter();
     const searchParams = useSearchParams();
     const urlParams = new URLSearchParams(searchParams);
-    //const animal = searchParams.get("animal") ?? ANIMAL_DEFAUT;
+    //const animal = searchParams.get("animal") ?? ANIMAL_DEFAULT;
     //const country = searchParams.get("country") ?? COUNTRY_DEFAULT;
 
     function onAnimalChange(e: string): void {
-        if (e !== ANIMAL_DEFAUT)
+        if (e !== ANIMAL_DEFAULT && e !== null)
             urlParams.set("sort", e);
         else
             urlParams.delete("sort");
@@ -39,6 +40,7 @@ export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }
                     <SelectValue placeholder="Animal" />
                 </SelectTrigger>
                 <SelectContent>
+                    <SelectClear>All</SelectClear>
                     {animals.map(animal => (
                         <SelectItem key={animal.toLowerCase()} value={animal.toLowerCase()}>{animal}</SelectItem>
                     ))}
@@ -49,6 +51,7 @@ export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }
                     <SelectValue placeholder="Country" />
                 </SelectTrigger>
                 <SelectContent>
+                    <SelectClear>All</SelectClear>
                     {countries.map(country => (
                         <SelectItem key={country.toLowerCase()} value={country.toLowerCase()}>{country}</SelectItem>
                     ))}
