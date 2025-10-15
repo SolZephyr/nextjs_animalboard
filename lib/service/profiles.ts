@@ -12,6 +12,25 @@ export const ProfileService = () => {
         return readProfile(id)
     }
 
+    const getAnimals = (): Promise<string[]> => {
+        return new Promise(function (resolve) {
+            const list: string[] = [
+                "Cat",
+                "Dog"
+            ];
+            resolve(list);
+        });
+    }
+
+    const getCountries = (): Promise<string[]> => {
+        return new Promise(function (resolve) {
+            const list: string[] = [
+                "Sweden"
+            ];
+            resolve(list);
+        });
+    }
+
     const populate = () => {
         const data = jsonProfiles ?? [];
         const profiles: Profile[] = data.map(item => {
@@ -37,5 +56,5 @@ export const ProfileService = () => {
         });
     }
 
-    return { getProfiles, getProfile, populate };
+    return { getProfiles, getProfile, getAnimals, getCountries, populate };
 }
