@@ -47,7 +47,7 @@ export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }
                 </SelectContent>
             </Select>
             <Select onValueChange={(e) => onCountryChange(e)}>
-                <SelectTrigger className="w-30 mx-2 cursor-pointer">
+                <SelectTrigger className="w-30 ml-2 cursor-pointer">
                     <SelectValue placeholder="Country" />
                 </SelectTrigger>
                 <SelectContent>
