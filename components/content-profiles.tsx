@@ -17,7 +17,7 @@ export default function ContentProfiles({ params }: { params: ProfileListParams 
         <div className="grid grid-content-home">
             <main className="grid-area-content grid grid-cols-1 content-start ml-2 my-2">
                 <div className="flex flex-row justify-between">
-                    <h2>Profiles</h2>
+                    <h2 className="text-xl my-2">Profiles</h2>
                     <ProfilesFilter data={filterData} />
                 </div>
                 <Suspense fallback={<p>Loading...</p>}>
