@@ -11,17 +11,21 @@ export default function ContentHome({ params }: { params: PostListParams }) {
     const data = new Promise<PostListResult>(function (resolve) {
         const posts: Post[] = getPosts ?? [];
         const data: PostListResult = {
-            posts: posts,
-            page: params.page,
-            limit: 10,
-            total: 10
+            data: {
+                posts: posts,
+                meta: {
+                    page: params.page,
+                    limit: 10,
+                    total: 10
+                }
+            }
         }
         resolve(data);
     });
 
     return (
         <div className="grid grid-content-home">
-            <main className="grid-area-content grid grid-cols-1 ml-2">
+            <main className="grid-area-content grid grid-cols-1 content-start ml-2">
                 <PostsFilter />
                 <Suspense fallback={<p>Loading...</p>}>
                     <PostsFeed data={data} />

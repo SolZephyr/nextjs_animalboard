@@ -7,11 +7,18 @@ export interface PostListParams {
     tags?: PostTag[] | undefined;
 }
 
-export interface PostListResult {
-    posts: Post[];
+export interface PagingResult {
     page: number;
     limit: number;
     total: number;
+}
+
+export interface PostListResult {
+    data?: {
+        posts: Post[];
+        meta: PagingResult;
+    };
+    error?: string;
 }
 
 export interface ProfileListParams {
@@ -21,10 +28,11 @@ export interface ProfileListParams {
 }
 
 export interface ProfileListResult {
-    profiles: Profile[];
-    page: number;
-    limit: number;
-    total: number;
+    data?: {
+        profiles: Profile[];
+        meta: PagingResult;
+    };
+    error?: string;
 }
 
 export enum Animal {

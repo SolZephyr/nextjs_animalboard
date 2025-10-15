@@ -9,16 +9,16 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "./ui/pagination";
-import { LimitOptions, PostListResult } from "@/lib/types";
+import { LimitOptions, PagingResult } from "@/lib/types";
 
-export function PaginationPaging({ params }: { params: PostListResult }) {
+export function PaginationPaging({ params }: { params: PagingResult | undefined }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const urlParams = new URLSearchParams(searchParams);
 
-    const limit = LimitOptions.includes(params.limit) ? params.limit : LimitOptions[0];
-    const total = params.total;
-    const page = params.page;
+    const limit = params?.limit ? (LimitOptions.includes(params.limit) ? params.limit : LimitOptions[0]) : 0;
+    const total = params?.total ?? 0;
+    const page = params?.page ?? 1;
     const pageEnd = Math.ceil(total / limit);
 
     const pageParams = (params: URLSearchParams, page: number): string => {
