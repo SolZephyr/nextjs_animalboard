@@ -25,6 +25,10 @@ export function PaginationPaging({ params }: { params: PagingResult | undefined 
         params.set("page", page.toString());
         return `${pathname}?${params.toString()}`;
     };
+    if(total <= limit) {
+        // No pagination
+        return (<></>);
+    }
 
     return (
         <section className="flex flex-row justify-center items-center w-full p-2 border rounded-md gap-2 my-2">
