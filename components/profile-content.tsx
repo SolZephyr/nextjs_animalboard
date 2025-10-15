@@ -35,6 +35,15 @@ export default async function ProfileContent({ data }: { data: Promise<Profile |
                     <h3 className="text-xl my-2">About</h3>
                     <p>{profile.about}</p>
                 </section>
+                <section className="py-4">
+                    <h3 className="text-xl my-2">Personality</h3>
+                    <ul className="flex flex-row">
+                        <li>
+                            <ProfileTag label="Hello" />
+                            <ProfileTag label="World" />
+                        </li>
+                    </ul>
+                </section>
             </article>
             <section>
                 <h4>Posts</h4>
