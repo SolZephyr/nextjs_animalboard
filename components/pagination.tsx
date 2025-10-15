@@ -27,7 +27,7 @@ export function PaginationPaging({ params }: { params: PagingResult | undefined 
     };
 
     return (
-        <section className="flex flex-row justify-center items-center w-full p-2 border rounded-md gap-2 my-4">
+        <section className="flex flex-row justify-center items-center w-full p-2 border rounded-md gap-2 my-2">
             <Pagination className="">
                 <PaginationContent>
                     {total > 0 && page > 1 ? (

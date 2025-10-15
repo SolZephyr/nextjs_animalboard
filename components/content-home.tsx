@@ -25,7 +25,7 @@ export default function ContentHome({ params }: { params: PostListParams }) {
 
     return (
         <div className="grid grid-content-home">
-            <main className="grid-area-content grid grid-cols-1 content-start ml-2">
+            <main className="grid-area-content grid grid-cols-1 content-start ml-2 my-2">
                 <PostsFilter />
                 <Suspense fallback={<p>Loading...</p>}>
                     <PostsFeed data={data} />
