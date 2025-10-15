@@ -1,5 +1,6 @@
 import { ProfileListResult } from "@/lib/types";
 import { PaginationPaging } from "./pagination";
+import ProfileItem from "./profile-item";
 
 export default async function ProfilesList({ data }: { data: Promise<ProfileListResult> }) {
 
@@ -10,9 +11,11 @@ export default async function ProfilesList({ data }: { data: Promise<ProfileList
     return (
         <section>
             {profiles ?
-                <ul className="grid grid-cols-3 justify-start items-start">
+                <ul className="grid grid-cols-3 gap-4 justify-start items-start">
                     {profiles.map(profile => (
-                        <li key={profile.id}>{profile.name}</li>
+                        <li key={profile.id}>
+                            <ProfileItem profile={profile} />
+                        </li>
                     ))}
                 </ul>
                 : <p>No data</p>
