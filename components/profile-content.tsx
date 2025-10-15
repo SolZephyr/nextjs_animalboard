@@ -9,20 +9,20 @@ export default async function ProfileContent({ data }: { data: Promise<Profile |
             <p>Not found</p>
         );
     }
-
     return (
         <>
             <article className="p-4 border border-border rounded-md">
                 <h2 className="hidden">Profile</h2>
-                <section className="py-4 flex flex-row">
+                <section className="flex flex-row">
                     <Avatar className="size-30 border border-black">
                         <AvatarImage src={profile.avatar} className="rounded-full" />
                         <AvatarFallback>ER</AvatarFallback>
                     </Avatar>
-                    <aside className="flex flex-col">
-                        <h3 className="text-xl">{profile.name}</h3>
+                    <aside className="flex flex-col ml-4">
+                        <h3 className="text-2xl">{profile.name}</h3>
                         <p>{profile.animal}</p>
                         <p>{profile.breed}</p>
+                        <p>Joined:&nbsp;{profile.created.toDateString()}</p>
                     </aside>
                 </section>
                 <section className="py-4">
@@ -38,15 +38,20 @@ export default async function ProfileContent({ data }: { data: Promise<Profile |
                 <section className="py-4">
                     <h3 className="text-xl my-2">Personality</h3>
                     <ul className="flex flex-row">
-                        <li>
+                        <li className="flex flex-row gap-1">
                             <ProfileTag label="Hello" />
                             <ProfileTag label="World" />
                         </li>
                     </ul>
                 </section>
+                <section>
+                    <h3 className="text-xl my-2">Images</h3>
+                    <p>Something here.</p>
+                </section>
             </article>
             <section>
-                <h4>Posts</h4>
+                <h4 className="text-xl my-2">Posts</h4>
+                <p>Something here.</p>
             </section>
         </>
     );
