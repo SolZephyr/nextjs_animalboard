@@ -1,4 +1,4 @@
-import { createProfile, readProfiles } from "@/db/profiles";
+import { createProfile, readProfile, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
 import { Profile, ProfileListParams, ProfileListResult } from "../types";
 
@@ -6,6 +6,10 @@ export const ProfileService = () => {
 
     const getProfiles = (params: ProfileListParams): Promise<ProfileListResult> => {
         return readProfiles(params);
+    }
+
+    const getProfile = (id: number): Promise<Profile | null> => {
+        return readProfile(id)
     }
 
     const populate = () => {
@@ -28,11 +32,10 @@ export const ProfileService = () => {
             }
             return profile;
         });
-        console.log(profiles);
         profiles.map(profile => {
             createProfile(profile);
         });
     }
 
-    return { getProfiles, populate };
+    return { getProfiles, getProfile, populate };
 }

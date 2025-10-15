@@ -89,6 +89,8 @@ export interface Post {
     updated: string;
 }
 
+export type DynamicParams = Promise<{ id?: string }>;
+
 export type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export const LimitOptions = [10];

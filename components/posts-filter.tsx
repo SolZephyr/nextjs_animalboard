@@ -31,7 +31,7 @@ export function PostsFilter() {
     }
 
     return (
-        <section className="flex flex-row my-2">
+        <section className="flex flex-row mb-2">
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
                 <SelectTrigger className="w-30 cursor-pointer">
                     <SelectValue placeholder="Sort" />
