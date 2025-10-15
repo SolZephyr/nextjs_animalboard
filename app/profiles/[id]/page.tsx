@@ -1,3 +1,4 @@
+import ContentProfile from "@/components/content-profile";
 import { DynamicParams } from "@/lib/types";
 
 export default async function Page({ params }: { params: DynamicParams }) {
@@ -5,7 +6,7 @@ export default async function Page({ params }: { params: DynamicParams }) {
     const profileId = id ? Number(id) : -1;
 
     return (
-        <h2>Profile: ${profileId}</h2>
+        <ContentProfile profileId={profileId} />
     );
 
 }
