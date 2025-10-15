@@ -4,13 +4,8 @@ import { Profile, ProfileListParams, ProfileListResult } from "../types";
 
 export const ProfileService = () => {
 
-    const getProfiles = (params: ProfileListParams): Promise<ProfileListResult> | null => {
-        try {
-            return readProfiles(params);
-        } catch {
-            console.error("ERROR!");
-            return null;
-        }
+    const getProfiles = (params: ProfileListParams): Promise<ProfileListResult> => {
+        return readProfiles(params);
     }
 
     const populate = () => {

@@ -11,10 +11,14 @@ export default function ContentHome({ params }: { params: PostListParams }) {
     const data = new Promise<PostListResult>(function (resolve) {
         const posts: Post[] = getPosts ?? [];
         const data: PostListResult = {
-            posts: posts,
-            page: params.page,
-            limit: 10,
-            total: 10
+            data: {
+                posts: posts,
+                meta: {
+                    page: params.page,
+                    limit: 10,
+                    total: 10
+                }
+            }
         }
         resolve(data);
     });

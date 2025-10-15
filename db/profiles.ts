@@ -26,26 +26,34 @@ export async function createProfile(profile: Profile): Promise<number> {
 }
 
 export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
-    const limit = params?.limit ?? 10;
-    const page = params?.page ?? 1;
-    const offset = (page - 1) * limit;
-    const where = undefined;
-    const sort = desc(dbProfiles.created);
-    const data = await db.select().from(dbProfiles)
-        .where(where)
-        .orderBy(sort)
-        .limit(limit)
-        .offset(offset);
+    try {
+        const limit = params?.limit ?? 10;
+        const page = params?.page ?? 1;
+        const offset = (page - 1) * limit;
+        const where = undefined;
+        const sort = desc(dbProfiles.created);
+        const data = await db.select().from(dbProfiles)
+            .where(where)
+            .orderBy(sort)
+            .limit(limit)
+            .offset(offset);
 
-    const count = await db.$count(dbProfiles, where);
+        const count = await db.$count(dbProfiles, where);
 
-    const result: ProfileListResult = {
-        profiles: data,
-        page: page,
-        limit: limit,
-        total: count
+        return {
+            data: {
+                profiles: data,
+                meta: {
+                    page: page,
+                    limit: limit,
+                    total: count
+                }
+            }
+        }
+    } catch (err) {
+        console.error(err);
+        return { error: "Error reading profiles." }
     }
-    return result;
 }
 
 export async function readProfile(id: number): Promise<Profile | null> {
