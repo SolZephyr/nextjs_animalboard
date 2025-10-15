@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { desc, eq } from 'drizzle-orm';
+import { and, desc, eq, sql } from 'drizzle-orm';
 import { dbProfiles } from './schema';
 import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
 
@@ -30,11 +30,15 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
         const limit = params?.limit ?? 10;
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
-        const where = undefined;
-        const sort = desc(dbProfiles.created);
+        let where = undefined;
+        if(params.animal || params.country) {
+            const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
+            const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
+            where = and(exp1, exp2);
+        }
         const data = await db.select().from(dbProfiles)
             .where(where)
-            .orderBy(sort)
+            .orderBy(dbProfiles.name)
             .limit(limit)
             .offset(offset);
 

@@ -26,7 +26,7 @@ export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }
     }
 
     function onCountryChange(e: string): void {
-        if (e !== COUNTRY_DEFAULT)
+        if (e !== COUNTRY_DEFAULT && e !== null)
             urlParams.set("country", e);
         else
             urlParams.delete("country");

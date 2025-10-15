@@ -24,7 +24,8 @@ export interface PostListResult {
 export interface ProfileListParams {
     page: number;
     limit?: number | undefined;
-    sort?: string | undefined;
+    animal?: string | undefined;
+    country?: string | undefined;
 }
 
 export interface ProfileListResult {
