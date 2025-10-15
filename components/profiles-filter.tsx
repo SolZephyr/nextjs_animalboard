@@ -19,17 +19,17 @@ export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }
 
     function onAnimalChange(e: string): void {
         if (e !== ANIMAL_DEFAULT && e !== null)
-            urlParams.set("sort", e);
+            urlParams.set("animal", e);
         else
-            urlParams.delete("sort");
+            urlParams.delete("animal");
         replace(`/profiles/?${urlParams.toString()}`);
     }
 
     function onCountryChange(e: string): void {
         if (e !== COUNTRY_DEFAULT)
-            urlParams.set("filter", e);
+            urlParams.set("country", e);
         else
-            urlParams.delete("filter");
+            urlParams.delete("country");
         replace(`/profiles/?${urlParams.toString()}`);
     }
 
