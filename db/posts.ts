@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm';
 import { dbMedia, dbPosts, dbProfiles } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
-import { createMediaMultiple, createPostMedia } from './media';
+import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
 import { readProfiles } from './profiles';
 
 const db = drizzle(process.env.DATABASE_URL!);
@@ -66,7 +66,11 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             .orderBy(order)
             .limit(limit)
             .offset(offset);
-        const repacked = data.map(dt => (repackPost(dt)));
+        const repacked = [];
+        for (const dt of data) {
+            const list = await readMediaByPost(dt.post.id);
+            repacked.push(repackPost(dt, list));
+        }
         return {
             data: {
                 posts: repacked,
@@ -79,7 +83,7 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         }
     } catch (err) {
         console.error(err);
-        return { error: "Error reading profiles." }
+        return { error: "Error reading posts." }
     }
 }
 
@@ -115,7 +119,7 @@ function repackPost(data: {
         content: string;
         profileId: number | null
     }
-}) {
+}, media: Media[] | null) {
     const avatar = data.avatar ? {
         id: data.avatar?.id,
         type: data.avatar?.type,
@@ -126,7 +130,7 @@ function repackPost(data: {
     const profile: Profile | null = data.profile ? {
         ...data.profile, avatar: avatar
     } : null;
-    return { profile: profile, ...data.post };
+    return { profile: profile, ...data.post, images: (media ? media : undefined) };
 }
 
 // export async function readProfile(id: number): Promise<Profile | null> {

@@ -29,7 +29,7 @@ export const mediaRelations = relations(dbMedia, ({ one, many }) => ({
         fields: [dbMedia.id],
         references: [dbProfiles.avatarId],
     }),
-    posts: many(mediaToPost),
+    posts: many(dbMediaToPost),
 }));
 
 export const dbProfiles = pgTable("profiles", {
@@ -69,23 +69,23 @@ export const postRelations = relations(dbPosts, ({ one, many }) => ({
         fields: [dbPosts.profileId],
         references: [dbProfiles.id],
     }),
-    media: many(mediaToPost),
+    media: many(dbMediaToPost),
 }));
 
-export const mediaToPost = pgTable("media_to_post", {
+export const dbMediaToPost = pgTable("media_to_post", {
     postId: integer('post_id').notNull().references(() => dbPosts.id),
     mediaId: integer('media_id').notNull().references(() => dbMedia.id),
 },
     (t) => [primaryKey({ columns: [t.postId, t.mediaId] })],
 );
 
-export const mediaToPostRelations = relations(mediaToPost, ({ one }) => ({
+export const mediaToPostRelations = relations(dbMediaToPost, ({ one }) => ({
     post: one(dbPosts, {
-        fields: [mediaToPost.postId],
+        fields: [dbMediaToPost.postId],
         references: [dbPosts.id],
     }),
     media: one(dbMedia, {
-        fields: [mediaToPost.mediaId],
+        fields: [dbMediaToPost.mediaId],
         references: [dbMedia.id],
     }),
 }));

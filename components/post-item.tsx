@@ -11,6 +11,7 @@ export default function PostItem({ post }: { post: Post }) {
     const profileName = post.profile?.name ?? "[Profile]";
     const userName = post.profile?.user ?? "[User]";
     const avatarSrc = post.profile?.avatar?.source ?? "";
+    const images = post.images ? post.images : undefined;
     return (
         <article className="flex w-full flex-col gap-6">
             <Item variant="outline" className="p-4">
@@ -29,10 +30,10 @@ export default function PostItem({ post }: { post: Post }) {
                         <ItemDescription>{writeTime(post.created)}</ItemDescription>
                     </ItemContent>
                 </ItemHeader>
-                {/*<ItemContent>
+                <ItemContent>
                     <ItemTitle className="text-xl">{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
-                    {post?.images ?
+                    {images ?
                         <ItemMedia className="flex flex-row justify-center w-full">
                             <Carousel
                                 opts={{
@@ -41,18 +42,22 @@ export default function PostItem({ post }: { post: Post }) {
                                 }}
                                 className="w-[96%]">
                                 <CarouselContent>
-                                    {post.images.map((img, index) => (
+                                    {images.map((media, index) => (
                                         <CarouselItem key={index} className="basis-initial">
-                                            <Image src={img} width={150} height={150} className="w-full h-auto" alt="image" />
+                                            <Image src={media.source} width={150} height={150} className="w-full h-auto" alt="image" />
                                         </CarouselItem>
                                     ))}
                                 </CarouselContent>
-                                <CarouselPrevious className="-left-4" />
-                                <CarouselNext className="-right-4" />
+                                {images.length > 1 ?
+                                    <>
+                                        <CarouselPrevious className="-left-4" />
+                                        <CarouselNext className="-right-4" />
+                                    </> : ""
+                                }
                             </Carousel>
                         </ItemMedia> : ""
                     }
-                </ItemContent>*/}
+                </ItemContent>
                 <ItemFooter>
                     <ItemActions>
                         <Button><Heart />&nbsp;0</Button>
