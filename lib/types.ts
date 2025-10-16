@@ -26,6 +26,7 @@ export interface ProfileListParams {
     limit?: number | undefined;
     animal?: string | undefined;
     country?: string | undefined;
+    name?: string | undefined;
 }
 
 export interface ProfileListResult {
@@ -87,7 +88,7 @@ export interface ProfileState {
 }
 
 export interface Post {
-    id: number;
+    id?: number;
     type: string;
     title: string;
     content: string;

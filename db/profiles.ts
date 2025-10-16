@@ -25,8 +25,8 @@ export async function createProfile(profile: Profile): Promise<number> {
         home: profile.home,
         about: profile.about,
         dateOfBirth: new Date(),
-        created: new Date(),
-        updated: new Date()
+        created: profile.created ?? new Date(),
+        updated: null
     };
     const result = await db.insert(dbProfiles).values(data).returning({ insertedId: dbProfiles.id });
     return (result[0].insertedId ?? null);
@@ -38,10 +38,11 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
         let where = undefined;
-        if (params.animal || params.country) {
+        if (params.animal || params.country || params.name) {
             const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
             const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
-            where = and(exp1, exp2);
+            const exp3 = params.name ? sql`lower(${dbProfiles.name}) = ${params.name?.toLowerCase()}` : undefined;
+            where = and(exp1, exp2, exp3);
         }
         const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
             .from(dbProfiles)
