@@ -4,24 +4,11 @@ import { Suspense } from "react";
 import { PostsFilter } from "./posts-filter";
 import Sidebar from "./sidebar";
 import PostsFeed from "./posts-feed";
+import { PostsService } from "@/lib/service/posts";
 
 export default function ContentHome({ params }: { params: PostListParams }) {
 
-    // Test promise data
-    const data = new Promise<PostListResult>(function (resolve) {
-        const posts: Post[] = getPosts ?? [];
-        const data: PostListResult = {
-            data: {
-                posts: posts,
-                meta: {
-                    page: params.page,
-                    limit: 10,
-                    total: 10
-                }
-            }
-        }
-        resolve(data);
-    });
+    const data = PostsService().getPosts(params);
 
     return (
         <div className="grid grid-content-home">

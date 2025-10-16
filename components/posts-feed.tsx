@@ -10,11 +10,7 @@ export default async function PostsFeed({ data }: { data: Promise<PostListResult
 
     return (
         <section>
-            {posts ?
-                <>
-                    <PostsList posts={posts} />
-                </>
-                : <p>No data</p>
+            {posts ? <PostsList posts={posts} /> : <p>No data</p>
             }
             <PaginationPaging params={paging} />
         </section>

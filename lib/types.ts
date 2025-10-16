@@ -26,6 +26,7 @@ export interface ProfileListParams {
     limit?: number | undefined;
     animal?: string | undefined;
     country?: string | undefined;
+    name?: string | undefined;
 }
 
 export interface ProfileListResult {
@@ -47,12 +48,23 @@ export enum Country {
     None = "Unknown"
 }
 
+export interface Media {
+    id?: number;
+    type: string;
+    source: string;
+    created: Date;
+    updated: Date | null;
+    profile?: Profile;
+    post?: Post;
+}
+
 export interface Profile {
-    id: number;
+    id?: number;
     name: string;
     nicknames: string;
     user: string;   // TODO: User
-    avatar: string; // TODO: Media
+    avatarId?: number | null;
+    avatar: Media | null;
     animal: string;
     breed: string;
     country: string;
@@ -76,18 +88,16 @@ export interface ProfileState {
 }
 
 export interface Post {
-    id: number;
+    id?: number;
     type: string;
     title: string;
     content: string;
-    images?: string[];
-    profile: {
-        name: string;
-        avatar: string;
-        user: string;
-    }
-    created: string;
-    updated: string;
+    images?: Media[];
+    profileId?: number | null;
+    profile: Profile | null;
+    imageIds?: number[] | null;
+    created: Date;
+    updated: Date | null;
 }
 
 export type DynamicParams = Promise<{ id?: string }>;
@@ -100,4 +110,8 @@ export interface PostTag {
     slug: string;
     label: string;
     color?: string;
+}
+
+export interface ImportPost extends Post {
+    profileName: string;
 }

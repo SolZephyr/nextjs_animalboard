@@ -6,8 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export function writeTime(str: string) {
-  const date = new Date(str);
+export function writeTime(date: Date) {
   const now = new Date();
   const diff = ((now.getTime() / 1000) - (date.getTime() / 1000));
   if (diff < 10) {

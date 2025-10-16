@@ -1,81 +1,136 @@
 [
     {
         "id": 1,
-        "type": "Test",
-        "title": "Lorem ipsum dolor",
-        "content": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis vel ea asperiores? Quasi, voluptatum?",
-        "images": ["https://dummyjson.com/image/500","https://dummyjson.com/image/500"],
-        "profile": {
-            "name": "Doge",
-            "avatar": "https://github.com/evilrabbit.png",
-            "user": "Husse"
-        },
-        "created": "2025-02-01 12:00:00",
-        "updated": "2025-02-01 13:00:00"
+        "type": "Post",
+        "title": "Lorem ipsum dolor sit amet.",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis vulputate nibh ac pretium. Etiam posuere pellentesque enim id scelerisque. Phasellus quis rhoncus dui, vel suscipit purus. Cras scelerisque arcu ex, ac eleifend justo condimentum id. Praesent orci nibh, convallis ac ante id, pretium aliquam lorem. Quisque vulputate finibus purus, eget pharetra nulla. Phasellus vulputate scelerisque nibh, vel laoreet ex ullamcorper eget. Sed vitae purus quis elit venenatis ornare id vitae leo. ",
+        "profile": "Meows",
+        "created": "2025-01-01 00:00:00",
+        "updated": "2025-01-01 00:00:00"
     },
     {
         "id": 2,
-        "type": "Test",
-        "title": "Proin dignissim urna nisi",
-        "content": "Proin dignissim urna nisi, vel commodo nisl sagittis id. Suspendisse fringilla enim quis euismod bibendum.",
-        "profile": {
-            "name": "Doge",
-            "avatar": "https://github.com/evilrabbit.png",
-            "user": "Husse"
-        },
-        "created": "2025-01-02 12:00:00",
-        "updated": "2025-01-02 13:00:00"
+        "type": "Greeting",
+        "title": "Lorem ipsum dolor sit amet.",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis vulputate nibh ac pretium. Etiam posuere pellentesque enim id scelerisque. Phasellus quis rhoncus dui, vel suscipit purus. Cras scelerisque arcu ex, ac eleifend justo condimentum id. Praesent orci nibh, convallis ac ante id, pretium aliquam lorem.",
+        "imageUrls": [
+            "/profiles/profile-1-post-1.jpg"
+        ],
+        "profile": "Meows",
+        "created": "2025-01-01 12:00:00",
+        "updated": "2025-01-01 12:00:00"
     },
     {
         "id": 3,
-        "type": "Test",
-        "title": "Fusce consectetur id massa eget ornare.",
-        "content": "Fusce consectetur id massa eget ornare. Nulla facilisi. Nunc porta, justo ac convallis egestas, lorem odio consectetur leo, sed vulputate turpis odio ac sem.",
-        "profile": {
-            "name": "Doge",
-            "avatar": "https://github.com/evilrabbit.png",
-            "user": "Husse"
-        },
-        "created": "2025-01-03 12:00:00",
-        "updated": "2025-01-03 13:00:00"
+        "type": "Greeting",
+        "title": "Quisque vulputate finibus purus.",
+        "content": "Quisque vulputate finibus purus, eget pharetra nulla. Phasellus vulputate scelerisque nibh, vel laoreet ex ullamcorper eget. Sed vitae purus quis elit venenatis ornare id vitae leo.",
+        "imageUrls": [
+            "/profiles/profile-2-post-1.jpg",
+            "/profiles/profile-2-post-2.jpg"
+        ],
+        "profile": "Rick",
+        "created": "2025-01-02 12:00:00",
+        "updated": "2025-01-02 12:00:00"
     },
     {
         "id": 4,
-        "type": "Test",
-        "title": "Etiam commodo dui sit amet.",
-        "content": "Etiam commodo dui sit amet mauris aliquam facilisis. Praesent lobortis nec sem vel feugiat. Ut vestibulum nisi a est dignissim ultricies. ",
-        "profile": {
-            "name": "Doge",
-            "avatar": "https://github.com/evilrabbit.png",
-            "user": "Husse"
-        },
-        "created": "2025-01-03 12:00:00",
-        "updated": "2025-01-03 13:00:00"
+        "type": "Greeting",
+        "title": "Integer varius nec felis ut molestie.",
+        "content": "Integer varius nec felis ut molestie. Cras ut sodales lorem, vitae tincidunt lorem. Suspendisse scelerisque ante ipsum, ornare vehicula leo sodales vitae. Pellentesque elit est, pellentesque quis elementum vel, laoreet at tellus. Fusce molestie vel nulla a iaculis. Pellentesque urna tortor, facilisis sit amet dictum eget, iaculis eu orci. Phasellus convallis ante at tortor commodo fringilla ac vitae erat. Ut sollicitudin urna non hendrerit mollis. ",
+        "imageUrls": [
+            "/profiles/profile-3-post-1.jpg"
+        ],
+        "profile": "Kitcat",
+        "created": "2025-01-04 12:00:00",
+        "updated": "2025-01-04 12:00:00"
     },
     {
         "id": 5,
-        "type": "Test",
-        "title": "Nulla convallis turpis scelerisque, commodo metus quis.",
-        "content": "Nulla convallis turpis scelerisque, commodo metus quis, fermentum tortor. Quisque accumsan egestas massa, nec consequat lorem euismod eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-        "profile": {
-            "name": "Doge",
-            "avatar": "https://github.com/evilrabbit.png",
-            "user": "Husse"
-        },
-        "created": "2025-01-03 12:00:00",
-        "updated": "2025-01-03 13:00:00"
+        "type": "Greeting",
+        "title": "Sed fringilla in quam eget placerat.",
+        "content": "Sed fringilla in quam eget placerat. Etiam eget magna neque. Aenean sed vulputate est, ut lobortis mauris. Vivamus a erat sed nibh eleifend pulvinar. Donec lacinia velit facilisis iaculis tincidunt. Morbi eu nibh sed arcu vulputate aliquet.",
+        "imageUrls": [
+            "/profiles/profile-4-post-1.jpg"
+        ],
+        "profile": "Monica",
+        "created": "2025-01-15 12:00:00",
+        "updated": "2025-01-15 12:00:00"
     },
     {
         "id": 6,
-        "type": "Test",
-        "title": "Nulla convallis turpis scelerisque, commodo metus quis.",
-        "content": "Nulla convallis turpis scelerisque, commodo metus quis, fermentum tortor. Quisque accumsan egestas massa, nec consequat lorem euismod eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-        "profile": {
-            "name": "Doge",
-            "avatar": "https://github.com/evilrabbit.png",
-            "user": "Husse"
-        },
-        "created": "2025-01-03 12:00:00",
-        "updated": "2025-01-03 13:00:00"
+        "type": "Greeting",
+        "title": "Ut aliquet ante nibh, et convallis tellus feugiat ut.",
+        "content": "Ut aliquet ante nibh, et convallis tellus feugiat ut. Sed vulputate mollis ante, sollicitudin commodo tellus semper vitae. Sed tristique erat at sagittis feugiat. In eu luctus arcu, a congue lacus. Donec semper tincidunt enim, vel porttitor arcu aliquet sit amet. Sed sem purus, luctus at mattis et, sodales vel ex. ",
+        "imageUrls": [
+            "/profiles/profile-5-post-1.jpg"
+        ],
+        "profile": "Samwise",
+        "created": "2025-02-04 12:00:00",
+        "updated": "2025-02-04 12:00:00"
+    },
+    {
+        "id": 7,
+        "type": "Post",
+        "title": "Sed quis ex gravida, condimentum est in.",
+        "content": "Sed quis ex gravida, condimentum est in, fermentum enim. Maecenas a maximus enim, id facilisis nulla. Sed lectus augue, tincidunt sit amet leo in, convallis elementum enim. Nunc facilisis leo sit amet est egestas, ac vestibulum tellus dignissim. In hac habitasse platea dictumst. Etiam vehicula imperdiet tellus sit amet laoreet. Duis facilisis gravida libero, nec bibendum eros auctor in.",
+        "imageUrls": [
+            "/profiles/profile-3-post-2.jpg",
+            "/profiles/profile-3-post-3.jpg"
+        ],
+        "profile": "Kitcat",
+        "created": "2025-02-05 12:00:00",
+        "updated": "2025-02-05 12:00:00"
+    },
+    {
+        "id": 8,
+        "type": "Greeting",
+        "title": "Nulla ut nulla quis odio varius commodo.",
+        "content": "Nulla ut nulla quis odio varius commodo quis quis nunc. Mauris consectetur euismod metus, tincidunt aliquam nisi. Duis eget odio pulvinar, cursus erat id, laoreet sem. Quisque pellentesque efficitur libero, eu consectetur libero faucibus vel. Quisque pellentesque dolor dolor, in aliquam magna aliquet sit amet. Morbi luctus, orci at consequat mollis, est elit faucibus turpis, at gravida lacus leo sit amet neque.",
+        "imageUrls": [
+            "/profiles/profile-6-post-1.jpg"
+        ],
+        "profile": "The Void",
+        "created": "2025-02-08 12:00:00",
+        "updated": "2025-02-08 12:00:00"
+    },
+    {
+        "id": 9,
+        "type": "Greeting",
+        "title": "Cras dictum tempor sodales.",
+        "content": "Cras dictum tempor sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed maximus, est vitae efficitur mollis, libero nisl consectetur lorem, quis placerat dui nunc quis neque. ",
+        "imageUrls": [
+            "/profiles/profile-8-post-1.jpg",
+            "/profiles/profile-8-post-2.jpg",
+            "/profiles/profile-8-post-3.jpg"
+        ],
+        "profile": "Catastroph",
+        "created": "2025-01-01 12:00:00",
+        "updated": "2025-01-01 12:00:00"
+    },
+    {
+        "id": 10,
+        "type": "Greeting",
+        "title": "Ut nec auctor mi.",
+        "content": "Ut nec auctor mi. Maecenas blandit rhoncus metus ut malesuada. Sed iaculis lorem hendrerit tortor aliquam eleifend. In tincidunt enim ac pretium finibus. Aenean aliquet quam ut ex faucibus sollicitudin. Quisque quis iaculis est. Sed pellentesque, nunc nec lacinia consequat, odio quam imperdiet ligula, non blandit nibh felis in orci. Duis lobortis velit eget mauris varius ornare. Sed at dolor ut sapien feugiat consequat at ut turpis. Sed efficitur nibh vitae nulla tristique hendrerit.",
+        "imageUrls": [
+            "/profiles/profile-7-post-1.jpg",
+            "/profiles/profile-7-post-2.jpg"
+        ],
+        "profile": "Bunbun",
+        "created": "2025-03-14 12:00:00",
+        "updated": "2025-03-14 12:00:00"
+    },
+    {
+        "id": 11,
+        "type": "Post",
+        "title": "Aenean fringilla turpis dolor",
+        "content": "Aenean fringilla turpis dolor, eu iaculis tellus blandit tincidunt. Nulla vel eros ex. Integer sollicitudin tortor ac nulla mattis efficitur. Nunc ac ipsum ac urna dignissim dapibus. ",
+        "imageUrls": [
+            "/profiles/profile-1-post-2.jpg"
+        ],
+        "profile": "Meows",
+        "created": "2025-03-15 12:00:00",
+        "updated": "2025-03-15 12:00:00"
     }
 ]

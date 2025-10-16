@@ -15,7 +15,7 @@ export default async function ProfileContent({ data }: { data: Promise<Profile |
                 <h2 className="hidden">Profile</h2>
                 <section className="flex flex-row">
                     <Avatar className="size-30 border border-black">
-                        <AvatarImage src={profile.avatar} className="rounded-full" />
+                        <AvatarImage src={profile.avatar?.source} className="rounded-full" />
                         <AvatarFallback>ER</AvatarFallback>
                     </Avatar>
                     <aside className="flex flex-col ml-4">

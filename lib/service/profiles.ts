@@ -1,6 +1,6 @@
 import { createProfile, readProfile, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
-import { Profile, ProfileListParams, ProfileListResult } from "../types";
+import { Media, Profile, ProfileListParams, ProfileListResult } from "../types";
 
 export const ProfileService = () => {
 
@@ -33,13 +33,20 @@ export const ProfileService = () => {
 
     const populate = () => {
         const data = jsonProfiles ?? [];
+
         const profiles: Profile[] = data.map(item => {
+            const media: Media = {
+                type: "IMAGE",
+                source: item.avatarUrl,
+                created: new Date(item.created),
+                updated: null
+            }
             const profile: Profile = {
                 id: item.id,
                 name: item.name,
                 nicknames: item.nicknames,
                 user: item.user,
-                avatar: item.avatar,
+                avatar: media,
                 animal: item.animal,
                 breed: item.breed,
                 country: item.country,
@@ -47,7 +54,7 @@ export const ProfileService = () => {
                 about: item.about,
                 dateOfBirth: new Date(item.dateOfBirth),
                 created: new Date(item.created),
-                updated: new Date(item.updated)
+                updated: null
             }
             return profile;
         });
