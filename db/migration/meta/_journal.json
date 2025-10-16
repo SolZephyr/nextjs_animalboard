@@ -15,6 +15,13 @@
       "when": 1760609914071,
       "tag": "0001_faithful_lenny_balinger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760618340210,
+      "tag": "0002_fast_maximus",
+      "breakpoints": true
     }
   ]
 }
