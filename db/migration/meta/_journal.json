@@ -8,6 +8,13 @@
       "when": 1760448337178,
       "tag": "0000_lucky_namora",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1760609914071,
+      "tag": "0001_faithful_lenny_balinger",
+      "breakpoints": true
     }
   ]
 }
