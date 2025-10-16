@@ -8,26 +8,28 @@ import { Heart, MessageSquareText } from "lucide-react";
 import { writeTime } from "@/lib/utils";
 
 export default function PostItem({ post }: { post: Post }) {
-
+    const profileName = post.profile?.name ?? "[Profile]";
+    const userName = post.profile?.user ?? "[User]";
+    const avatarSrc = post.profile?.avatar?.source ?? "";
     return (
         <article className="flex w-full flex-col gap-6">
             <Item variant="outline" className="p-4">
                 <ItemHeader>
                     <ItemMedia>
                         <Avatar className="size-10">
-                            <AvatarImage src={post.profile.avatar} className="rounded-full" />
+                            <AvatarImage src={avatarSrc} className="rounded-full" />
                             <AvatarFallback>ER</AvatarFallback>
                         </Avatar>
                     </ItemMedia>
                     <ItemContent>
-                        <ItemTitle>{post.profile.name}</ItemTitle>
+                        <ItemTitle>{profileName}</ItemTitle>
                     </ItemContent>
                     <ItemContent className="flex-none text-right">
-                        <ItemDescription>Poster: {post.profile.user}</ItemDescription>
+                        <ItemDescription>Poster: {userName}</ItemDescription>
                         <ItemDescription>{writeTime(post.created)}</ItemDescription>
                     </ItemContent>
                 </ItemHeader>
-                <ItemContent>
+                {/*<ItemContent>
                     <ItemTitle className="text-xl">{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
                     {post?.images ?
@@ -50,7 +52,7 @@ export default function PostItem({ post }: { post: Post }) {
                             </Carousel>
                         </ItemMedia> : ""
                     }
-                </ItemContent>
+                </ItemContent>*/}
                 <ItemFooter>
                     <ItemActions>
                         <Button><Heart />&nbsp;0</Button>
