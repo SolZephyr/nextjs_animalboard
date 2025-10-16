@@ -11,7 +11,7 @@ export default function ProfileItem({ profile }: { profile: Profile }) {
                     <ItemHeader>
                         <ItemMedia>
                             <Avatar className="size-10">
-                                <AvatarImage src={profile.avatar} className="rounded-full" />
+                                <AvatarImage src={profile.avatar?.source} className="rounded-full" />
                                 <AvatarFallback>ER</AvatarFallback>
                             </Avatar>
                         </ItemMedia>
