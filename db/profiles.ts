@@ -1,17 +1,24 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { and, desc, eq, sql } from 'drizzle-orm';
-import { dbProfiles } from './schema';
+import { and, eq, getTableColumns, sql } from 'drizzle-orm';
+import { dbMedia, dbProfiles } from './schema';
 import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
+import { createMedia } from './media';
 
 const db = drizzle(process.env.DATABASE_URL!);
 
 export async function createProfile(profile: Profile): Promise<number> {
+    // Avatar media
+    if (profile.avatar) {
+        // Create media first
+        profile.avatarId = profile.avatar ? await (createMedia(profile.avatar)) : undefined;
+    }
+    // Profile
     const data: typeof dbProfiles.$inferInsert = {
         name: profile.name,
         nicknames: profile.nicknames,
         user: profile.user,
-        avatar: profile.avatar,
+        avatarId: profile.avatarId ?? null,
         animal: profile.animal,
         breed: profile.breed,
         country: profile.country,
@@ -21,8 +28,8 @@ export async function createProfile(profile: Profile): Promise<number> {
         created: new Date(),
         updated: new Date()
     };
-    const result = await db.insert(dbProfiles).values(data);
-    return (result.oid);
+    const result = await db.insert(dbProfiles).values(data).returning({ insertedId: dbProfiles.id });
+    return (result[0].insertedId ?? null);
 }
 
 export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
@@ -31,12 +38,14 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
         let where = undefined;
-        if(params.animal || params.country) {
+        if (params.animal || params.country) {
             const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
             const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
             where = and(exp1, exp2);
         }
-        const data = await db.select().from(dbProfiles)
+        const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
+            .from(dbProfiles)
+            .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
             .where(where)
             .orderBy(dbProfiles.name)
             .limit(limit)
@@ -61,16 +70,18 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
 }
 
 export async function readProfile(id: number): Promise<Profile | null> {
-    const data = await db.select().from(dbProfiles)
+    const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
+        .from(dbProfiles)
+        .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
         .where(eq(dbProfiles.id, id))
         .limit(1)
         .offset(0);
     return data.length ? data[0] : null;
 }
 
-export async function updateProfile(profileId: number, data: ProfileState): Promise<Profile[]> {
+export async function updateProfile(profileId: number, data: ProfileState): Promise<{ updatedId: number }[]> {
     const result = await db.update(dbProfiles).set(data)
-        .where(eq(dbProfiles.id, profileId)).returning();
+        .where(eq(dbProfiles.id, profileId)).returning({ updatedId: dbProfiles.id });
     return result;
 }
 

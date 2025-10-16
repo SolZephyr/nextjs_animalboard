@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 const timestamps = {
@@ -16,12 +17,26 @@ export const dbUsers = pgTable("test_users", {
     ...timestamps
 });
 
+export const dbMedia = pgTable("media", {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    type: varchar({ length: 50 }).notNull(),
+    source: varchar({ length: 255 }).notNull(),
+    ...timestamps
+});
+
+export const mediaRelations = relations(dbMedia, ({ one }) => ({
+    avatar: one(dbProfiles, {
+        fields: [dbMedia.id],
+        references: [dbProfiles.avatarId],
+    }),
+}));
+
 export const dbProfiles = pgTable("profiles", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 50 }).notNull(),
     nicknames: varchar({ length: 100 }).notNull(),
     user: varchar({ length: 50 }).notNull(),    // TODO: User
-    avatar: varchar({ length: 100 }).notNull(), // TODO: Media
+    avatarId: integer("avatar_id"),
     animal: varchar({ length: 50 }).notNull(),
     breed: varchar({ length: 50 }).notNull(),
     country: varchar({ length: 50 }).notNull(),
@@ -30,3 +45,10 @@ export const dbProfiles = pgTable("profiles", {
     dateOfBirth: timestamp(),
     ...timestamps
 });
+
+export const profileRelations = relations(dbProfiles, ({ one }) => ({
+    avatar: one(dbMedia, {
+        fields: [dbProfiles.avatarId],
+        references: [dbMedia.id],
+    }),
+}));

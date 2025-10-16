@@ -47,12 +47,23 @@ export enum Country {
     None = "Unknown"
 }
 
+export interface Media {
+    id?: number;
+    type: string;
+    source: string;
+    created: Date;
+    updated: Date | null;
+    profile?: Profile;
+    post?: Post;
+}
+
 export interface Profile {
-    id: number;
+    id?: number;
     name: string;
     nicknames: string;
     user: string;   // TODO: User
-    avatar: string; // TODO: Media
+    avatarId?: number | null;
+    avatar: Media | null;
     animal: string;
     breed: string;
     country: string;
