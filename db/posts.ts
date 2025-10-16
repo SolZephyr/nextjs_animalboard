@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { and, eq, getTableColumns, sql } from 'drizzle-orm';
-import { dbMedia, dbPosts } from './schema';
-import { ImportPost, Post, ProfileListParams } from '@/lib/types';
+import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm';
+import { dbMedia, dbPosts, dbProfiles } from './schema';
+import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia } from './media';
 import { readProfiles } from './profiles';
 
@@ -16,7 +16,7 @@ export async function createPost(post: Post): Promise<number> {
         type: post.type,
         title: post.title,
         content: post.content,
-        profileId: post.profileId,
+        profileId: post.profile?.id ?? post.profileId,
         created: post.created ?? new Date(),
         updated: null
     }
@@ -41,45 +41,93 @@ export async function createImportPost(post: ImportPost): Promise<number> {
     if (!profile) {
         return 0;
     }
+    post.profile = profile;
     return createPost(post);
 }
 
-// export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
-//     try {
-//         const limit = params?.limit ?? 10;
-//         const page = params?.page ?? 1;
-//         const offset = (page - 1) * limit;
-//         let where = undefined;
-//         if (params.animal || params.country) {
-//             const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
-//             const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
-//             where = and(exp1, exp2);
-//         }
-//         const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
-//             .from(dbProfiles)
-//             .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
-//             .where(where)
-//             .orderBy(dbProfiles.name)
-//             .limit(limit)
-//             .offset(offset);
+export async function readPosts(params: PostListParams): Promise<PostListResult> {
+    try {
+        const limit = params?.limit ?? 10;
+        const page = params?.page ?? 1;
+        const offset = (page - 1) * limit;
+        const where = undefined;
+        const order = desc(dbPosts.created);
+        // if (params.animal || params.country) {
+        //     const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
+        //     const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
+        //     where = and(exp1, exp2);
+        // }
+        const count = await db.$count(dbPosts, where);
+        const data = await db.select({ post: { ...getTableColumns(dbPosts) }, profile: dbProfiles, avatar: dbMedia })
+            .from(dbPosts)
+            .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
+            .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
+            .where(where)
+            .orderBy(order)
+            .limit(limit)
+            .offset(offset);
+        const repacked = data.map(dt => (repackPost(dt)));
+        return {
+            data: {
+                posts: repacked,
+                meta: {
+                    page: page,
+                    limit: limit,
+                    total: count
+                }
+            }
+        }
+    } catch (err) {
+        console.error(err);
+        return { error: "Error reading profiles." }
+    }
+}
 
-//         const count = await db.$count(dbProfiles, where);
-
-//         return {
-//             data: {
-//                 profiles: data,
-//                 meta: {
-//                     page: page,
-//                     limit: limit,
-//                     total: count
-//                 }
-//             }
-//         }
-//     } catch (err) {
-//         console.error(err);
-//         return { error: "Error reading profiles." }
-//     }
-// }
+function repackPost(data: {
+    profile: {
+        created: Date;
+        updated: Date | null;
+        id: number;
+        name: string;
+        nicknames: string;
+        user: string;
+        avatarId: number | null;
+        animal: string;
+        breed: string;
+        country: string;
+        home: string;
+        about: string;
+        dateOfBirth: Date | null;
+    } | null;
+    avatar: {
+        created: Date;
+        updated: Date | null;
+        id: number;
+        type: string;
+        source: string;
+    } | null;
+    post: {
+        created: Date;
+        updated: Date | null;
+        id: number;
+        type: string;
+        title: string;
+        content: string;
+        profileId: number | null
+    }
+}) {
+    const avatar = data.avatar ? {
+        id: data.avatar?.id,
+        type: data.avatar?.type,
+        source: data.avatar?.source,
+        created: data.avatar?.created,
+        updated: data.avatar?.updated
+    } : null;
+    const profile: Profile | null = data.profile ? {
+        ...data.profile, avatar: avatar
+    } : null;
+    return { profile: profile, ...data.post };
+}
 
 // export async function readProfile(id: number): Promise<Profile | null> {
 //     const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })

@@ -1,12 +1,12 @@
 import jsonPosts from "@/lib/data/posts.json";
-import { ImportPost, Media } from "../types";
-import { createImportPost } from "@/db/posts";
+import { ImportPost, Media, PostListParams, PostListResult } from "../types";
+import { createImportPost, readPosts } from "@/db/posts";
 
 export const PostsService = () => {
 
-    // const getPosts = (params: PostListParams): Promise<PostListResult> => {
-    //     return readPosts(params);
-    // }
+    const getPosts = (params: PostListParams): Promise<PostListResult> => {
+        return readPosts(params);
+    }
 
     // const getPost = (id: number): Promise<Post | null> => {
     //     return readPost(id)
@@ -45,5 +45,5 @@ export const PostsService = () => {
         });
     }
 
-    return { populate };
+    return { getPosts, populate };
 }
