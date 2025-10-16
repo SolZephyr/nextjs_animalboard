@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm';
+import { desc, eq, getTableColumns } from 'drizzle-orm';
 import { dbMedia, dbPosts, dbProfiles } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
