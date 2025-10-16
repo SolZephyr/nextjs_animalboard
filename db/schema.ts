@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, primaryKey, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 const timestamps = {
     created: timestamp().defaultNow().notNull(),
@@ -24,11 +24,12 @@ export const dbMedia = pgTable("media", {
     ...timestamps
 });
 
-export const mediaRelations = relations(dbMedia, ({ one }) => ({
+export const mediaRelations = relations(dbMedia, ({ one, many }) => ({
     avatar: one(dbProfiles, {
         fields: [dbMedia.id],
         references: [dbProfiles.avatarId],
     }),
+    posts: many(mediaToPost),
 }));
 
 export const dbProfiles = pgTable("profiles", {
@@ -46,9 +47,45 @@ export const dbProfiles = pgTable("profiles", {
     ...timestamps
 });
 
-export const profileRelations = relations(dbProfiles, ({ one }) => ({
+export const profileRelations = relations(dbProfiles, ({ one, many }) => ({
     avatar: one(dbMedia, {
         fields: [dbProfiles.avatarId],
+        references: [dbMedia.id],
+    }),
+    posts: many(dbPosts),
+}));
+
+export const dbPosts = pgTable("posts", {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    type: varchar({ length: 50 }).notNull(),
+    title: varchar({ length: 100 }).notNull(),
+    content: text().notNull(),
+    profileId: integer("profile_id"),
+    ...timestamps
+});
+
+export const postRelations = relations(dbPosts, ({ one, many }) => ({
+    profile: one(dbProfiles, {
+        fields: [dbPosts.profileId],
+        references: [dbProfiles.id],
+    }),
+    media: many(mediaToPost),
+}));
+
+export const mediaToPost = pgTable("media_to_post", {
+    postId: integer('post_id').notNull().references(() => dbPosts.id),
+    mediaId: integer('media_id').notNull().references(() => dbMedia.id),
+},
+    (t) => [primaryKey({ columns: [t.postId, t.mediaId] })],
+);
+
+export const mediaToPostRelations = relations(mediaToPost, ({ one }) => ({
+    post: one(dbPosts, {
+        fields: [mediaToPost.postId],
+        references: [dbPosts.id],
+    }),
+    media: one(dbMedia, {
+        fields: [mediaToPost.mediaId],
         references: [dbMedia.id],
     }),
 }));
