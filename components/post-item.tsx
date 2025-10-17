@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemMedia, ItemTitle } from "./ui/item";
 import { Post } from "@/lib/types";
-import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
 import { Button } from "./ui/button";
 import { Heart, MessageSquareText } from "lucide-react";
 import { writeTime } from "@/lib/utils";
+import MediaGallery from "./media-gallery";
+import { Suspense } from "react";
 
 export default function PostItem({ post }: { post: Post }) {
     const profileName = post.profile?.name ?? "[Profile]";
@@ -33,30 +33,11 @@ export default function PostItem({ post }: { post: Post }) {
                 <ItemContent>
                     <ItemTitle className="text-xl">{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
-                    {images ?
-                        <ItemMedia className="flex flex-row justify-center w-full">
-                            <Carousel
-                                opts={{
-                                    align: "start",
-                                    loop: true
-                                }}
-                                className="w-[96%]">
-                                <CarouselContent>
-                                    {images.map((media, index) => (
-                                        <CarouselItem key={index} className="basis-initial">
-                                            <Image src={media.source} width={150} height={150} className="w-full h-auto" alt="image" />
-                                        </CarouselItem>
-                                    ))}
-                                </CarouselContent>
-                                {images.length > 1 ?
-                                    <>
-                                        <CarouselPrevious className="-left-4" />
-                                        <CarouselNext className="-right-4" />
-                                    </> : ""
-                                }
-                            </Carousel>
-                        </ItemMedia> : ""
-                    }
+                    <ItemMedia className="flex flex-row justify-center w-full">
+                        <Suspense>
+                            <MediaGallery images={images} />
+                        </Suspense>
+                    </ItemMedia>
                 </ItemContent>
                 <ItemFooter>
                     <ItemActions>
