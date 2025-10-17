@@ -42,7 +42,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --header-height: 60px;
+  --header-height:70px;
   --sidebar-height: calc(100vh - --header-height);
 }
 
@@ -115,7 +115,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --header-height: 60px;
+  --header-height: 70px;
   --sidebar-height: calc(100vh - var(--header-height));
 }
 

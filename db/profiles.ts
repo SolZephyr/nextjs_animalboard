@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { and, eq, getTableColumns, sql } from 'drizzle-orm';
+import { and, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
 import { dbMedia, dbProfiles } from './schema';
 import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
 import { createMedia } from './media';
@@ -38,11 +38,17 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
         let where = undefined;
-        if (params.animal || params.country || params.name) {
+        if (params.animal || params.country || params.query || params.name) {
             const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
             const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
-            const exp3 = params.name ? sql`lower(${dbProfiles.name}) = ${params.name?.toLowerCase()}` : undefined;
-            where = and(exp1, exp2, exp3);
+            const exp3 = params.query ? or(
+                ilike(dbProfiles.name, `%${params.query}%`),
+                ilike(dbProfiles.nicknames, `%${params.query}%`),
+                ilike(dbProfiles.breed, `%${params.query}%`),
+                ilike(dbProfiles.user, `%${params.query}%`)
+            ) : undefined;
+            const exp4 = params.name ? sql`lower(${dbProfiles.name}) = ${params.name?.toLowerCase()}` : undefined;
+            where = and(exp1, exp2, exp3, exp4);
         }
         const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
             .from(dbProfiles)
@@ -52,7 +58,7 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
             .limit(limit)
             .offset(offset);
 
-        const count = await db.$count(dbProfiles, where);
+        const total = await db.$count(dbProfiles, where);
 
         return {
             data: {
@@ -60,7 +66,7 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
                 meta: {
                     page: page,
                     limit: limit,
-                    total: count
+                    total: total
                 }
             }
         }

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { desc, eq, getTableColumns } from 'drizzle-orm';
+import { count, desc, eq, getTableColumns, ilike, or } from 'drizzle-orm';
 import { dbMedia, dbPosts, dbProfiles } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
@@ -50,14 +50,21 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         const limit = params?.limit ?? 10;
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
-        const where = undefined;
+        let where = undefined;
         const order = desc(dbPosts.created);
-        // if (params.animal || params.country) {
-        //     const exp1 = params.animal ? sql`lower(${dbProfiles.animal}) = ${params.animal?.toLowerCase()}` : undefined;
-        //     const exp2 = params.country ? sql`lower(${dbProfiles.country}) = ${params.country?.toLowerCase()}` : undefined;
-        //     where = and(exp1, exp2);
-        // }
-        const count = await db.$count(dbPosts, where);
+        if (params.query) {
+            const exp1 = params.query ? or(
+                ilike(dbPosts.title, `%${params.query}%`),
+                ilike(dbPosts.content, `%${params.query}%`),
+                ilike(dbProfiles.name, `%${params.query}%`),
+                ilike(dbProfiles.user, `%${params.query}%`)
+            ) : undefined;
+            where = exp1;
+        }
+        const total = await db.select({ count: count(dbPosts.id) }).from(dbPosts)
+            .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
+            .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
+            .where(where);
         const data = await db.select({ post: { ...getTableColumns(dbPosts) }, profile: dbProfiles, avatar: dbMedia })
             .from(dbPosts)
             .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
@@ -77,7 +84,7 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
                 meta: {
                     page: page,
                     limit: limit,
-                    total: count
+                    total: total[0].count ?? 0
                 }
             }
         }

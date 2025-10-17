@@ -4,6 +4,7 @@ export interface PostListParams {
     limit?: number | undefined;
     sort?: string | undefined;
     filter?: string | undefined;
+    query?: string | undefined;
     tags?: PostTag[] | undefined;
 }
 
@@ -26,6 +27,7 @@ export interface ProfileListParams {
     limit?: number | undefined;
     animal?: string | undefined;
     country?: string | undefined;
+    query?: string | undefined;
     name?: string | undefined;
 }
 
