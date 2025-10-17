@@ -1,12 +1,17 @@
 import ContentProfile from "@/components/content-profile";
-import { DynamicParams } from "@/lib/types";
+import { DynamicParams, PostListParams, SearchParams } from "@/lib/types";
 
-export default async function Page({ params }: { params: DynamicParams }) {
+export default async function Page({ params, searchParams }: { params: DynamicParams, searchParams: SearchParams }) {
     const { id } = await params;
+    const { page, search } = await searchParams;
     const profileId = id ? Number(id) : -1;
+    const postParams: PostListParams = {
+        page: page ? parseInt(page.toString()) : 1,
+        query: search ? search.toString() : undefined
+    }
 
     return (
-        <ContentProfile profileId={profileId} />
+        <ContentProfile profileId={profileId} postParams={postParams} />
     );
 
 }

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { count, desc, eq, getTableColumns, ilike, or } from 'drizzle-orm';
+import { and, count, desc, eq, getTableColumns, ilike, or } from 'drizzle-orm';
 import { dbMedia, dbPosts, dbProfiles } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
@@ -52,14 +52,15 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         const offset = (page - 1) * limit;
         let where = undefined;
         const order = desc(dbPosts.created);
-        if (params.query) {
+        if (params.query || params.profileId) {
             const exp1 = params.query ? or(
                 ilike(dbPosts.title, `%${params.query}%`),
                 ilike(dbPosts.content, `%${params.query}%`),
                 ilike(dbProfiles.name, `%${params.query}%`),
                 ilike(dbProfiles.user, `%${params.query}%`)
             ) : undefined;
-            where = exp1;
+            const exp2 = params.profileId ? eq(dbPosts.profileId, params.profileId) : undefined;
+            where = and(exp1, exp2);
         }
         const total = await db.select({ count: count(dbPosts.id) }).from(dbPosts)
             .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))

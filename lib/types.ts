@@ -6,6 +6,7 @@ export interface PostListParams {
     filter?: string | undefined;
     query?: string | undefined;
     tags?: PostTag[] | undefined;
+    profileId?: number | undefined;
 }
 
 export interface PagingResult {
