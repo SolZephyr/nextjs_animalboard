@@ -2,6 +2,9 @@ import { PostListParams, Profile } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ProfileTag } from "./tags";
 import { PostsService } from "@/lib/service/posts";
+import { Suspense } from "react";
+import PostsFeed from "./posts-feed";
+import { CardType } from "./post-item";
 
 export default async function ProfileContent({ data, postParams }: { data: Promise<Profile | null>, postParams: PostListParams }) {
     const profile = await data;
@@ -57,7 +60,9 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
             </article>
             <section>
                 <h4 className="text-xl my-2">Posts</h4>
-                <p>Something here.</p>
+                <Suspense fallback={<p>Loading...</p>}>
+                    <PostsFeed data={postData} card={CardType.Profile}/>
+                </Suspense>
             </section>
         </>
     );

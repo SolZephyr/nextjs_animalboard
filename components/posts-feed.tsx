@@ -1,8 +1,9 @@
 import { PostListResult } from "@/lib/types";
 import PostsList from "./posts-list";
 import { PaginationPaging } from "./pagination";
+import { CardType } from "./post-item";
 
-export default async function PostsFeed({ data }: { data: Promise<PostListResult> }) {
+export default async function PostsFeed({ data, card }: { data: Promise<PostListResult>, card?: CardType }) {
 
     const result = await data;
     const paging = result.data?.meta;
@@ -10,7 +11,7 @@ export default async function PostsFeed({ data }: { data: Promise<PostListResult
 
     return (
         <section>
-            {posts ? <PostsList posts={posts} /> : <p>No data</p>
+            {posts ? <PostsList posts={posts} card={card} /> : <p>No data</p>
             }
             <PaginationPaging params={paging} />
         </section>
