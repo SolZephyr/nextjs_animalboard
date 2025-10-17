@@ -53,7 +53,6 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         let where = undefined;
         const order = desc(dbPosts.created);
         if (params.query) {
-            console.log(params.query);
             const exp1 = params.query ? or(
                 ilike(dbPosts.title, `%${params.query}%`),
                 ilike(dbPosts.content, `%${params.query}%`),

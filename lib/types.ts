@@ -27,6 +27,7 @@ export interface ProfileListParams {
     limit?: number | undefined;
     animal?: string | undefined;
     country?: string | undefined;
+    query?: string | undefined;
     name?: string | undefined;
 }
 

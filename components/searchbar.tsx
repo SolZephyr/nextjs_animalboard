@@ -22,7 +22,7 @@ export default function SearchBar() {
         if (query) {
             params.set("search", query);
         } else {
-            params.delete("query");
+            params.delete("search");
         }
         if (pathname.startsWith("/profiles/")) {
             // Search under specific profile
