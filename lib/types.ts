@@ -4,6 +4,7 @@ export interface PostListParams {
     limit?: number | undefined;
     sort?: string | undefined;
     filter?: string | undefined;
+    query?: string | undefined;
     tags?: PostTag[] | undefined;
 }
 
