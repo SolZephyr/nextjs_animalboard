@@ -4,8 +4,8 @@ import { Post } from "@/lib/types";
 import { Button } from "./ui/button";
 import { Heart, MessageSquareText } from "lucide-react";
 import { writeTime } from "@/lib/utils";
-import MediaGallery from "./media-gallery";
 import { Suspense } from "react";
+import Gallery from "./media-gallery";
 
 export default function PostItem({ post }: { post: Post }) {
     const profileName = post.profile?.name ?? "[Profile]";
@@ -34,9 +34,11 @@ export default function PostItem({ post }: { post: Post }) {
                     <ItemTitle className="text-xl">{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
                     <ItemMedia className="flex flex-row justify-center w-full">
-                        <Suspense>
-                            <MediaGallery images={images} />
-                        </Suspense>
+                        {images ?
+                            <Suspense>
+                                <Gallery images={images} />
+                            </Suspense>
+                            : ""}
                     </ItemMedia>
                 </ItemContent>
                 <ItemFooter>
