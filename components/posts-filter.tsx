@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useRouter } from "next/navigation";
 
@@ -8,18 +8,19 @@ export default function PostsFilter() {
     const SORT_DEFAULT = "latest";
     const FILTER_DEFAULT = "all";
 
+    const pathname = usePathname();
     const { replace } = useRouter();
     const searchParams = useSearchParams();
     const urlParams = new URLSearchParams(searchParams);
     const sort = searchParams.get("sort") ?? SORT_DEFAULT;
-    const filter = searchParams.get("sort") ?? FILTER_DEFAULT;
+    const filter = searchParams.get("filter") ?? FILTER_DEFAULT;
 
     function onSortChange(e: string): void {
         if (e !== SORT_DEFAULT)
             urlParams.set("sort", e);
         else
             urlParams.delete("sort");
-        replace(`/?${urlParams.toString()}`);
+        replace(`${pathname}?${urlParams.toString()}`);
     }
 
     function onFilterChange(e: string): void {
@@ -27,7 +28,7 @@ export default function PostsFilter() {
             urlParams.set("filter", e);
         else
             urlParams.delete("filter");
-        replace(`/?${urlParams.toString()}`);
+        replace(`${pathname}?${urlParams.toString()}`);
     }
 
     return (
@@ -57,6 +58,7 @@ export default function PostsFilter() {
 export function ProfilePostsFilter() {
     const SORT_DEFAULT = "latest";
 
+    const pathname = usePathname();
     const { replace } = useRouter();
     const searchParams = useSearchParams();
     const urlParams = new URLSearchParams(searchParams);
@@ -67,7 +69,7 @@ export function ProfilePostsFilter() {
             urlParams.set("sort", e);
         else
             urlParams.delete("sort");
-        replace(`/?${urlParams.toString()}`);
+        replace(`${pathname}/?${urlParams.toString()}`);
     }
 
     return (
