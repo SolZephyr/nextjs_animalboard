@@ -62,7 +62,6 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             const exp2 = params.profileId ? eq(dbPosts.profileId, params.profileId) : undefined;
             where = and(exp1, exp2);
         }
-        console.log(params.sort);
         if (params.sort) {
             switch (params.sort) {
                 case "oldest":
