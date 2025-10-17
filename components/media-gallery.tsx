@@ -22,8 +22,8 @@ export default function MediaGallery({ images }: { images: Media[] | undefined})
             </CarouselContent>
             {images.length > 1 ?
                 <>
-                    <CarouselPrevious className="-left-4" />
-                    <CarouselNext className="-right-4" />
+                    <CarouselPrevious className="-left-4 cursor-pointer" />
+                    <CarouselNext className="-right-4 cursor-pointer" />
                 </> : ""
             }
         </Carousel>
