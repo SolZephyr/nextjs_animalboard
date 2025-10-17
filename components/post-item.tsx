@@ -7,6 +7,11 @@ import { writeTime } from "@/lib/utils";
 import { Suspense } from "react";
 import Gallery from "./media-gallery";
 
+export enum CardType {
+    Feed,
+    Profile
+}
+
 export default function PostItem({ post }: { post: Post }) {
     const profileName = post.profile?.name ?? "[Profile]";
     const userName = post.profile?.user ?? "[User]";
@@ -26,7 +31,7 @@ export default function PostItem({ post }: { post: Post }) {
                         <ItemTitle>{profileName}</ItemTitle>
                     </ItemContent>
                     <ItemContent className="flex-none text-right">
-                        <ItemDescription>Poster: {userName}</ItemDescription>
+                        <ItemDescription>Poster: <span className="font-bold">{userName}</span></ItemDescription>
                         <ItemDescription>{writeTime(post.created)}</ItemDescription>
                     </ItemContent>
                 </ItemHeader>
@@ -46,6 +51,38 @@ export default function PostItem({ post }: { post: Post }) {
                         <Button><Heart />&nbsp;0</Button>
                         <Button><MessageSquareText />&nbsp;0</Button>
                     </ItemActions>
+                </ItemFooter>
+            </Item>
+        </article>
+    )
+}
+
+export function ProfilePostItem({ post }: { post: Post }) {
+    const userName = post.profile?.user ?? "[User]";
+    const images = post.images ? post.images : undefined;
+    return (
+        <article className="flex w-full flex-col gap-6">
+            <Item variant="outline" className="p-4">
+                <ItemContent>
+                    <ItemTitle className="text-xl">{post.title}</ItemTitle>
+                    <ItemDescription>{post.content}</ItemDescription>
+                    <ItemMedia className="flex flex-row justify-center w-full">
+                        {images ?
+                            <Suspense>
+                                <Gallery images={images} />
+                            </Suspense>
+                            : ""}
+                    </ItemMedia>
+                </ItemContent>
+                <ItemFooter>
+                    <ItemActions>
+                        <Button><Heart />&nbsp;0</Button>
+                        <Button><MessageSquareText />&nbsp;0</Button>
+                    </ItemActions>
+                    <ItemContent className="flex-none text-right">
+                        <ItemDescription>Poster: <span className="font-bold">{userName}</span></ItemDescription>
+                        <ItemDescription>{writeTime(post.created)}</ItemDescription>
+                    </ItemContent>
                 </ItemFooter>
             </Item>
         </article>

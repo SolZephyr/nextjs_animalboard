@@ -1,7 +1,6 @@
-import getPosts from "@/lib/data/posts.json";
-import { Post, PostListParams, PostListResult } from "@/lib/types";
+import { PostListParams } from "@/lib/types";
 import { Suspense } from "react";
-import { PostsFilter } from "./posts-filter";
+import PostsFilter from "./posts-filter";
 import Sidebar from "./sidebar";
 import PostsFeed from "./posts-feed";
 import { PostsService } from "@/lib/service/posts";

@@ -1,25 +1,26 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useRouter } from "next/navigation";
 
-export function PostsFilter() {
-    const SORT_DEFAUT = "latest";
+export default function PostsFilter() {
+    const SORT_DEFAULT = "latest";
     const FILTER_DEFAULT = "all";
 
+    const pathname = usePathname();
     const { replace } = useRouter();
     const searchParams = useSearchParams();
     const urlParams = new URLSearchParams(searchParams);
-    const sort = searchParams.get("sort") ?? SORT_DEFAUT;
-    const filter = searchParams.get("sort") ?? FILTER_DEFAULT;
+    const sort = searchParams.get("sort") ?? SORT_DEFAULT;
+    const filter = searchParams.get("filter") ?? FILTER_DEFAULT;
 
     function onSortChange(e: string): void {
-        if (e !== SORT_DEFAUT)
+        if (e !== SORT_DEFAULT)
             urlParams.set("sort", e);
         else
             urlParams.delete("sort");
-        replace(`/?${urlParams.toString()}`);
+        replace(`${pathname}?${urlParams.toString()}`);
     }
 
     function onFilterChange(e: string): void {
@@ -27,11 +28,11 @@ export function PostsFilter() {
             urlParams.set("filter", e);
         else
             urlParams.delete("filter");
-        replace(`/?${urlParams.toString()}`);
+        replace(`${pathname}?${urlParams.toString()}`);
     }
 
     return (
-        <section className="flex flex-row mb-2">
+        <section className="flex flex-row">
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
                 <SelectTrigger className="w-30 cursor-pointer">
                     <SelectValue placeholder="Sort" />
@@ -48,6 +49,39 @@ export function PostsFilter() {
                 <SelectContent>
                     <SelectItem value="all">All</SelectItem>
                     <SelectItem value="favorites">Favorites</SelectItem>
+                </SelectContent>
+            </Select>
+        </section>
+    );
+}
+
+export function ProfilePostsFilter() {
+    const SORT_DEFAULT = "latest";
+
+    const pathname = usePathname();
+    const { replace } = useRouter();
+    const searchParams = useSearchParams();
+    const urlParams = new URLSearchParams(searchParams);
+    const sort = searchParams.get("sort") ?? SORT_DEFAULT;
+
+    function onSortChange(e: string): void {
+        if (e !== SORT_DEFAULT)
+            urlParams.set("sort", e);
+        else
+            urlParams.delete("sort");
+        replace(`${pathname}/?${urlParams.toString()}`);
+    }
+
+    return (
+        <section className="flex flex-row">
+            <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
+                <SelectTrigger className="w-30 cursor-pointer">
+                    <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="latest">Latest</SelectItem>
+                    <SelectItem value="oldest">Oldest</SelectItem>
+                    <SelectItem value="popular">Popular</SelectItem>
                 </SelectContent>
             </Select>
         </section>

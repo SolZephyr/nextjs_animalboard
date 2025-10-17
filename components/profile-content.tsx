@@ -1,14 +1,24 @@
-import { Profile } from "@/lib/types";
+import { PostListParams, Profile } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ProfileTag } from "./tags";
+import { PostsService } from "@/lib/service/posts";
+import { Suspense } from "react";
+import PostsFeed from "./posts-feed";
+import { CardType } from "./post-item";
+import { ProfilePostsFilter } from "./posts-filter";
 
-export default async function ProfileContent({ data }: { data: Promise<Profile | null> }) {
+export default async function ProfileContent({ data, postParams }: { data: Promise<Profile | null>, postParams: PostListParams }) {
     const profile = await data;
     if (!profile) {
         return (
             <p>Not found</p>
         );
     }
+    if (postParams) {
+        postParams.profileId = profile.id;
+    }
+    const postData = PostsService().getPosts(postParams);
+
     return (
         <>
             <article className="p-4 border border-border rounded-md">
@@ -50,8 +60,13 @@ export default async function ProfileContent({ data }: { data: Promise<Profile |
                 </section>
             </article>
             <section>
-                <h4 className="text-xl my-2">Posts</h4>
-                <p>Something here.</p>
+                <div className="flex flex-row justify-between my-2">
+                    <h2 className="text-xl">Posts</h2>
+                    <ProfilePostsFilter />
+                </div>
+                <Suspense fallback={<p>Loading...</p>}>
+                    <PostsFeed data={postData} card={CardType.Profile} />
+                </Suspense>
             </section>
         </>
     );
