@@ -34,7 +34,7 @@ export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }
     }
 
     return (
-        <section className="flex flex-row mb-2">
+        <section className="flex flex-row">
             <Select onValueChange={(e) => onAnimalChange(e)}>
                 <SelectTrigger className="w-30 cursor-pointer">
                     <SelectValue placeholder="Animal" />

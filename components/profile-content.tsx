@@ -5,6 +5,7 @@ import { PostsService } from "@/lib/service/posts";
 import { Suspense } from "react";
 import PostsFeed from "./posts-feed";
 import { CardType } from "./post-item";
+import { ProfilePostsFilter } from "./posts-filter";
 
 export default async function ProfileContent({ data, postParams }: { data: Promise<Profile | null>, postParams: PostListParams }) {
     const profile = await data;
@@ -59,9 +60,12 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
                 </section>
             </article>
             <section>
-                <h4 className="text-xl my-2">Posts</h4>
+                <div className="flex flex-row justify-between my-2">
+                    <h2 className="text-xl">Posts</h2>
+                    <ProfilePostsFilter />
+                </div>
                 <Suspense fallback={<p>Loading...</p>}>
-                    <PostsFeed data={postData} card={CardType.Profile}/>
+                    <PostsFeed data={postData} card={CardType.Profile} />
                 </Suspense>
             </section>
         </>
