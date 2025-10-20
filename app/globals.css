@@ -1,3 +1,4 @@
+@layer theme, base, clerk, components, utilities;
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -173,4 +174,9 @@
 
 .grid-area-sidebar {
   grid-area: sidebar;
+}
+
+.cl-avatarBox {
+  width: 40px;
+  height: 40px;
 }
