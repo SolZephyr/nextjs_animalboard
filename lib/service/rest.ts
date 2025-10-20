@@ -64,5 +64,9 @@ export const RestService = () => {
         }
     }
 
-    return { getData }
+    const getMediaByPost = async function (postId: number) {
+        return await get(`/rest/posts/${postId}/media`);
+    }
+
+    return { getData, getMediaByPost }
 }

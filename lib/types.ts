@@ -118,3 +118,5 @@ export interface PostTag {
 export interface ImportPost extends Post {
     profileName: string;
 }
+
+export type ResponseRest = Promise<{ status: number; error: string; body?: undefined; } | { status: number; body: { media: Media[] }; error?: undefined; }>
