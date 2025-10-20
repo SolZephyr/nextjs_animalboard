@@ -41,7 +41,9 @@ export default function PostItem({ post }: { post: Post }) {
                     <ItemTitle className="text-xl">{post.title}</ItemTitle>
                     <ItemDescription>{post.content}</ItemDescription>
                     <ItemMedia className="flex flex-row justify-center w-full">
-                        <PostGallery postId={post.id} />
+                        <Suspense>
+                            <PostGallery postId={post.id} />
+                        </Suspense>
                     </ItemMedia>
                 </ItemContent>
                 <ItemFooter>
