@@ -1,21 +1,18 @@
-import { PostListResult } from "@/lib/types";
-import PostsList from "./posts-list";
-import { PaginationPaging } from "./pagination";
+import PostsList, { PostsListLoading } from "./posts-list";
 import { CardType } from "./post-item";
+import { PostListParams } from "@/lib/types";
+import { PostsService } from "@/lib/service/posts";
+import { Suspense } from "react";
 
-export default async function PostsFeed({ data, card }: { data: Promise<PostListResult>, card?: CardType }) {
+export default async function PostsFeed({ params, card }: { params: PostListParams, card?: CardType }) {
 
-    const result = await data;
-    const paging = result.data?.meta;
-    const posts = result.data?.posts ?? [];
+    const data = PostsService().getPosts(params);
 
     return (
-        <>
-            {posts ?
-                <PostsList posts={posts} card={card} />
-                : <p>No posts found...</p>
-            }
-            <PaginationPaging params={paging} />
-        </>
+        <section className="my-2">
+            <Suspense fallback={<PostsListLoading />}>
+                <PostsList data={data} card={card} />
+            </Suspense>
+        </section>
     );
 }
