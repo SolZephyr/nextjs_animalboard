@@ -1,8 +1,6 @@
 import { PostListParams, Profile } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ProfileTag } from "./tags";
-import { PostsService } from "@/lib/service/posts";
-import { Suspense } from "react";
 import PostsFeed from "./posts-feed";
 import { CardType } from "./post-item";
 import { ProfilePostsFilter } from "./posts-filter";
@@ -17,7 +15,6 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
     if (postParams) {
         postParams.profileId = profile.id;
     }
-    const postData = PostsService().getPosts(postParams);
 
     return (
         <>
@@ -64,9 +61,7 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
                     <h2 className="text-xl">Posts</h2>
                     <ProfilePostsFilter />
                 </div>
-                <Suspense fallback={<p>Loading...</p>}>
-                    <PostsFeed data={postData} card={CardType.Profile} />
-                </Suspense>
+                <PostsFeed params={postParams} card={CardType.Profile} />
             </section>
         </>
     );

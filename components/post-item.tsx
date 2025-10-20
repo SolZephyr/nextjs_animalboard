@@ -6,6 +6,7 @@ import { Heart, MessageSquareText } from "lucide-react";
 import { writeTime } from "@/lib/utils";
 import { Suspense } from "react";
 import Gallery from "./media-gallery";
+import { Skeleton } from "./ui/skeleton";
 
 export enum CardType {
     Feed,
@@ -57,6 +58,42 @@ export default function PostItem({ post }: { post: Post }) {
     )
 }
 
+export function PostItemLoading() {
+    return (
+        <div className="flex w-full flex-col gap-6">
+            <Item variant="outline" className="p-4">
+                <ItemHeader>
+                    <ItemMedia>
+                        <Skeleton className="size-10 rounded-full" />
+                    </ItemMedia>
+                    <ItemContent>
+                        <Skeleton className="h-5 w-30" />
+                    </ItemContent>
+                    <ItemContent className="flex-none text-right">
+                        <Skeleton className="h-4 w-30" />
+                        <Skeleton className="h-4 w-30" />
+                    </ItemContent>
+                </ItemHeader>
+                <ItemContent>
+                    <Skeleton className="text-xl w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-30 w-full" />
+                </ItemContent>
+                <ItemFooter>
+                    <ItemActions>
+                        <Skeleton>
+                            <Button><Heart />&nbsp;0</Button>
+                        </Skeleton>
+                        <Skeleton>
+                            <Button><MessageSquareText />&nbsp;0</Button>
+                        </Skeleton>
+                    </ItemActions>
+                </ItemFooter>
+            </Item>
+        </div>
+    )
+}
+
 export function ProfilePostItem({ post }: { post: Post }) {
     const userName = post.profile?.user ?? "[User]";
     const images = post.images ? post.images : undefined;
@@ -86,5 +123,33 @@ export function ProfilePostItem({ post }: { post: Post }) {
                 </ItemFooter>
             </Item>
         </article>
+    )
+}
+
+export function ProfilePostItemLoading() {
+    return (
+        <div className="flex w-full flex-col gap-6">
+            <Item variant="outline" className="p-4">
+                <ItemContent>
+                    <Skeleton className="text-xl w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-30 w-full" />
+                </ItemContent>
+                <ItemFooter>
+                    <ItemActions>
+                        <Skeleton>
+                            <Button><Heart />&nbsp;0</Button>
+                        </Skeleton>
+                        <Skeleton>
+                            <Button><MessageSquareText />&nbsp;0</Button>
+                        </Skeleton>
+                    </ItemActions>
+                    <ItemContent className="flex-none text-right">
+                        <Skeleton className="h-4 w-30" />
+                        <Skeleton className="h-4 w-30" />
+                    </ItemContent>
+                </ItemFooter>
+            </Item>
+        </div>
     )
 }
