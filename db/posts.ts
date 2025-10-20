@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, asc, count, desc, eq, getTableColumns, ilike, or } from 'drizzle-orm';
 import { dbMedia, dbPosts, dbProfiles } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
-import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
+import { createMediaMultiple, createPostMedia } from './media';
 import { readProfiles } from './profiles';
 
 const db = drizzle(process.env.DATABASE_URL!);
@@ -86,8 +86,8 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             .offset(offset);
         const repacked = [];
         for (const dt of data) {
-            const list = await readMediaByPost(dt.post.id);
-            repacked.push(repackPost(dt, list));
+            //const list = await readMediaByPost(dt.post.id);
+            repacked.push(repackPost(dt));
         }
         return {
             data: {
@@ -137,7 +137,7 @@ function repackPost(data: {
         content: string;
         profileId: number | null
     }
-}, media: Media[] | null) {
+}, media?: Media[] | null) {
     const avatar = data.avatar ? {
         id: data.avatar?.id,
         type: data.avatar?.type,
