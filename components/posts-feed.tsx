@@ -10,10 +10,12 @@ export default async function PostsFeed({ data, card }: { data: Promise<PostList
     const posts = result.data?.posts ?? [];
 
     return (
-        <section className="my-2">
-            {posts ? <PostsList posts={posts} card={card} /> : <p>No data</p>
+        <>
+            {posts ?
+                <PostsList posts={posts} card={card} />
+                : <p>No posts found...</p>
             }
             <PaginationPaging params={paging} />
-        </section>
+        </>
     );
 }
