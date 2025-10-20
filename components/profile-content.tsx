@@ -5,6 +5,8 @@ import PostsFeed from "./posts-feed";
 import { CardType } from "./post-item";
 import { ProfilePostsFilter } from "./posts-filter";
 import { Skeleton } from "./ui/skeleton";
+import ProfileImages from "./profile-images";
+import { Suspense } from "react";
 
 export default async function ProfileContent({ data, postParams }: { data: Promise<Profile | null>, postParams: PostListParams }) {
     const profile = await data;
@@ -13,8 +15,10 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
             <p>Not found</p>
         );
     }
+    const profileId = profile.id ?? -1;
+
     if (postParams) {
-        postParams.profileId = profile.id;
+        postParams.profileId = profileId;
     }
 
     return (
@@ -54,7 +58,9 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
                 </section>
                 <section>
                     <h3 className="text-xl my-2">Images</h3>
-                    <p>Something here.</p>
+                    <Suspense>
+                        <ProfileImages profileId={profileId} />
+                    </Suspense>
                 </section>
             </article>
             <section>
