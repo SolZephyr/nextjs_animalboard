@@ -4,6 +4,7 @@ import { ProfileTag } from "./tags";
 import PostsFeed from "./posts-feed";
 import { CardType } from "./post-item";
 import { ProfilePostsFilter } from "./posts-filter";
+import { Skeleton } from "./ui/skeleton";
 
 export default async function ProfileContent({ data, postParams }: { data: Promise<Profile | null>, postParams: PostListParams }) {
     const profile = await data;
@@ -63,6 +64,37 @@ export default async function ProfileContent({ data, postParams }: { data: Promi
                 </div>
                 <PostsFeed params={postParams} card={CardType.Profile} />
             </section>
+        </>
+    );
+}
+
+export function ProfileContentSkeleton() {
+    return (
+        <>
+            <div className="p-4 border border-border rounded-md">
+                <h2 className="hidden">Profile</h2>
+                <section className="flex flex-row">
+                    <Skeleton className="size-30 rounded-full" />
+                    <aside className="flex flex-col ml-4">
+                        <Skeleton className="h-6 w-40 my-1" />
+                        <Skeleton className="h-4 w-30 my-1" />
+                        <Skeleton className="h-4 w-30 my-1" />
+                        <Skeleton className="h-4 w-30 my-1" />
+                    </aside>
+                </section>
+                <section className="py-4">
+                    <Skeleton className="h-5 w-30 my-2 mb-4" />
+                    <Skeleton className="h-4 w-30 my-1" />
+                    <Skeleton className="h-4 w-30 my-1" />
+                    <Skeleton className="h-4 w-30 my-1" />
+                </section>
+                <section className="py-4">
+                    <Skeleton className="h-5 w-30 my-2 mb-4" />
+                    <Skeleton className="h-4 w-full my-2" />
+                    <Skeleton className="h-4 w-full my-2" />
+                    <Skeleton className="h-4 w-full my-2" />
+                </section>
+            </div>
         </>
     );
 }
