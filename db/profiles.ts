@@ -4,6 +4,7 @@ import { and, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
 import { dbMedia, dbProfiles, dbUserProfileFavourites } from './schema';
 import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
 import { createMedia } from './media';
+import { readUserByClerk } from './users';
 
 const db = drizzle(process.env.DATABASE_URL!);
 
@@ -32,8 +33,26 @@ export async function createProfile(profile: Profile): Promise<number> {
     return (result[0].insertedId ?? null);
 }
 
+export async function createProfileFavourite(clerkId: string, profileId: number): Promise<{ success: boolean; count: number; }> {
+    const user = await readUserByClerk(clerkId);
+    let success = false;
+    if (user) {
+        const data: typeof dbUserProfileFavourites.$inferInsert = {
+            userId: user.id,
+            profileId: profileId
+        };
+        success = ((await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0) > 0;
+    }
+    const count = await db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, profileId));
+    return {
+        success: success,
+        count: count
+    }
+}
+
 export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
     try {
+        const userId = params?.userId ?? 0;
         const limit = params?.limit ?? 10;
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
@@ -50,10 +69,15 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
             const exp4 = params.name ? sql`lower(${dbProfiles.name}) = ${params.name?.toLowerCase()}` : undefined;
             where = and(exp1, exp2, exp3, exp4);
         }
-        const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia, followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)` })
+        const data = await db.select(
+            {
+                ...getTableColumns(dbProfiles),
+                avatar: dbMedia,
+                followers: db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id)),
+                isFavourite: db.$count(dbUserProfileFavourites, and(eq(dbUserProfileFavourites.profileId, dbProfiles.id), eq(dbUserProfileFavourites.userId, userId)))
+            })
             .from(dbProfiles)
             .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
-            .leftJoin(dbUserProfileFavourites, eq(dbProfiles.id, dbUserProfileFavourites.profileId))
             .where(where)
             .orderBy(dbProfiles.name)
             .limit(limit)
@@ -77,11 +101,17 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
     }
 }
 
-export async function readProfile(id: number): Promise<Profile | null> {
-    const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia, followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)` })
+export async function readProfile(id: number, userId?: number): Promise<Profile | null> {
+    userId = userId ?? 0;
+    const data = await db.select(
+        {
+            ...getTableColumns(dbProfiles),
+            avatar: dbMedia,
+            followers: db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id)),
+            isFavourite: db.$count(dbUserProfileFavourites, and(eq(dbUserProfileFavourites.profileId, dbProfiles.id), eq(dbUserProfileFavourites.userId, userId)))
+        })
         .from(dbProfiles)
         .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
-        .leftJoin(dbUserProfileFavourites, eq(dbProfiles.id, dbUserProfileFavourites.profileId))
         .where(eq(dbProfiles.id, id))
         .limit(1)
         .offset(0);

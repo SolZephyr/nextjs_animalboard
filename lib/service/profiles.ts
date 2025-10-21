@@ -1,4 +1,4 @@
-import { createProfile, readProfile, readProfiles } from "@/db/profiles";
+import { createProfile, createProfileFavourite, readProfile, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
 import { Media, Profile, ProfileListParams, ProfileListResult, UserState } from "../types";
 import { readMediaByProfile } from "@/db/media";
@@ -41,6 +41,10 @@ export const ProfileService = () => {
         });
     }
 
+    const addFavourite = (loginId: string, profileId: number): Promise<{ success: boolean; count: number; }> => {
+        return createProfileFavourite(loginId, profileId);
+    }
+
     const populate = () => {
         const data = jsonProfiles ?? [];
 
@@ -73,5 +77,5 @@ export const ProfileService = () => {
         });
     }
 
-    return { getProfiles, getProfile, getProfileImages, getAnimals, getCountries, populate, handleLoginUser };
+    return { getProfiles, getProfile, getProfileImages, getAnimals, getCountries, populate, handleLoginUser, addFavourite };
 }

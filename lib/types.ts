@@ -30,6 +30,7 @@ export interface ProfileListParams {
     country?: string | undefined;
     query?: string | undefined;
     name?: string | undefined;
+    userId?: number | undefined;
 }
 
 export interface ProfileListResult {
@@ -96,6 +97,7 @@ export interface Profile {
     created: Date;
     updated: Date | null;
     followers?: number;
+    isFavourite?: number;
 }
 
 export interface ProfileState {
@@ -137,4 +139,10 @@ export interface PostTag {
 
 export interface ImportPost extends Post {
     profileName: string;
+}
+
+export interface ResponseRest {
+    status: number;
+    body?: object;
+    error?: string;
 }
