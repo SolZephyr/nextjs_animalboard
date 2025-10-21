@@ -41,7 +41,7 @@ export const ProfileService = () => {
         });
     }
 
-    const addFavourite = (loginId: string, profileId: number): Promise<{ success: boolean; count: number; }> => {
+    const addFavourite = (loginId: string, profileId: number): Promise<{ current: boolean; count: number; }> => {
         return createProfileFavourite(loginId, profileId);
     }
 

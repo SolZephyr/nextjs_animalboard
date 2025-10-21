@@ -33,19 +33,30 @@ export async function createProfile(profile: Profile): Promise<number> {
     return (result[0].insertedId ?? null);
 }
 
-export async function createProfileFavourite(clerkId: string, profileId: number): Promise<{ success: boolean; count: number; }> {
+export async function createProfileFavourite(clerkId: string, profileId: number): Promise<{ current: boolean; count: number; }> {
     const user = await readUserByClerk(clerkId);
-    let success = false;
+    let current = false;
     if (user) {
-        const data: typeof dbUserProfileFavourites.$inferInsert = {
-            userId: user.id,
-            profileId: profileId
-        };
-        success = ((await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0) > 0;
+        const has = await db.select().from(dbUserProfileFavourites)
+            .where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, user.id)));
+        current = (has.length > 0);
+        if (current) {
+            // Removes
+            const deleted = await db.delete(dbUserProfileFavourites).where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, user.id))).returning();
+            current = (deleted.length == 0);
+        } else {
+            // Adds
+            const data: typeof dbUserProfileFavourites.$inferInsert = {
+                userId: user.id,
+                profileId: profileId
+            };
+            const added = (await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0;
+            current = (added > 0)
+        }
     }
     const count = await db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, profileId));
     return {
-        success: success,
+        current: current,
         count: count
     }
 }

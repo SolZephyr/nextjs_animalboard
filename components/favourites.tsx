@@ -14,9 +14,9 @@ export default function ProfileFavourite({ profileId, favourites = 0, isFavourit
         event.preventDefault();
         const data = await RestService().favouriteProfile(dataId);
         if (data?.status == 200) {
-            const result: { success: boolean; count: number; } = data.body;
+            const result: { current: boolean; count: number; } = data.body;
             setCount(result.count);
-            setFavourite(result.success);
+            setFavourite(result.current);
         }
     }
 
