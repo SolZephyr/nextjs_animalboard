@@ -55,6 +55,7 @@ export async function createPostLike(postId: number, userId: number): Promise<nu
 
 export async function readPosts(params: PostListParams): Promise<PostListResult> {
     try {
+        const userId = params?.userId ?? 0;
         const limit = params?.limit ?? 10;
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
@@ -88,12 +89,12 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             post: { ...getTableColumns(dbPosts) },
             profile: dbProfiles,
             avatar: dbMedia,
-            //followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)`
+            likes: db.$count(dbUserPostLikes, eq(dbUserPostLikes.postId, dbPosts.id)),
+            isLiked: db.$count(dbUserPostLikes, and(eq(dbUserPostLikes.postId, dbPosts.id), eq(dbUserPostLikes.userId, userId)))
         })
             .from(dbPosts)
             .leftJoin(dbProfiles, eq(dbProfiles.id, dbPosts.profileId))
             .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId))
-            //.leftJoin(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id))
             .where(where)
             .orderBy(order)
             .limit(limit)
@@ -145,7 +146,8 @@ function repackPost({ data, media }: {
             about: string;
             dateOfBirth: Date | null;
         } | null;
-        followers?: number;
+        likes?: number;
+        isLiked?: number;
         avatar: {
             created: Date;
             updated: Date | null;
@@ -172,9 +174,16 @@ function repackPost({ data, media }: {
         updated: data.avatar?.updated
     } : null;
     const profile: Profile | null = data.profile ? {
-        ...data.profile, avatar: avatar, followers: (data.followers ?? 0)
+        ...data.profile, avatar: avatar
     } : null;
-    return { profile: profile, ...data.post, images: (media ? media : undefined) };
+    const post: Post = {
+        ...data.post,
+        likes: data.likes ?? 0,
+        isLiked: data.isLiked ?? 0,
+        profile: profile,
+        images: (media ? media : undefined)
+    }
+    return post;
 }
 
 export async function deletePostLike(postId: number, userId: number): Promise<number> {

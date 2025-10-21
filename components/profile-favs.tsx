@@ -4,7 +4,7 @@ import { RestService } from "@/lib/service/rest";
 import { LoaderCircle, Star } from "lucide-react";
 import { MouseEvent, useState } from "react";
 
-export default function ProfileFavourite({ profileId, favourites = 0, isFavourite = false }: { profileId: number, favourites?: number, isFavourite?: boolean }) {
+export default function ProfileFavs({ profileId, favourites = 0, isFavourite = false }: { profileId: number, favourites?: number, isFavourite?: boolean }) {
 
     const [count, setCount] = useState<number>(favourites);
     const [hasFavourite, setFavourite] = useState<boolean>(isFavourite);

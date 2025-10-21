@@ -7,7 +7,7 @@ import { writeTime } from "@/lib/utils";
 import { Suspense } from "react";
 import Gallery from "./media-gallery";
 import { Skeleton } from "./ui/skeleton";
-import PostLikes from "./likes";
+import PostLikes from "./post-likes";
 
 export enum CardType {
     Feed,
@@ -20,6 +20,7 @@ export default function PostItem({ post }: { post: Post }) {
     const userName = post.profile?.user ?? "[User]";
     const avatarSrc = post.profile?.avatar?.source ?? "";
     const images = post.images ? post.images : undefined;
+    const isLiked = post.isLiked ? (post.isLiked > 0) : false;
     return (
         <article className="flex w-full flex-col gap-6">
             <Item variant="outline" className="p-4">
@@ -51,7 +52,7 @@ export default function PostItem({ post }: { post: Post }) {
                 </ItemContent>
                 <ItemFooter>
                     <ItemActions>
-                        <PostLikes postId={postId} />
+                        <PostLikes postId={postId} likes={post.likes} isLiked={isLiked} />
                         <Button><MessageSquareText />&nbsp;0</Button>
                     </ItemActions>
                 </ItemFooter>
