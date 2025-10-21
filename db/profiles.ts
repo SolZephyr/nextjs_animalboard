@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
-import { dbMedia, dbProfiles } from './schema';
+import { dbMedia, dbProfiles, dbUserProfileFavourites } from './schema';
 import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
 import { createMedia } from './media';
 
@@ -32,8 +32,45 @@ export async function createProfile(profile: Profile): Promise<number> {
     return (result[0].insertedId ?? null);
 }
 
+export async function createProfileFavourite(profileId: number, userId: number): Promise<number> {
+    const data: typeof dbUserProfileFavourites.$inferInsert = {
+        userId: userId,
+        profileId: profileId
+    };
+    return (await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0;
+}
+
+// export async function createProfileFavourite(clerkId: string, profileId: number): Promise<{ current: boolean; count: number; }> {
+//     const user = await readUserByClerk(clerkId);
+//     let current = false;
+//     if (user) {
+//         const has = await db.select().from(dbUserProfileFavourites)
+//             .where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, user.id)));
+//         current = (has.length > 0);
+//         if (current) {
+//             // Removes
+//             const deleted = await db.delete(dbUserProfileFavourites).where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, user.id))).returning();
+//             current = (deleted.length == 0);
+//         } else {
+//             // Adds
+//             const data: typeof dbUserProfileFavourites.$inferInsert = {
+//                 userId: user.id,
+//                 profileId: profileId
+//             };
+//             const added = (await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0;
+//             current = (added > 0)
+//         }
+//     }
+//     const count = await db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, profileId));
+//     return {
+//         current: current,
+//         count: count
+//     }
+// }
+
 export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
     try {
+        const userId = params?.userId ?? 0;
         const limit = params?.limit ?? 10;
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
@@ -50,7 +87,13 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
             const exp4 = params.name ? sql`lower(${dbProfiles.name}) = ${params.name?.toLowerCase()}` : undefined;
             where = and(exp1, exp2, exp3, exp4);
         }
-        const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
+        const data = await db.select(
+            {
+                ...getTableColumns(dbProfiles),
+                avatar: dbMedia,
+                followers: db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id)),
+                isFavourite: db.$count(dbUserProfileFavourites, and(eq(dbUserProfileFavourites.profileId, dbProfiles.id), eq(dbUserProfileFavourites.userId, userId)))
+            })
             .from(dbProfiles)
             .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
             .where(where)
@@ -76,14 +119,30 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
     }
 }
 
-export async function readProfile(id: number): Promise<Profile | null> {
-    const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
+export async function readProfile(id: number, userId?: number): Promise<Profile | null> {
+    userId = userId ?? 0;
+    const data = await db.select(
+        {
+            ...getTableColumns(dbProfiles),
+            avatar: dbMedia,
+            followers: db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id)),
+            isFavourite: db.$count(dbUserProfileFavourites, and(eq(dbUserProfileFavourites.profileId, dbProfiles.id), eq(dbUserProfileFavourites.userId, userId)))
+        })
         .from(dbProfiles)
         .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
         .where(eq(dbProfiles.id, id))
         .limit(1)
         .offset(0);
     return data.length ? data[0] : null;
+}
+
+export async function readProfileFavourites(profileId: number, userId?: number): Promise<{ userId: number; profileId: number; }[]> {
+    const withUser = userId ? eq(dbUserProfileFavourites.userId, userId) : undefined;
+    const where = and(eq(dbUserProfileFavourites.profileId, profileId), withUser);
+    const result = await db.select()
+        .from(dbUserProfileFavourites)
+        .where(where);
+    return result;
 }
 
 export async function updateProfile(profileId: number, data: ProfileState): Promise<{ updatedId: number }[]> {
@@ -98,4 +157,9 @@ export async function deleteProfile(profileId: number): Promise<boolean> {
         return true;
     }
     return false;
+}
+
+export async function deleteProfileFavourite(profileId: number, userId: number): Promise<number> {
+    const result = await db.delete(dbUserProfileFavourites).where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, userId))).returning();
+    return result.length;
 }

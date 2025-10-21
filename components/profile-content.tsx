@@ -1,4 +1,4 @@
-import { PostListParams, Profile } from "@/lib/types";
+import { PostListParams } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ProfileTag } from "./tags";
 import PostsFeed from "./posts-feed";
@@ -7,36 +7,51 @@ import { ProfilePostsFilter } from "./posts-filter";
 import { Skeleton } from "./ui/skeleton";
 import ProfileImages from "./profile-images";
 import { Suspense } from "react";
+import ProfileFavourite from "./favourites";
+import { currentUser } from "@clerk/nextjs/server";
+import { ProfileService } from "@/lib/service/profiles";
+import { loginUserState } from "@/lib/utils";
 
-export default async function ProfileContent({ data, postParams }: { data: Promise<Profile | null>, postParams: PostListParams }) {
-    const profile = await data;
+export default async function ProfileContent({ profileId, postParams }: { profileId: number, postParams: PostListParams }) {
+
+    const login = await currentUser();
+    const userId = login ? await ProfileService().handleLoginUser(loginUserState(login)) : undefined;
+
+    const profile = await ProfileService().getProfile(profileId, userId);
     if (!profile) {
         return (
             <p>Not found</p>
         );
     }
-    const profileId = profile.id ?? -1;
+
+    profileId = profile.id ?? -1;
 
     if (postParams) {
         postParams.profileId = profileId;
     }
+    const isFav = profile.isFavourite ? (profile.isFavourite > 0) : false;
 
     return (
         <>
             <article className="p-4 border border-border rounded-md">
                 <h2 className="hidden">Profile</h2>
-                <section className="flex flex-row">
-                    <Avatar className="size-30 border border-black">
-                        <AvatarImage src={profile.avatar?.source} className="rounded-full" />
-                        <AvatarFallback>ER</AvatarFallback>
-                    </Avatar>
-                    <aside className="flex flex-col ml-4">
-                        <h3 className="text-2xl">{profile.name}</h3>
-                        <p>{profile.animal}</p>
-                        <p>{profile.breed}</p>
-                        <p>Joined:&nbsp;{profile.created.toDateString()}</p>
+                <div className="flex flex-row justify-between">
+                    <section className="flex flex-row">
+                        <Avatar className="size-30 border border-black">
+                            <AvatarImage src={profile.avatar?.source} className="rounded-full" />
+                            <AvatarFallback>ER</AvatarFallback>
+                        </Avatar>
+                        <aside className="flex flex-col ml-4">
+                            <h3 className="text-2xl">{profile.name}</h3>
+                            <p>{profile.animal}</p>
+                            <p>{profile.breed}</p>
+                            <p>Joined:&nbsp;{profile.created.toDateString()}</p>
+                        </aside>
+                    </section>
+                    <aside>
+                        <ProfileFavourite profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
                     </aside>
-                </section>
+                </div>
                 <section className="py-4">
                     <h3 className="text-xl my-2">Lives</h3>
                     <p>Owner:&nbsp;{profile.user}</p>

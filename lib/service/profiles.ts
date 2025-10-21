@@ -1,8 +1,8 @@
-import { createProfile, readProfile, readProfiles } from "@/db/profiles";
+import { createProfile, createProfileFavourite, deleteProfileFavourite, readProfile, readProfileFavourites, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
 import { Media, Profile, ProfileListParams, ProfileListResult, UserState } from "../types";
 import { readMediaByProfile } from "@/db/media";
-import { handleClerkUser } from "@/db/users";
+import { handleClerkUser, readUserByClerk } from "@/db/users";
 
 export const ProfileService = () => {
 
@@ -10,12 +10,16 @@ export const ProfileService = () => {
         return handleClerkUser(userdata);
     }
 
+    const getUserByLogin = (loginId: string) => {
+        return readUserByClerk(loginId);
+    }
+
     const getProfiles = (params: ProfileListParams): Promise<ProfileListResult> => {
         return readProfiles(params);
     }
 
-    const getProfile = (id: number): Promise<Profile | null> => {
-        return readProfile(id)
+    const getProfile = (id: number, userId?: number): Promise<Profile | null> => {
+        return readProfile(id, userId)
     }
 
     const getProfileImages = (id: number): Promise<Media[] | null> => {
@@ -39,6 +43,25 @@ export const ProfileService = () => {
             ];
             resolve(list);
         });
+    }
+
+    const addFavourite = async (profileId: number, userId: number): Promise<{ current: boolean; count: number; }> => {
+        const select = await readProfileFavourites(profileId, userId);
+        let current = (select.length > 0);
+        if (current) {
+            // Remove
+            const removed = await deleteProfileFavourite(profileId, userId);
+            current = (removed == 0);
+        } else {
+            // Add
+            const added = await createProfileFavourite(profileId, userId);
+            current = (added > 0);
+        }
+        const count = await readProfileFavourites(profileId);
+        return {
+            current: current,
+            count: count.length
+        }
     }
 
     const populate = () => {
@@ -73,5 +96,5 @@ export const ProfileService = () => {
         });
     }
 
-    return { getProfiles, getProfile, getProfileImages, getAnimals, getCountries, populate, handleLoginUser };
+    return { getProfiles, getProfile, getProfileImages, getAnimals, getCountries, populate, handleLoginUser, getUserByLogin, addFavourite };
 }

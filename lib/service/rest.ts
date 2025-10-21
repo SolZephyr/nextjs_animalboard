@@ -64,5 +64,16 @@ export const RestService = () => {
         }
     }
 
-    return { getData }
+    const favouriteProfile = async function (profileId: number) {
+        if (profileId) {
+            try {
+                return await post("/rest/profile/favourite", { id: profileId });
+            } catch (error) {
+                console.error("Error fetch: " + error);
+                return;
+            }
+        }
+    }
+
+    return { getData, favouriteProfile }
 }

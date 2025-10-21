@@ -76,10 +76,16 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
             .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
             .where(where);
-        const data = await db.select({ post: { ...getTableColumns(dbPosts) }, profile: dbProfiles, avatar: dbMedia })
+        const data = await db.select({
+            post: { ...getTableColumns(dbPosts) },
+            profile: dbProfiles,
+            avatar: dbMedia,
+            //followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)`
+        })
             .from(dbPosts)
-            .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
-            .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
+            .leftJoin(dbProfiles, eq(dbProfiles.id, dbPosts.profileId))
+            .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId))
+            //.leftJoin(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id))
             .where(where)
             .orderBy(order)
             .limit(limit)
@@ -87,7 +93,7 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         const repacked = [];
         for (const dt of data) {
             const list = await readMediaByPost(dt.post.id);
-            repacked.push(repackPost(dt, list));
+            repacked.push(repackPost({ data: dt, media: list }));
         }
         return {
             data: {
@@ -105,39 +111,42 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
     }
 }
 
-function repackPost(data: {
-    profile: {
-        created: Date;
-        updated: Date | null;
-        id: number;
-        name: string;
-        nicknames: string;
-        user: string;
-        avatarId: number | null;
-        animal: string;
-        breed: string;
-        country: string;
-        home: string;
-        about: string;
-        dateOfBirth: Date | null;
-    } | null;
-    avatar: {
-        created: Date;
-        updated: Date | null;
-        id: number;
-        type: string;
-        source: string;
-    } | null;
-    post: {
-        created: Date;
-        updated: Date | null;
-        id: number;
-        type: string;
-        title: string;
-        content: string;
-        profileId: number | null
-    }
-}, media: Media[] | null) {
+function repackPost({ data, media }: {
+    data: {
+        profile: {
+            created: Date;
+            updated: Date | null;
+            id: number;
+            name: string;
+            nicknames: string;
+            user: string;
+            avatarId: number | null;
+            animal: string;
+            breed: string;
+            country: string;
+            home: string;
+            about: string;
+            dateOfBirth: Date | null;
+        } | null;
+        followers?: number;
+        avatar: {
+            created: Date;
+            updated: Date | null;
+            id: number;
+            type: string;
+            source: string;
+        } | null;
+        post: {
+            created: Date;
+            updated: Date | null;
+            id: number;
+            type: string;
+            title: string;
+            content: string;
+            profileId: number | null
+        };
+    }, media?: Media[] | null
+}) {
     const avatar = data.avatar ? {
         id: data.avatar?.id,
         type: data.avatar?.type,
@@ -146,7 +155,7 @@ function repackPost(data: {
         updated: data.avatar?.updated
     } : null;
     const profile: Profile | null = data.profile ? {
-        ...data.profile, avatar: avatar
+        ...data.profile, avatar: avatar, followers: (data.followers ?? 0)
     } : null;
     return { profile: profile, ...data.post, images: (media ? media : undefined) };
 }
