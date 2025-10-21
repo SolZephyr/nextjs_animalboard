@@ -1,4 +1,5 @@
 import { ProfileService } from "@/lib/service/profiles";
+import { loginUserState } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs/server";
 
 export async function POST(request: Request) {
@@ -11,6 +12,8 @@ export async function POST(request: Request) {
             }
         });
     }
+    const loginId = await ProfileService().handleLoginUser(loginUserState(user));
+
     const body = await request.json();
     const { id } = body;
     if (!id || isNaN(id)) {
@@ -22,7 +25,7 @@ export async function POST(request: Request) {
         });
     }
     const profileId: number = id;
-    const result = await ProfileService().addFavourite(user.id, profileId);
+    const result = await ProfileService().addFavourite(profileId, loginId);
 
     return new Response(JSON.stringify(result), {
         status: 200,

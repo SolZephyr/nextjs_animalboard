@@ -1,10 +1,17 @@
-import { ProfileListResult } from "@/lib/types";
+import { ProfileListParams } from "@/lib/types";
 import { PaginationPaging } from "./pagination";
 import ProfileItem, { ProfileItemSkeleton } from "./profile-item";
+import { currentUser } from "@clerk/nextjs/server";
+import { loginUserState } from "@/lib/utils";
+import { ProfileService } from "@/lib/service/profiles";
 
-export default async function ProfilesList({ data }: { data: Promise<ProfileListResult> }) {
+export default async function ProfilesList({ params }: { params: ProfileListParams }) {
 
-    const result = await data;
+    const login = await currentUser();
+    const userId = login ? await ProfileService().handleLoginUser(loginUserState(login)) : undefined;
+    params.userId = userId;
+
+    const result = await ProfileService().getProfiles(params);
     const paging = result.data?.meta;
     const profiles = result.data?.profiles ?? [];
 

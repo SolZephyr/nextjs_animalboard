@@ -7,7 +7,6 @@ import { ProfilesFilter } from "./profiles-filter";
 
 export default function ContentProfiles({ params }: { params: ProfileListParams }) {
 
-    const data = ProfileService().getProfiles(params);
     const filterData = Promise.all([
         ProfileService().getAnimals(),
         ProfileService().getCountries()
@@ -22,7 +21,7 @@ export default function ContentProfiles({ params }: { params: ProfileListParams 
                 </div>
                 <section className="my-2">
                     <Suspense fallback={<ProfilesListLoading />}>
-                        <ProfilesList data={data} />
+                        <ProfilesList params={params} />
                     </Suspense>
                 </section>
             </main>
