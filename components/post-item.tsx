@@ -98,8 +98,10 @@ export function PostItemLoading() {
 }
 
 export function ProfilePostItem({ post }: { post: Post }) {
+    const postId = post.id ?? 0;
     const userName = post.profile?.user ?? "[User]";
     const images = post.images ? post.images : undefined;
+    const isLiked = post.isLiked ? (post.isLiked > 0) : false;
     return (
         <article className="flex w-full flex-col gap-6">
             <Item variant="outline" className="p-4">
@@ -116,7 +118,7 @@ export function ProfilePostItem({ post }: { post: Post }) {
                 </ItemContent>
                 <ItemFooter>
                     <ItemActions>
-                        <Button><Heart />&nbsp;0</Button>
+                        <PostLikes postId={postId} likes={post.likes} isLiked={isLiked} />
                         <Button><MessageSquareText />&nbsp;0</Button>
                     </ItemActions>
                     <ItemContent className="flex-none text-right">

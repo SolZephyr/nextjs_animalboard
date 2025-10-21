@@ -7,10 +7,10 @@ import { ProfilePostsFilter } from "./posts-filter";
 import { Skeleton } from "./ui/skeleton";
 import ProfileImages from "./profile-images";
 import { Suspense } from "react";
-import ProfileFavourite from "./favourites";
 import { currentUser } from "@clerk/nextjs/server";
 import { ProfileService } from "@/lib/service/profiles";
 import { loginUserState } from "@/lib/utils";
+import ProfileFavs from "./profile-favs";
 
 export default async function ProfileContent({ profileId, postParams }: { profileId: number, postParams: PostListParams }) {
 
@@ -49,7 +49,7 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                         </aside>
                     </section>
                     <aside>
-                        <ProfileFavourite profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
+                        <ProfileFavs profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
                     </aside>
                 </div>
                 <section className="py-4">
