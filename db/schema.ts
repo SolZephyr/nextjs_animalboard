@@ -9,8 +9,17 @@ const timestamps = {
 //export const animalEnum = pgEnum("animal", ["Unknown", "Cat", "Dog"]);
 //export const countryEnum = pgEnum("country", ["Unknown"]);
 
-export const dbUsers = pgTable("test_users", {
+export const dbTest = pgTable("test_users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    email: varchar({ length: 50 }).notNull().unique(),
+    firstname: varchar({ length: 50 }).notNull(),
+    lastname: varchar({ length: 50 }).notNull(),
+    ...timestamps
+});
+
+export const dbUsers = pgTable("users", {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    clerkId: varchar({ length: 50 }).notNull().unique(),
     email: varchar({ length: 50 }).notNull().unique(),
     firstname: varchar({ length: 50 }).notNull(),
     lastname: varchar({ length: 50 }).notNull(),
