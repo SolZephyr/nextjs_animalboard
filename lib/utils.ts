@@ -1,10 +1,23 @@
+import { User } from "@clerk/nextjs/server";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { UserState } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function loginUserState(user: User): UserState {
+  const userdata: UserState = {
+    clerkId: user.id,
+    email: user?.emailAddresses[0].emailAddress,
+    firstname: user.firstName ?? "",
+    lastname: user.lastName ?? "",
+    created: new Date(user.createdAt),
+    updated: new Date(user.updatedAt)
+  }
+  return userdata;
+}
 
 export function writeTime(date: Date) {
   const now = new Date();
