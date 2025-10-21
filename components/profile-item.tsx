@@ -3,7 +3,7 @@ import { Item, ItemContent, ItemDescription, ItemHeader, ItemMedia, ItemTitle } 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import { Skeleton } from "./ui/skeleton";
-import ProfileFavourite from "./favourites";
+import ProfileFavs from "./profile-favs";
 
 export default function ProfileItem({ profile }: { profile: Profile }) {
     const isFav = profile.isFavourite ? (profile.isFavourite > 0) : false;
@@ -23,7 +23,7 @@ export default function ProfileItem({ profile }: { profile: Profile }) {
                             <ItemDescription>{profile.animal}</ItemDescription>
                         </ItemContent>
                         <ItemContent className="flex flex-col mb-0">
-                            <ProfileFavourite profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
+                            <ProfileFavs profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
                         </ItemContent>
                     </ItemHeader>
                 </Item>

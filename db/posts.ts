@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, asc, count, desc, eq, getTableColumns, ilike, or } from 'drizzle-orm';
-import { dbMedia, dbPosts, dbProfiles } from './schema';
+import { dbMedia, dbPosts, dbProfiles, dbUserPostLikes } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
 import { readProfiles } from './profiles';
@@ -45,8 +45,17 @@ export async function createImportPost(post: ImportPost): Promise<number> {
     return createPost(post);
 }
 
+export async function createPostLike(postId: number, userId: number): Promise<number> {
+    const data: typeof dbUserPostLikes.$inferInsert = {
+        userId: userId,
+        postId: postId
+    };
+    return (await db.insert(dbUserPostLikes).values(data)).rowCount ?? 0;
+}
+
 export async function readPosts(params: PostListParams): Promise<PostListResult> {
     try {
+        const userId = params?.userId ?? 0;
         const limit = params?.limit ?? 10;
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
@@ -80,12 +89,12 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             post: { ...getTableColumns(dbPosts) },
             profile: dbProfiles,
             avatar: dbMedia,
-            //followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)`
+            likes: db.$count(dbUserPostLikes, eq(dbUserPostLikes.postId, dbPosts.id)),
+            isLiked: db.$count(dbUserPostLikes, and(eq(dbUserPostLikes.postId, dbPosts.id), eq(dbUserPostLikes.userId, userId)))
         })
             .from(dbPosts)
             .leftJoin(dbProfiles, eq(dbProfiles.id, dbPosts.profileId))
             .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId))
-            //.leftJoin(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, dbProfiles.id))
             .where(where)
             .orderBy(order)
             .limit(limit)
@@ -111,6 +120,15 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
     }
 }
 
+export async function readPostLikes(postId: number, userId?: number): Promise<{ userId: number; postId: number; }[]> {
+    const withUser = userId ? eq(dbUserPostLikes.userId, userId) : undefined;
+    const where = and(eq(dbUserPostLikes.postId, postId), withUser);
+    const result = await db.select()
+        .from(dbUserPostLikes)
+        .where(where);
+    return result;
+}
+
 function repackPost({ data, media }: {
     data: {
         profile: {
@@ -128,7 +146,8 @@ function repackPost({ data, media }: {
             about: string;
             dateOfBirth: Date | null;
         } | null;
-        followers?: number;
+        likes?: number;
+        isLiked?: number;
         avatar: {
             created: Date;
             updated: Date | null;
@@ -155,31 +174,19 @@ function repackPost({ data, media }: {
         updated: data.avatar?.updated
     } : null;
     const profile: Profile | null = data.profile ? {
-        ...data.profile, avatar: avatar, followers: (data.followers ?? 0)
+        ...data.profile, avatar: avatar
     } : null;
-    return { profile: profile, ...data.post, images: (media ? media : undefined) };
+    const post: Post = {
+        ...data.post,
+        likes: data.likes ?? 0,
+        isLiked: data.isLiked ?? 0,
+        profile: profile,
+        images: (media ? media : undefined)
+    }
+    return post;
 }
 
-// export async function readProfile(id: number): Promise<Profile | null> {
-//     const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
-//         .from(dbProfiles)
-//         .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
-//         .where(eq(dbProfiles.id, id))
-//         .limit(1)
-//         .offset(0);
-//     return data.length ? data[0] : null;
-// }
-
-// export async function updateProfile(profileId: number, data: ProfileState): Promise<{ updatedId: number }[]> {
-//     const result = await db.update(dbProfiles).set(data)
-//         .where(eq(dbProfiles.id, profileId)).returning({ updatedId: dbProfiles.id });
-//     return result;
-// }
-
-// export async function deleteProfile(profileId: number): Promise<boolean> {
-//     const result = await db.delete(dbProfiles).where(eq(dbProfiles.id, profileId));
-//     if (result.rows) {
-//         return true;
-//     }
-//     return false;
-// }
+export async function deletePostLike(postId: number, userId: number): Promise<number> {
+    const result = await db.delete(dbUserPostLikes).where(and(eq(dbUserPostLikes.postId, postId), eq(dbUserPostLikes.userId, userId))).returning();
+    return result.length;
+}

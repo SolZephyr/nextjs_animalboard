@@ -28,6 +28,7 @@ export const dbUsers = pgTable("users", {
 
 export const userRelations = relations(dbUsers, ({ many }) => ({
     favourites: many(dbUserProfileFavourites),
+    likes: many(dbUserPostLikes),
 }));
 
 export const dbMedia = pgTable("media", {
@@ -118,5 +119,23 @@ export const userProfileFavouriteRelations = relations(dbUserProfileFavourites, 
     profile: one(dbProfiles, {
         fields: [dbUserProfileFavourites.profileId],
         references: [dbProfiles.id],
+    }),
+}));
+
+export const dbUserPostLikes = pgTable("user_post_likes", {
+    userId: integer('user_id').notNull().references(() => dbUsers.id),
+    postId: integer('post_id').notNull().references(() => dbPosts.id),
+},
+    (t) => [primaryKey({ columns: [t.userId, t.postId] })],
+);
+
+export const userPostLikeRelations = relations(dbUserPostLikes, ({ one }) => ({
+    user: one(dbUsers, {
+        fields: [dbUserPostLikes.userId],
+        references: [dbUsers.id],
+    }),
+    post: one(dbPosts, {
+        fields: [dbUserPostLikes.postId],
+        references: [dbPosts.id],
     }),
 }));

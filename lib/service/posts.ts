@@ -1,6 +1,6 @@
 import jsonPosts from "@/lib/data/posts.json";
 import { ImportPost, Media, PostListParams, PostListResult } from "../types";
-import { createImportPost, readPosts } from "@/db/posts";
+import { createImportPost, createPostLike, deletePostLike, readPostLikes, readPosts } from "@/db/posts";
 
 export const PostsService = () => {
 
@@ -11,6 +11,25 @@ export const PostsService = () => {
     // const getPost = (id: number): Promise<Post | null> => {
     //     return readPost(id)
     // }
+
+    const addLike = async (postId: number, userId: number): Promise<{ current: boolean; count: number; }> => {
+        const select = await readPostLikes(postId, userId);
+        let current = (select.length > 0);
+        if (current) {
+            // Remove
+            const removed = await deletePostLike(postId, userId);
+            current = (removed == 0);
+        } else {
+            // Add
+            const added = await createPostLike(postId, userId);
+            current = (added > 0);
+        }
+        const count = await readPostLikes(postId);
+        return {
+            current: current,
+            count: count.length
+        }
+    }
 
     const populate = () => {
         const data = jsonPosts ?? [];
@@ -45,5 +64,5 @@ export const PostsService = () => {
         });
     }
 
-    return { getPosts, populate };
+    return { getPosts, addLike, populate };
 }

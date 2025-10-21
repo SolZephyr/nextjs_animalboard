@@ -40,34 +40,6 @@ export async function createProfileFavourite(profileId: number, userId: number):
     return (await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0;
 }
 
-// export async function createProfileFavourite(clerkId: string, profileId: number): Promise<{ current: boolean; count: number; }> {
-//     const user = await readUserByClerk(clerkId);
-//     let current = false;
-//     if (user) {
-//         const has = await db.select().from(dbUserProfileFavourites)
-//             .where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, user.id)));
-//         current = (has.length > 0);
-//         if (current) {
-//             // Removes
-//             const deleted = await db.delete(dbUserProfileFavourites).where(and(eq(dbUserProfileFavourites.profileId, profileId), eq(dbUserProfileFavourites.userId, user.id))).returning();
-//             current = (deleted.length == 0);
-//         } else {
-//             // Adds
-//             const data: typeof dbUserProfileFavourites.$inferInsert = {
-//                 userId: user.id,
-//                 profileId: profileId
-//             };
-//             const added = (await db.insert(dbUserProfileFavourites).values(data)).rowCount ?? 0;
-//             current = (added > 0)
-//         }
-//     }
-//     const count = await db.$count(dbUserProfileFavourites, eq(dbUserProfileFavourites.profileId, profileId));
-//     return {
-//         current: current,
-//         count: count
-//     }
-// }
-
 export async function readProfiles(params: ProfileListParams): Promise<ProfileListResult> {
     try {
         const userId = params?.userId ?? 0;

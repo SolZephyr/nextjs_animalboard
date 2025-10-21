@@ -7,6 +7,7 @@ export interface PostListParams {
     query?: string | undefined;
     tags?: PostTag[] | undefined;
     profileId?: number | undefined;
+    userId?: number | undefined;
 }
 
 export interface PagingResult {
@@ -123,6 +124,8 @@ export interface Post {
     imageIds?: number[] | null;
     created: Date;
     updated: Date | null;
+    likes?: number;
+    isLiked?: number;
 }
 
 export type DynamicParams = Promise<{ id?: string }>;

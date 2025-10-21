@@ -1,10 +1,18 @@
-import { PostListResult } from "@/lib/types";
+import { PostListParams } from "@/lib/types";
 import PostItem, { CardType, PostItemLoading, ProfilePostItem, ProfilePostItemLoading } from "./post-item";
 import { PaginationPaging } from "./pagination";
+import { currentUser } from "@clerk/nextjs/server";
+import { ProfileService } from "@/lib/service/profiles";
+import { loginUserState } from "@/lib/utils";
+import { PostsService } from "@/lib/service/posts";
 
-export default async function PostsList({ data, card }: { data: Promise<PostListResult>, card?: CardType }) {
+export default async function PostsList({ params, card }: { params: PostListParams, card?: CardType }) {
 
-    const result = await data;
+    const user = await currentUser();
+    const loginId = user ? await ProfileService().handleLoginUser(loginUserState(user)) : undefined;
+
+    params.userId = loginId;
+    const result = await PostsService().getPosts(params);
     const paging = result.data?.meta;
     const posts = result.data?.posts ?? [];
 
