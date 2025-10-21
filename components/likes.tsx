@@ -1,0 +1,34 @@
+"use client";
+
+import { MouseEvent, useState } from "react";
+import { Button } from "./ui/button";
+import { Heart, LoaderCircle } from "lucide-react";
+import { RestService } from "@/lib/service/rest";
+
+export default function PostLikes({ postId, likes = 0, isLiked = false }: { postId: number, likes?: number, isLiked?: boolean }) {
+
+    const [count, setCount] = useState<number>(likes);
+    const [hasLike, setLike] = useState<boolean>(isLiked);
+    const [isLoading, setLoading] = useState<boolean>(false);
+
+    const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        setLoading(true);
+        const data = await RestService().likePost(postId);
+        setLoading(false);
+        if (data?.status == 200) {
+            const result: { current: boolean; count: number; } = data.body;
+            setCount(result.count);
+            setLike(result.current);
+        }
+    }
+
+    return (
+        <>
+            {isLoading
+                ? <Button><LoaderCircle className="animate-spin"/>&nbsp;{count}</Button>
+                : <Button className="cursor-pointer" onClick={(e) => handleClick(e)}><Heart className={`${hasLike ? "fill-red-500 stroke-red-500 hover:fill-red-100 hover:stroke-red-300" : "hover:fill-red-300 hover:stroke-red-500"}}`} />&nbsp;{count}</Button>
+            }
+        </>
+    );
+}

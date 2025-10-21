@@ -75,5 +75,16 @@ export const RestService = () => {
         }
     }
 
-    return { getData, favouriteProfile }
+    const likePost = async function (postId: number) {
+        if (postId) {
+            try {
+                return await post("/rest/post/like", { id: postId });
+            } catch (error) {
+                console.error("Error fetch: " + error);
+                return;
+            }
+        }
+    }
+
+    return { getData, favouriteProfile, likePost }
 }
