@@ -61,6 +61,25 @@ export interface Media {
     post?: Post;
 }
 
+export interface User {
+    id: number;
+    clerkId: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    created: Date;
+    updated: Date | null;
+}
+
+export interface UserState {
+    clerkId: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    created: Date;
+    updated: Date | null;
+}
+
 export interface Profile {
     id?: number;
     name: string;

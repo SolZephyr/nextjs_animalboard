@@ -1,9 +1,14 @@
 import { createProfile, readProfile, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
-import { Media, Profile, ProfileListParams, ProfileListResult } from "../types";
+import { Media, Profile, ProfileListParams, ProfileListResult, UserState } from "../types";
 import { readMediaByProfile } from "@/db/media";
+import { handleClerkUser } from "@/db/users";
 
 export const ProfileService = () => {
+
+    const handleLoginUser = (userdata: UserState) => {
+        return handleClerkUser(userdata);
+    }
 
     const getProfiles = (params: ProfileListParams): Promise<ProfileListResult> => {
         return readProfiles(params);
@@ -68,5 +73,5 @@ export const ProfileService = () => {
         });
     }
 
-    return { getProfiles, getProfile, getProfileImages, getAnimals, getCountries, populate };
+    return { getProfiles, getProfile, getProfileImages, getAnimals, getCountries, populate, handleLoginUser };
 }

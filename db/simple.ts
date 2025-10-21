@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { eq } from 'drizzle-orm';
-import { dbUsers } from './schema';
+import { dbTest } from './schema';
 
 const db = drizzle(process.env.DATABASE_URL!);
 
@@ -22,23 +22,23 @@ export interface TestUserState {
 }
 
 export async function simpleAdd(user: TestUser): Promise<number> {
-    const data: typeof dbUsers.$inferInsert = {
+    const data: typeof dbTest.$inferInsert = {
         email: user.email,
         firstname: user.firstname,
         lastname: user.lastname,
         created: new Date(),
         updated: new Date()
     };
-    const result = await db.insert(dbUsers).values(data);
+    const result = await db.insert(dbTest).values(data);
     return (result.oid);
 }
 
 export async function simpleGet({ id }: { id?: number }): Promise<TestUser[]> {
     try {
         if (id) {
-            return await db.select().from(dbUsers).where(eq(dbUsers.id, id));
+            return await db.select().from(dbTest).where(eq(dbTest.id, id));
         } else {
-            return await db.select().from(dbUsers);
+            return await db.select().from(dbTest);
         }
     } catch (error) {
         console.dir({ error }, { depth: null });
@@ -49,13 +49,13 @@ export async function simpleGet({ id }: { id?: number }): Promise<TestUser[]> {
 }
 
 export async function simpleEdit({ data }: { data: TestUserState }): Promise<TestUser[]> {
-    const result = await db.update(dbUsers).set(data)
-        .where(eq(dbUsers.id, data.id)).returning();
+    const result = await db.update(dbTest).set(data)
+        .where(eq(dbTest.id, data.id)).returning();
     return result;
 }
 
 export async function simpleRemove({ id }: { id: number }): Promise<boolean> {
-    const result = await db.delete(dbUsers).where(eq(dbUsers.id, id));
+    const result = await db.delete(dbTest).where(eq(dbTest.id, id));
     if (result.rows) {
         return true;
     }
