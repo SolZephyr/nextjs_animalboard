@@ -95,6 +95,7 @@ export interface Profile {
     dateOfBirth: Date | null;
     created: Date;
     updated: Date | null;
+    followers?: number;
 }
 
 export interface ProfileState {

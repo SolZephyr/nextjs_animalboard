@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
-import { dbMedia, dbProfiles } from './schema';
+import { dbMedia, dbProfiles, dbUserProfileFavourites } from './schema';
 import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
 import { createMedia } from './media';
 
@@ -50,9 +50,10 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
             const exp4 = params.name ? sql`lower(${dbProfiles.name}) = ${params.name?.toLowerCase()}` : undefined;
             where = and(exp1, exp2, exp3, exp4);
         }
-        const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
+        const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia, followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)` })
             .from(dbProfiles)
             .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
+            .leftJoin(dbUserProfileFavourites, eq(dbProfiles.id, dbUserProfileFavourites.profileId))
             .where(where)
             .orderBy(dbProfiles.name)
             .limit(limit)
@@ -77,9 +78,10 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
 }
 
 export async function readProfile(id: number): Promise<Profile | null> {
-    const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia })
+    const data = await db.select({ ...getTableColumns(dbProfiles), avatar: dbMedia, followers: sql<number>`cast(count(${dbUserProfileFavourites.userId}) as int)` })
         .from(dbProfiles)
         .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
+        .leftJoin(dbUserProfileFavourites, eq(dbProfiles.id, dbUserProfileFavourites.profileId))
         .where(eq(dbProfiles.id, id))
         .limit(1)
         .offset(0);
