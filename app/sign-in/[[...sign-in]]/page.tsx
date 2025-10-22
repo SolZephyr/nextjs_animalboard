@@ -1,11 +1,10 @@
-import Sidebar from '@/components/sidebar'
+import ContentMain from '@/components/content-main';
 import { SignIn } from '@clerk/nextjs'
 
 export default function Page() {
-    return (<div className="grid grid-content-home">
-        <main className="grid-area-content grid grid-cols-1 ml-2 my-2">
-            <SignIn/>
-        </main>
-        <Sidebar/>
-    </div>);
+    return (
+        <ContentMain>
+            <SignIn />
+        </ContentMain>
+    );
 }
