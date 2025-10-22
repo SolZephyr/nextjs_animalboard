@@ -18,8 +18,6 @@ export function ProfilesFilter({ data }: { data: Promise<[StringListResult, Stri
     const { replace } = useRouter();
     const searchParams = useSearchParams();
     const urlParams = new URLSearchParams(searchParams);
-    //const animal = searchParams.get("animal") ?? ANIMAL_DEFAULT;
-    //const country = searchParams.get("country") ?? COUNTRY_DEFAULT;
 
     function onAnimalChange(e: string): void {
         if (e !== ANIMAL_DEFAULT && e !== null)
