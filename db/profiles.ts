@@ -123,6 +123,21 @@ export async function readProfileAnimals(): Promise<StringListResult> {
     }
 }
 
+export async function readProfileCountries(): Promise<StringListResult> {
+    try {
+        const data = await db.selectDistinct({ country: dbProfiles.country })
+            .from(dbProfiles)
+            .orderBy(dbProfiles.country)
+        const list = data.map((country) => country.country);
+        return {
+            data: list
+        }
+    } catch (err) {
+        console.error(err);
+        return { error: "Error reading profiles." }
+    }
+}
+
 export async function readProfileFavourites(profileId: number, userId?: number): Promise<{ userId: number; profileId: number; }[]> {
     const withUser = userId ? eq(dbUserProfileFavourites.userId, userId) : undefined;
     const where = and(eq(dbUserProfileFavourites.profileId, profileId), withUser);
