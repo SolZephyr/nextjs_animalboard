@@ -3,7 +3,6 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 
 // https://github.com/radix-ui/primitives/issues/2706
 export default function SelectClear({
-    className,
     children,
     value = null as unknown as string,
     ...props
