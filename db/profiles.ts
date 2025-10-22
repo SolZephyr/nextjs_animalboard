@@ -91,21 +91,6 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
     }
 }
 
-export async function readProfileAnimals(): Promise<StringListResult> {
-    try {
-        const data = await db.selectDistinct({ animal: dbProfiles.animal })
-            .from(dbProfiles)
-            .orderBy(dbProfiles.animal)
-        const list = data.map((animal) => animal.animal);
-        return {
-            data: list
-        }
-    } catch (err) {
-        console.error(err);
-        return { error: "Error reading profiles." }
-    }
-}
-
 export async function readProfile(id: number, userId?: number): Promise<Profile | null> {
     userId = userId ?? 0;
     const data = await db.select(
@@ -121,6 +106,36 @@ export async function readProfile(id: number, userId?: number): Promise<Profile 
         .limit(1)
         .offset(0);
     return data.length ? data[0] : null;
+}
+
+export async function readProfileAnimals(): Promise<StringListResult> {
+    try {
+        const data = await db.selectDistinct({ animal: dbProfiles.animal })
+            .from(dbProfiles)
+            .orderBy(dbProfiles.animal)
+        const list = data.map((animal) => animal.animal);
+        return {
+            data: list
+        }
+    } catch (err) {
+        console.error(err);
+        return { error: "Error reading profiles." }
+    }
+}
+
+export async function readProfileCountries(): Promise<StringListResult> {
+    try {
+        const data = await db.selectDistinct({ country: dbProfiles.country })
+            .from(dbProfiles)
+            .orderBy(dbProfiles.country)
+        const list = data.map((country) => country.country);
+        return {
+            data: list
+        }
+    } catch (err) {
+        console.error(err);
+        return { error: "Error reading profiles." }
+    }
 }
 
 export async function readProfileFavourites(profileId: number, userId?: number): Promise<{ userId: number; profileId: number; }[]> {
