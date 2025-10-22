@@ -1,4 +1,4 @@
-import Gallery from "./media-gallery";
+import MediaGallery from "./media-gallery";
 import { ProfileService } from "@/lib/service/profiles";
 
 export default async function ProfileImages({ profileId }: { profileId: number }) {
@@ -11,6 +11,6 @@ export default async function ProfileImages({ profileId }: { profileId: number }
     }
 
     return (
-        <Gallery images={result} />
+        <MediaGallery images={result} />
     );
 }
