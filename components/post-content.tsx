@@ -11,6 +11,7 @@ import PostLikes from "./post-likes";
 import Link from "next/link";
 import { MessageSquareText } from "lucide-react";
 import { Button } from "./ui/button";
+import NotFound from "./not-found";
 
 export default async function PostContent({ postId }: { postId: number }) {
 
@@ -19,9 +20,7 @@ export default async function PostContent({ postId }: { postId: number }) {
 
     const post = await PostsService().getPost(postId, userId);
     if (!post) {
-        return (
-            <p>Not found</p>
-        );
+        return <NotFound />;
     }
 
     postId = post.id ?? -1;
@@ -33,9 +32,9 @@ export default async function PostContent({ postId }: { postId: number }) {
 
     return (
         <>
-            <article className="p-4 border border-border rounded-md">
+            <article className="border border-border rounded-md">
                 <h2 className="hidden">Profile</h2>
-                <Item variant="outline" className="p-4">
+                <Item>
                     <ItemHeader>
                         <ItemMedia>
                             <Avatar className="size-10">
@@ -86,9 +85,9 @@ export default async function PostContent({ postId }: { postId: number }) {
 
 export function PostContentSkeleton() {
     return (
-        <div className="p-4 border border-border rounded-md">
+        <div className="border border-border rounded-md">
             <h2 className="hidden">Profile</h2>
-            <Item variant="outline" className="p-4">
+            <Item>
                 <ItemHeader>
                     <ItemMedia>
                         <Skeleton className="size-10 rounded-full" />

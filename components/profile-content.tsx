@@ -11,6 +11,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { ProfileService } from "@/lib/service/profiles";
 import { loginUserState } from "@/lib/utils";
 import ProfileFavs from "./profile-favs";
+import NotFound from "./not-found";
 
 export default async function ProfileContent({ profileId, postParams }: { profileId: number, postParams: PostListParams }) {
 
@@ -19,9 +20,7 @@ export default async function ProfileContent({ profileId, postParams }: { profil
 
     const profile = await ProfileService().getProfile(profileId, userId);
     if (!profile) {
-        return (
-            <p>Not found</p>
-        );
+        return <NotFound />;
     }
 
     profileId = profile.id ?? -1;
