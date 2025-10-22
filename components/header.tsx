@@ -1,6 +1,7 @@
 import { Cat } from "lucide-react";
 import SearchBar from "./searchbar";
 import HeaderUser from "./header-user";
+import { Suspense } from "react";
 
 export default function Header() {
 
@@ -11,7 +12,9 @@ export default function Header() {
                     <Cat className="w-10 h-10 mr-1" />
                     <h1 className="hidden md:block text-xl">PET-PROJECT</h1>
                 </div>
-                <SearchBar />
+                <Suspense>
+                    <SearchBar />
+                </Suspense>
                 <HeaderUser />
             </section>
         </header>
