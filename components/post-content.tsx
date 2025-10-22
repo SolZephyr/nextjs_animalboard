@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Skeleton } from "./ui/skeleton";
 import { Suspense } from "react";
 import { currentUser } from "@clerk/nextjs/server";
 import { ProfileService } from "@/lib/service/profiles";
@@ -33,6 +34,7 @@ export default async function PostContent({ postId }: { postId: number }) {
     return (
         <>
             <article className="p-4 border border-border rounded-md">
+                <h2 className="hidden">Profile</h2>
                 <Item variant="outline" className="p-4">
                     <ItemHeader>
                         <ItemMedia>
@@ -75,5 +77,32 @@ export default async function PostContent({ postId }: { postId: number }) {
                 <p>Something here.</p>
             </section>
         </>
+    );
+}
+
+export function PostContentSkeleton() {
+    return (
+        <div className="p-4 border border-border rounded-md">
+            <h2 className="hidden">Profile</h2>
+            <Item variant="outline" className="p-4">
+                <ItemHeader>
+                    <ItemMedia>
+                        <Skeleton className="size-10 rounded-full" />
+                    </ItemMedia>
+                    <ItemContent>
+                        <Skeleton className="h-5 w-30" />
+                    </ItemContent>
+                    <ItemContent className="flex-none text-right">
+                        <Skeleton className="h-4 w-30" />
+                        <Skeleton className="h-4 w-30" />
+                    </ItemContent>
+                </ItemHeader>
+                <ItemContent>
+                    <Skeleton className="text-xl w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-30 w-full" />
+                </ItemContent>
+            </Item>
+        </div>
     );
 }
