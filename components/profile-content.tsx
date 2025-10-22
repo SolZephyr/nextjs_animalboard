@@ -80,7 +80,9 @@ export default async function ProfileContent({ profileId, postParams }: { profil
             <section>
                 <div className="flex flex-row justify-between my-2">
                     <h2 className="text-xl">Posts</h2>
-                    <ProfilePostsFilter />
+                    <Suspense>
+                        <ProfilePostsFilter />
+                    </Suspense>
                 </div>
                 <PostsFeed params={postParams} card={CardType.Profile} />
             </section>

@@ -4,6 +4,7 @@ import ProfileItem, { ProfileItemSkeleton } from "./profile-item";
 import { currentUser } from "@clerk/nextjs/server";
 import { loginUserState } from "@/lib/utils";
 import { ProfileService } from "@/lib/service/profiles";
+import { Suspense } from "react";
 
 export default async function ProfilesList({ params }: { params: ProfileListParams }) {
 
@@ -27,7 +28,9 @@ export default async function ProfilesList({ params }: { params: ProfileListPara
                     </li>
                 ))}
             </ul>
-            <PaginationPaging params={paging} />
+            <Suspense>
+                <PaginationPaging params={paging} />
+            </Suspense>
         </>
     );
 }
