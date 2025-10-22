@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, asc, count, desc, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
-import { dbMedia, dbPosts, dbProfiles, dbUserPostLikes } from './schema';
+import { dbMedia, dbPosts, dbProfiles, dbUserPostLikes, dbUserProfileFavourites } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
 import { readProfiles } from './profiles';
@@ -61,7 +61,7 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         const offset = (page - 1) * limit;
         let where = undefined;
         let order = [desc(dbPosts.created)];
-        if (params.query || params.profileId) {
+        if (params.query || params.profileId || params.filter) {
             const exp1 = params.query ? or(
                 ilike(dbPosts.title, `%${params.query}%`),
                 ilike(dbPosts.content, `%${params.query}%`),
@@ -81,11 +81,11 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
                     break;
             }
         }
-        const total = await db.select({ count: count(dbPosts.id) }).from(dbPosts)
-            .leftJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
-            .leftJoin(dbMedia, eq(dbProfiles.avatarId, dbMedia.id))
-            .where(where);
-        const data = await db.select({
+
+        const total = db.select({ count: count(dbPosts.id) })
+            .from(dbPosts)
+            .innerJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id));
+        const select = db.select({
             post: { ...getTableColumns(dbPosts) },
             profile: dbProfiles,
             avatar: dbMedia,
@@ -93,14 +93,22 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             isLiked: db.$count(dbUserPostLikes, and(eq(dbUserPostLikes.postId, dbPosts.id), eq(dbUserPostLikes.userId, userId)))
         })
             .from(dbPosts)
-            .leftJoin(dbProfiles, eq(dbProfiles.id, dbPosts.profileId))
-            .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId))
-            .where(where)
+            .innerJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
+            .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId));
+        if (params?.filter === "favourites") {
+            total.innerJoin(dbUserProfileFavourites, and(eq(dbUserProfileFavourites.profileId, dbProfiles.id), eq(dbUserProfileFavourites.userId, userId)));
+            select.innerJoin(dbUserProfileFavourites, and(eq(dbUserProfileFavourites.profileId, dbProfiles.id), eq(dbUserProfileFavourites.userId, userId)));
+        }
+        total.where(where);
+        select.where(where)
             .orderBy(...order)
             .limit(limit)
             .offset(offset);
+        const dataTotal = await total;
+        const dataSelect = await select;
+
         const repacked = [];
-        for (const dt of data) {
+        for (const dt of dataSelect) {
             const list = await readMediaByPost(dt.post.id);
             repacked.push(repackPost({ data: dt, media: list }));
         }
@@ -110,7 +118,7 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
                 meta: {
                     page: page,
                     limit: limit,
-                    total: total[0].count ?? 0
+                    total: dataTotal[0].count ?? 0
                 }
             }
         }

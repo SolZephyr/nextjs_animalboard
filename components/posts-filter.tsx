@@ -48,7 +48,7 @@ export default function PostsFilter() {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="favorites">Favorites</SelectItem>
+                    <SelectItem value="favourites">Favourites</SelectItem>
                 </SelectContent>
             </Select>
         </section>
