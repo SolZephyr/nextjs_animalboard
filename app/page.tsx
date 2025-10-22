@@ -1,4 +1,6 @@
-import ContentHome from "@/components/content-home";
+import ContentMain from "@/components/content-main";
+import PostsFeed from "@/components/posts-feed";
+import PostsFilter from "@/components/posts-filter";
 import { PostListParams, SearchParams } from "@/lib/types";
 
 export default async function Home({ searchParams }: { searchParams: SearchParams }) {
@@ -11,6 +13,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     query: search ? search.toString() : undefined
   }
   return (
-    <ContentHome params={params} />
+    <ContentMain>
+      <PostsFilter />
+      <PostsFeed params={params} />
+    </ContentMain>
   );
 }
