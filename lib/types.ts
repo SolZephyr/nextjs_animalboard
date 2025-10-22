@@ -42,6 +42,11 @@ export interface ProfileListResult {
     error?: string;
 }
 
+export interface StringListResult {
+    data?: string[];
+    error?: string;
+}
+
 export enum Animal {
     NONE = "Unknown",
     Cat = "Cat",

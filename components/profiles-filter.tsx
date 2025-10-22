@@ -5,9 +5,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useRouter } from "next/navigation";
 import { use } from "react";
 import SelectClear from "./ui/select-clear";
+import { StringListResult } from "@/lib/types";
 
-export function ProfilesFilter({ data }: { data: Promise<[string[], string[]]> }) {
-    const [animals, countries] = use(data);
+export function ProfilesFilter({ data }: { data: Promise<[StringListResult, string[]]> }) {
+    const [animalData, countries] = use(data);
+
+    const animals = animalData?.data ?? [];
     const ANIMAL_DEFAULT = "all";
     const COUNTRY_DEFAULT = "all";
 

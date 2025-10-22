@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { and, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
 import { dbMedia, dbProfiles, dbUserProfileFavourites } from './schema';
-import { Profile, ProfileListParams, ProfileListResult, ProfileState } from '@/lib/types';
+import { Profile, ProfileListParams, ProfileListResult, ProfileState, StringListResult } from '@/lib/types';
 import { createMedia } from './media';
 
 const db = drizzle(process.env.DATABASE_URL!);
@@ -84,6 +84,21 @@ export async function readProfiles(params: ProfileListParams): Promise<ProfileLi
                     total: total
                 }
             }
+        }
+    } catch (err) {
+        console.error(err);
+        return { error: "Error reading profiles." }
+    }
+}
+
+export async function readProfileAnimals(): Promise<StringListResult> {
+    try {
+        const data = await db.selectDistinct({ animal: dbProfiles.animal })
+            .from(dbProfiles)
+            .orderBy(dbProfiles.animal)
+        const list = data.map((animal) => animal.animal);
+        return {
+            data: list
         }
     } catch (err) {
         console.error(err);
