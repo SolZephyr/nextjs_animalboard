@@ -44,9 +44,11 @@ export default async function PostContent({ postId }: { postId: number }) {
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
-                            <Link href={`/profiles/${post.profile?.id ?? "#"}`} className="hover:underline">
-                                <ItemTitle>{profile}</ItemTitle>
-                            </Link>
+                            <ItemTitle>
+                                <Link href={`/profiles/${post.profile?.id ?? "#"}`} className="hover:underline">
+                                    {profile}
+                                </Link>
+                            </ItemTitle>
                         </ItemContent>
                         <ItemContent className="flex-none text-right">
                             <ItemDescription>Poster: <span className="font-bold">{userName}</span></ItemDescription>
