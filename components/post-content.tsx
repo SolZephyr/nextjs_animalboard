@@ -5,13 +5,13 @@ import { currentUser } from "@clerk/nextjs/server";
 import { ProfileService } from "@/lib/service/profiles";
 import { loginUserState, writeTime } from "@/lib/utils";
 import { PostsService } from "@/lib/service/posts";
-import Gallery from "./media-gallery";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemMedia, ItemTitle } from "./ui/item";
 import PostLikes from "./post-likes";
 import Link from "next/link";
 import { MessageSquareText } from "lucide-react";
 import { Button } from "./ui/button";
 import NotFound from "./not-found";
+import MediaGallery from "./media-gallery";
 
 export default async function PostContent({ postId }: { postId: number }) {
 
@@ -60,7 +60,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
-                                    <Gallery images={images} />
+                                    <MediaGallery images={images} />
                                 </Suspense>
                                 : ""}
                         </ItemMedia>

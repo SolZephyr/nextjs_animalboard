@@ -5,10 +5,10 @@ import { Button } from "./ui/button";
 import { Heart, MessageSquareText } from "lucide-react";
 import { writeTime } from "@/lib/utils";
 import { Suspense } from "react";
-import Gallery from "./media-gallery";
 import { Skeleton } from "./ui/skeleton";
 import PostLikes from "./post-likes";
 import Link from "next/link";
+import MediaGallery from "./media-gallery";
 
 export enum CardType {
     Feed,
@@ -47,7 +47,7 @@ export default function PostItem({ post }: { post: Post }) {
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
-                                    <Gallery images={images} />
+                                    <MediaGallery images={images} />
                                 </Suspense>
                                 : ""}
                         </ItemMedia>
@@ -111,7 +111,7 @@ export function ProfilePostItem({ post }: { post: Post }) {
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
-                                    <Gallery images={images} />
+                                    <MediaGallery images={images} />
                                 </Suspense>
                                 : ""}
                         </ItemMedia>

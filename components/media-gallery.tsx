@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, MouseEvent } from "react";
 import {
     Carousel,
     CarouselContent,
