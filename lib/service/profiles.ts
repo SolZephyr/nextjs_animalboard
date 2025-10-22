@@ -1,6 +1,6 @@
-import { createProfile, createProfileFavourite, deleteProfileFavourite, readProfile, readProfileFavourites, readProfiles } from "@/db/profiles";
+import { createProfile, createProfileFavourite, deleteProfileFavourite, readProfile, readProfileAnimals, readProfileFavourites, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
-import { Media, Profile, ProfileListParams, ProfileListResult, UserState } from "../types";
+import { Media, Profile, ProfileListParams, ProfileListResult, StringListResult, UserState } from "../types";
 import { readMediaByProfile } from "@/db/media";
 import { handleClerkUser, readUserByClerk } from "@/db/users";
 
@@ -26,14 +26,8 @@ export const ProfileService = () => {
         return readMediaByProfile(id);
     }
 
-    const getAnimals = (): Promise<string[]> => {
-        return new Promise(function (resolve) {
-            const list: string[] = [
-                "Cat",
-                "Dog"
-            ];
-            resolve(list);
-        });
+    const getAnimals = (): Promise<StringListResult> => {
+        return readProfileAnimals();
     }
 
     const getCountries = (): Promise<string[]> => {
