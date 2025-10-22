@@ -128,6 +128,30 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
     }
 }
 
+export async function readPost(id: number, userId?: number): Promise<Post | null> {
+    userId = userId ?? 0;
+    const data = await db.select(
+        {
+            post: { ...getTableColumns(dbPosts) },
+            profile: dbProfiles,
+            avatar: dbMedia,
+            likes: db.$count(dbUserPostLikes, eq(dbUserPostLikes.postId, dbPosts.id)).as('likes'),
+            isLiked: db.$count(dbUserPostLikes, and(eq(dbUserPostLikes.postId, dbPosts.id), eq(dbUserPostLikes.userId, userId)))
+        })
+        .from(dbPosts)
+        .innerJoin(dbProfiles, eq(dbPosts.profileId, dbProfiles.id))
+        .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId))
+        .where(eq(dbPosts.id, id))
+        .limit(1)
+        .offset(0);
+    if (data.length <= 0) {
+        return null;
+    }
+    const list = await readMediaByPost(data[0].post.id);
+    const repacked = repackPost({ data: data[0], media: list });
+    return repacked;
+}
+
 export async function readPostLikes(postId: number, userId?: number): Promise<{ userId: number; postId: number; }[]> {
     const withUser = userId ? eq(dbUserPostLikes.userId, userId) : undefined;
     const where = and(eq(dbUserPostLikes.postId, postId), withUser);
