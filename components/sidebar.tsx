@@ -1,21 +1,35 @@
+"use client";
+
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import Link from "next/link";
 import { Separator } from "./ui/separator";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
+    const pathname = usePathname();
 
-    const navLinks = [
+    type NavItem = { url: string, label: string, paths: string[] };
+
+    const navLinks: NavItem[] = [
         {
-            url: "/", label: "Home"
+            url: "/", label: "Home", paths: ["/", "/posts"]
         },
         {
-            url: "/profiles", label: "Profiles"
+            url: "/profiles", label: "Profiles", paths: ["/profiles"]
         },
         {
-            url: "/about", label: "About"
+            url: "/about", label: "About", paths: ["/about"]
         }
     ];
+
+    function NavLink({ item }: { item: NavItem }) {
+        const path = pathname.split("/")[1] ?? "";
+        const current = item.paths.includes(`/${path}`);
+        return (
+            <Link href={item.url} className={`w-full inline-block p-2 ${current ? `bg-gray-300 hover:text-white` : ``} hover:text-white hover:bg-black`}>{item.label}</Link>
+        );
+    }
 
     return (
         <aside className="grid-area-sidebar hidden md:block min-h-(--sidebar-height) w-50 bg-gray-50">
@@ -26,7 +40,7 @@ export default function Sidebar() {
                         <ul>
                             {navLinks.map((nav, index) => (
                                 <li key={index}>
-                                    <Link href={nav.url} className="w-full inline-block hover:bg-black hover:text-white p-2">{nav.label}</Link>
+                                    <NavLink item={nav} />
                                 </li>
                             ))}
                         </ul>
