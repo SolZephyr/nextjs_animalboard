@@ -1,5 +1,7 @@
-import ContentProfile from "@/components/content-profile";
+import ContentMain from "@/components/content-main";
+import ProfileContent, { ProfileContentSkeleton } from "@/components/profile-content";
 import { DynamicParams, PostListParams, SearchParams } from "@/lib/types";
+import { Suspense } from "react";
 
 export default async function Page({ params, searchParams }: { params: DynamicParams, searchParams: SearchParams }) {
     const { id } = await params;
@@ -13,7 +15,11 @@ export default async function Page({ params, searchParams }: { params: DynamicPa
     }
 
     return (
-        <ContentProfile profileId={profileId} postParams={postParams} />
+        <ContentMain>
+            <Suspense fallback={<ProfileContentSkeleton />}>
+                <ProfileContent profileId={profileId} postParams={postParams} />
+            </Suspense>
+        </ContentMain>
     );
 
 }

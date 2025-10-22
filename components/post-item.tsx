@@ -87,12 +87,8 @@ export function PostItemLoading() {
                 </ItemContent>
                 <ItemFooter>
                     <ItemActions>
-                        <Skeleton>
-                            <Button><Heart />&nbsp;0</Button>
-                        </Skeleton>
-                        <Skeleton>
-                            <Button><MessageSquareText />&nbsp;0</Button>
-                        </Skeleton>
+                        <Skeleton className="h-8 w-18" />
+                        <Skeleton className="h-8 w-18" />
                     </ItemActions>
                 </ItemFooter>
             </Item>
@@ -155,8 +151,8 @@ export function ProfilePostItemLoading() {
                         </Skeleton>
                     </ItemActions>
                     <ItemContent className="flex-none text-right">
-                        <Skeleton className="h-4 w-30" />
-                        <Skeleton className="h-4 w-30" />
+                        <Skeleton className="h-8 w-18" />
+                        <Skeleton className="h-8 w-18" />
                     </ItemContent>
                 </ItemFooter>
             </Item>
