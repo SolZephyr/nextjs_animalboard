@@ -43,7 +43,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --header-height:70px;
+  --header-height: 70px;
   --sidebar-height: calc(100vh - --header-height);
 }
 
@@ -57,7 +57,7 @@
 
   --content-max-width: 56.25rem;
   --breakout-max-width: 75rem;
-  --padding-inline: var(--spacing-md);
+  --padding-inline: var(--spacing-sm);
   --breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
 
   display: grid;
@@ -158,6 +158,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
