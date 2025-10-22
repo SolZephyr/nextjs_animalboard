@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
-import { and, asc, count, desc, eq, getTableColumns, ilike, or } from 'drizzle-orm';
+import { and, asc, count, desc, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
 import { dbMedia, dbPosts, dbProfiles, dbUserPostLikes } from './schema';
 import { ImportPost, Media, Post, PostListParams, PostListResult, Profile, ProfileListParams } from '@/lib/types';
 import { createMediaMultiple, createPostMedia, readMediaByPost } from './media';
@@ -60,7 +60,7 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         const page = params?.page ?? 1;
         const offset = (page - 1) * limit;
         let where = undefined;
-        let order = desc(dbPosts.created);
+        let order = [desc(dbPosts.created)];
         if (params.query || params.profileId) {
             const exp1 = params.query ? or(
                 ilike(dbPosts.title, `%${params.query}%`),
@@ -74,10 +74,10 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
         if (params.sort) {
             switch (params.sort) {
                 case "oldest":
-                    order = asc(dbPosts.created);
+                    order = [asc(dbPosts.created)];
                     break;
                 case "popular":
-                    // TODO: Count likes
+                    order = [desc(sql`likes`), desc(dbPosts.created)]
                     break;
             }
         }
@@ -89,14 +89,14 @@ export async function readPosts(params: PostListParams): Promise<PostListResult>
             post: { ...getTableColumns(dbPosts) },
             profile: dbProfiles,
             avatar: dbMedia,
-            likes: db.$count(dbUserPostLikes, eq(dbUserPostLikes.postId, dbPosts.id)),
+            likes: db.$count(dbUserPostLikes, eq(dbUserPostLikes.postId, dbPosts.id)).as('likes'),
             isLiked: db.$count(dbUserPostLikes, and(eq(dbUserPostLikes.postId, dbPosts.id), eq(dbUserPostLikes.userId, userId)))
         })
             .from(dbPosts)
             .leftJoin(dbProfiles, eq(dbProfiles.id, dbPosts.profileId))
             .leftJoin(dbMedia, eq(dbMedia.id, dbProfiles.avatarId))
             .where(where)
-            .orderBy(order)
+            .orderBy(...order)
             .limit(limit)
             .offset(offset);
         const repacked = [];
