@@ -7,10 +7,11 @@ import { use } from "react";
 import SelectClear from "./ui/select-clear";
 import { StringListResult } from "@/lib/types";
 
-export function ProfilesFilter({ data }: { data: Promise<[StringListResult, string[]]> }) {
-    const [animalData, countries] = use(data);
+export function ProfilesFilter({ data }: { data: Promise<[StringListResult, StringListResult]> }) {
+    const [animalData, countryData] = use(data);
 
     const animals = animalData?.data ?? [];
+    const countries = countryData?.data ?? [];
     const ANIMAL_DEFAULT = "all";
     const COUNTRY_DEFAULT = "all";
 

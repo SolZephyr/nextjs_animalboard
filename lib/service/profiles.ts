@@ -1,4 +1,4 @@
-import { createProfile, createProfileFavourite, deleteProfileFavourite, readProfile, readProfileAnimals, readProfileFavourites, readProfiles } from "@/db/profiles";
+import { createProfile, createProfileFavourite, deleteProfileFavourite, readProfile, readProfileAnimals, readProfileCountries, readProfileFavourites, readProfiles } from "@/db/profiles";
 import jsonProfiles from "@/lib/data/profiles.json";
 import { Media, Profile, ProfileListParams, ProfileListResult, StringListResult, UserState } from "../types";
 import { readMediaByProfile } from "@/db/media";
@@ -30,13 +30,8 @@ export const ProfileService = () => {
         return readProfileAnimals();
     }
 
-    const getCountries = (): Promise<string[]> => {
-        return new Promise(function (resolve) {
-            const list: string[] = [
-                "Sweden"
-            ];
-            resolve(list);
-        });
+    const getCountries = (): Promise<StringListResult> => {
+        return readProfileCountries();
     }
 
     const addFavourite = async (profileId: number, userId: number): Promise<{ current: boolean; count: number; }> => {
