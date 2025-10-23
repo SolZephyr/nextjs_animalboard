@@ -13,16 +13,16 @@ export default function ProfileItem({ profile }: { profile: Profile }) {
                 <Item variant="outline" className="p-4 hover:bg-gray-50">
                     <ItemHeader>
                         <ItemMedia>
-                            <Avatar className="size-10">
+                            <Avatar className="size-16 sm:size-10">
                                 <AvatarImage src={profile.avatar?.source} className="rounded-full" />
                                 <AvatarFallback>ER</AvatarFallback>
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
-                            <ItemTitle>{profile.name}</ItemTitle>
+                            <ItemTitle className="text-base">{profile.name}</ItemTitle>
                             <ItemDescription>{profile.animal}</ItemDescription>
                         </ItemContent>
-                        <ItemContent className="flex flex-col mb-0">
+                        <ItemContent className="flex flex-col mb-0 self-end">
                             <ProfileFavs profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
                         </ItemContent>
                     </ItemHeader>
@@ -38,7 +38,7 @@ export function ProfileItemSkeleton() {
             <Item variant="outline" className="p-4">
                 <ItemHeader>
                     <ItemMedia>
-                        <Skeleton className="size-10 rounded-full" />
+                        <Skeleton className="size-16 sm:size-10 rounded-full" />
                     </ItemMedia>
                     <ItemContent>
                         <Skeleton className="h-5 w-30" />

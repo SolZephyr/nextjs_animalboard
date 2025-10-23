@@ -61,7 +61,8 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                     <h3 className="text-xl my-2">About</h3>
                     <p>{profile.about}</p>
                 </section>
-                <section className="py-4">
+                {/* TODO: Tags */}
+                <section className="py-4 hidden">
                     <h3 className="text-xl my-2">Personality</h3>
                     <ul className="flex flex-row">
                         <li className="flex flex-row gap-1">
@@ -78,8 +79,8 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                 </section>
             </article>
             <section>
-                <div className="flex flex-row justify-between my-2">
-                    <h2 className="text-xl">Posts</h2>
+                <div className="flex flex-col sm:flex-row justify-between my-2">
+                    <h2 className="text-xl my-1">Posts</h2>
                     <Suspense>
                         <ProfilePostsFilter />
                     </Suspense>
