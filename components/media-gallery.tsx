@@ -97,8 +97,8 @@ export default function MediaGallery({ images }: { images: Media[] }) {
                 <CarouselContent className="m-1">{mainImage}</CarouselContent>
                 {images.length > 1 ?
                     <>
-                        <CarouselPrevious className="-left-4 cursor-pointer" />
-                        <CarouselNext className="-right-4 cursor-pointer" />
+                        <CarouselPrevious className="cursor-pointer size-16 -left-6 sm:size-10 sm:-left-4" />
+                        <CarouselNext className="cursor-pointer size-16 -right-6 sm:size-10 sm:-right-4" />
                     </> : ""
                 }
             </Carousel>
