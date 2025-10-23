@@ -37,7 +37,7 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                 <div className="flex flex-row justify-between">
                     <section className="flex flex-row">
                         <Avatar className="size-30 border border-black">
-                            <AvatarImage src={profile.avatar?.source} className="rounded-full" />
+                            <AvatarImage src={profile.avatar?.source} alt={`Avatar for ${profile.name}`} className="rounded-full" />
                             <AvatarFallback>ER</AvatarFallback>
                         </Avatar>
                         <aside className="flex flex-col ml-4">

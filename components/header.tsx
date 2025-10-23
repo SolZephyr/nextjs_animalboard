@@ -20,7 +20,7 @@ export default function Header() {
                         <h1 className="text-2xl font-bold">PET•PROJECT</h1>
                     </Link>
                     <SidebarMobile trigger={
-                        <button className="flex flex-row items-center cursor-pointer hover:stroke-blue-500 hover:text-blue-500"><Icon /></button>
+                        <button className="flex flex-row items-center cursor-pointer hover:stroke-blue-500 hover:text-blue-500"><span className="sr-only">Menu</span><Icon /></button>
                     } />
                 </div>
                 <Suspense>

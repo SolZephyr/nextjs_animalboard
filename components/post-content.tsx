@@ -24,7 +24,7 @@ export default async function PostContent({ postId }: { postId: number }) {
     }
 
     postId = post.id ?? -1;
-    const profile = post.profile?.name ?? "[Profile]";
+    const profileName = post.profile?.name ?? "[Profile]";
     const userName = post.profile?.user;
     const avatarSrc = post.profile?.avatar?.source;
     const images = post.images ? post.images : undefined;
@@ -38,14 +38,14 @@ export default async function PostContent({ postId }: { postId: number }) {
                     <ItemHeader>
                         <ItemMedia>
                             <Avatar className="size-10">
-                                <AvatarImage src={avatarSrc} className="rounded-full" />
+                                <AvatarImage src={avatarSrc} alt={`Avatar for ${profileName}`} className="rounded-full" />
                                 <AvatarFallback>ER</AvatarFallback>
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
                             <ItemTitle>
                                 <Link href={`/profiles/${post.profile?.id ?? "#"}`} className="text-base hover:underline">
-                                    {profile}
+                                    {profileName}
                                 </Link>
                             </ItemTitle>
                         </ItemContent>

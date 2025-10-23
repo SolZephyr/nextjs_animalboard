@@ -33,8 +33,9 @@ export default function PostsFilter() {
 
     return (
         <section className="flex flex-col sm:flex-row gap-2">
+            <label htmlFor="sortPosts" className="sr-only">Sort posts</label>
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
-                <SelectTrigger className="w-full sm:w-1/2 md:max-w-40 cursor-pointer">
+                <SelectTrigger id="sortPosts" className="w-full sm:w-1/2 md:max-w-40 cursor-pointer">
                     <SelectValue placeholder="Sort" />
                 </SelectTrigger>
                 <SelectContent>
@@ -42,8 +43,9 @@ export default function PostsFilter() {
                     <SelectItem value="popular">Popular</SelectItem>
                 </SelectContent>
             </Select>
+            <label htmlFor="filterPosts" className="sr-only">Filter posts</label>
             <Select defaultValue={filter} onValueChange={(e) => onFilterChange(e)}>
-                <SelectTrigger className="w-full sm:w-1/2 md:max-w-40 cursor-pointer">
+                <SelectTrigger id="filterPosts" className="w-full sm:w-1/2 md:max-w-40 cursor-pointer">
                     <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>
@@ -74,8 +76,9 @@ export function ProfilePostsFilter() {
 
     return (
         <section className="flex flex-col gap-2">
+            <label htmlFor="sortPosts" className="sr-only">Sort posts</label>
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
-                <SelectTrigger className="w-full sm:w-40 cursor-pointer">
+                <SelectTrigger id="sortPosts" className="w-full sm:w-40 cursor-pointer">
                     <SelectValue placeholder="Sort" />
                 </SelectTrigger>
                 <SelectContent>
