@@ -3,7 +3,7 @@
 import { Separator } from "@radix-ui/react-separator";
 import { MenuFooter, MenuNavigation } from "./menu-content";
 import { Button } from "./ui/button";
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 
 export function SidebarDefault() {
 

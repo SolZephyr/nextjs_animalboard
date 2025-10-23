@@ -17,7 +17,7 @@ export default function Header() {
                 <div>
                     <Link href={`/`} className="hidden sm:flex flex-row items-center cursor-pointer mr-2 hover:stroke-blue-500 hover:text-blue-500">
                         <Icon />
-                        <h1 className="text-2xl font-bold">PET-PROJECT</h1>
+                        <h1 className="text-2xl font-bold">PET•PROJECT</h1>
                     </Link>
                     <SidebarMobile trigger={
                         <button className="flex flex-row items-center cursor-pointer hover:stroke-blue-500 hover:text-blue-500"><Icon /></button>
