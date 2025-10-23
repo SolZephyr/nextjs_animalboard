@@ -30,7 +30,7 @@ export default function PostItem({ post }: { post: Post }) {
                         <ItemMedia>
                             <Avatar className="size-10">
                                 <AvatarImage src={avatarSrc} alt={`Avatar on post: ${postId}`} className="rounded-full" />
-                                <AvatarFallback>ER</AvatarFallback>
+                                <AvatarFallback><Skeleton className="size-30 rounded-full" /></AvatarFallback>
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>

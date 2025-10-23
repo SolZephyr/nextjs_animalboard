@@ -39,7 +39,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                         <ItemMedia>
                             <Avatar className="size-10">
                                 <AvatarImage src={avatarSrc} alt={`Avatar for ${profileName}`} className="rounded-full" />
-                                <AvatarFallback>ER</AvatarFallback>
+                                <AvatarFallback><Skeleton className="size-30 rounded-full" /></AvatarFallback>
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
