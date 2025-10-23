@@ -168,9 +168,19 @@
   flex-basis: initial;
 }
 
-.grid-content-home {
-  grid-template-columns: 1fr 4fr;
-  grid-template-areas: "sidebar . content";
+.grid-content-full {
+  grid-template-columns: 100%;
+  grid-template-areas: "content";
+}
+
+.grid-content-main {
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas: "sidebar . content";
+  }
+
+.grid-area-content {
+  grid-area: content;
+  width: 100%;
 }
 
 .grid-area-sidebar {
