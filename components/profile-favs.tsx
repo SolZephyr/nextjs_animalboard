@@ -24,10 +24,10 @@ export default function ProfileFavs({ profileId, favourites = 0, isFavourite = f
 
     return (
         <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
-            <span>{count}</span>
+            <span className="text-lg sm:text-base">{count}</span>
             {isLoading
-                ? <LoaderCircle className="animate-spin" />
-                : <button type="button" onClick={(e) => handleClick(e)}><Star className={`cursor-pointer ${hasFavourite ? "stroke-yellow-600 fill-yellow-300 hover:stroke-yellow-300" : "stroke-yellow-600"} hover:stroke-yellow-400 hover:fill-yellow-300`} /></button>
+                ? <LoaderCircle className="animate-spin size-8 md:size-6" />
+                : <button type="button" onClick={(e) => handleClick(e)}><Star className={`size-8 md:size-6 cursor-pointer ${hasFavourite ? "stroke-yellow-600 fill-yellow-300 hover:stroke-yellow-300" : "stroke-yellow-600"} hover:stroke-yellow-400 hover:fill-yellow-300`} /></button>
             }
         </div>
     );

@@ -21,7 +21,7 @@ export default async function ProfilesList({ params }: { params: ProfileListPara
     }
     return (
         <>
-            <ul className="grid grid-cols-3 gap-4 justify-start items-start">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-start items-start">
                 {profiles.map(profile => (
                     <li key={profile.id}>
                         <ProfileItem profile={profile} />
@@ -37,7 +37,7 @@ export default async function ProfilesList({ params }: { params: ProfileListPara
 
 export function ProfilesListLoading() {
     return (
-        <ul className="grid grid-cols-3 gap-4 justify-start items-start">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-start items-start">
             <ProfileItemSkeleton />
             <ProfileItemSkeleton />
             <ProfileItemSkeleton />

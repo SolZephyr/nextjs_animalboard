@@ -13,7 +13,7 @@ export default function ProfileItem({ profile }: { profile: Profile }) {
                 <Item variant="outline" className="p-4 hover:bg-gray-50">
                     <ItemHeader>
                         <ItemMedia>
-                            <Avatar className="size-10">
+                            <Avatar className="size-16 sm:size-10">
                                 <AvatarImage src={profile.avatar?.source} className="rounded-full" />
                                 <AvatarFallback>ER</AvatarFallback>
                             </Avatar>
@@ -38,7 +38,7 @@ export function ProfileItemSkeleton() {
             <Item variant="outline" className="p-4">
                 <ItemHeader>
                     <ItemMedia>
-                        <Skeleton className="size-10 rounded-full" />
+                        <Skeleton className="size-16 sm:size-10 rounded-full" />
                     </ItemMedia>
                     <ItemContent>
                         <Skeleton className="h-5 w-30" />

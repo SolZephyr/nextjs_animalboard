@@ -78,8 +78,8 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                 </section>
             </article>
             <section>
-                <div className="flex flex-row justify-between my-2">
-                    <h2 className="text-xl">Posts</h2>
+                <div className="flex flex-col sm:flex-row justify-between my-2">
+                    <h2 className="text-xl my-1">Posts</h2>
                     <Suspense>
                         <ProfilePostsFilter />
                     </Suspense>

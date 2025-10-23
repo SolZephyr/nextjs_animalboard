@@ -26,17 +26,19 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     ]);
     return (
         <ContentMain>
-            <div className="flex flex-row justify-between">
-                <h2 className="text-xl">Profiles</h2>
-                <Suspense>
-                    <ProfilesFilter data={filterData} />
-                </Suspense>
-            </div>
-            <section className="my-2">
-                <Suspense fallback={<ProfilesListLoading />}>
-                    <ProfilesList params={params} />
-                </Suspense>
-            </section>
+            <>
+                <div className="flex flex-col sm:flex-row justify-between">
+                    <h2 className="text-xl my-1">Profiles</h2>
+                    <Suspense>
+                        <ProfilesFilter data={filterData} />
+                    </Suspense>
+                </div>
+                <section className="my-2">
+                    <Suspense fallback={<ProfilesListLoading />}>
+                        <ProfilesList params={params} />
+                    </Suspense>
+                </section>
+            </>
         </ContentMain>
     );
 }
