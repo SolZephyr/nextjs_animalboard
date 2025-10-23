@@ -17,7 +17,7 @@ export default async function ProfilesList({ params }: { params: ProfileListPara
     const profiles = result.data?.profiles ?? [];
 
     if (profiles.length <= 0) {
-        return (<p>No profiles found...</p>);
+        return (<p className="p-4 text-base text-center">No profiles were found. Maybe relax on the filters?</p>);
     }
     return (
         <>
