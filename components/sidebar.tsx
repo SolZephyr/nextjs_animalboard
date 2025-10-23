@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 export function SidebarDefault() {
 
     return (
-        <aside className="grid-area-sidebar hidden md:block min-h-(--sidebar-height) w-50 bg-gray-50">
+        <aside className="grid-area-sidebar hidden sm:block min-h-(--sidebar-height) w-50 bg-gray-50">
             <section className="border border-red-500 sticky top-(--header-height) flex flex-col items-start justify-between min-h-(--sidebar-height)">
                 <MenuNavigation />
                 <MenuFooter className="w-full self-end px-4" />
@@ -18,7 +18,7 @@ export function SidebarDefault() {
 
 export function SidebarMobile({ trigger }: { trigger?: React.ReactNode }) {
     return (
-        <div className="block md:hidden">
+        <div className="block sm:hidden">
             <Sheet>
                 <SheetTrigger asChild>
                     {trigger
