@@ -55,8 +55,8 @@ export default async function PostContent({ postId }: { postId: number }) {
                         </ItemContent>
                     </ItemHeader>
                     <ItemContent>
-                        <ItemTitle className="text-xl">{post.title}</ItemTitle>
-                        <ItemDescription>{post.content}</ItemDescription>
+                        <ItemTitle className="text-2xl sm:text-xl">{post.title}</ItemTitle>
+                        <ItemDescription className="text-lg sm:text-base">{post.content}</ItemDescription>
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
@@ -68,7 +68,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                     <ItemFooter>
                         <ItemActions>
                             <PostLikes postId={postId} likes={post.likes} isLiked={isLiked} />
-                            <Link href={`/`}><Button><MessageSquareText />&nbsp;0</Button></Link>
+                            <Link href={`/`}><Button className="py-6 sm:py-4"><MessageSquareText />&nbsp;0</Button></Link>
                         </ItemActions>
                     </ItemFooter>
                 </Item>
@@ -77,7 +77,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                 <div className="flex flex-row justify-between my-2">
                     <h2 className="text-xl">Comments</h2>
                 </div>
-                <p>Something here.</p>
+                <p className="p-4 text-base text-center">No posts have been made yet.</p>
             </section>
         </>
     );

@@ -42,8 +42,8 @@ export default function PostItem({ post }: { post: Post }) {
                         </ItemContent>
                     </ItemHeader>
                     <ItemContent>
-                        <ItemTitle className="text-xl">{post.title}</ItemTitle>
-                        <ItemDescription>{post.content}</ItemDescription>
+                        <ItemTitle className="text-2xl sm:text-xl">{post.title}</ItemTitle>
+                        <ItemDescription className="text-lg sm:text-base">{post.content}</ItemDescription>
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
@@ -106,8 +106,8 @@ export function ProfilePostItem({ post }: { post: Post }) {
             <article className="flex w-full flex-col gap-6">
                 <Item variant="outline" className="p-4">
                     <ItemContent>
-                        <ItemTitle className="text-xl">{post.title}</ItemTitle>
-                        <ItemDescription className="text-base">{post.content}</ItemDescription>
+                        <ItemTitle className="text-2xl sm:text-xl">{post.title}</ItemTitle>
+                        <ItemDescription className="text-lg sm:text-base">{post.content}</ItemDescription>
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
