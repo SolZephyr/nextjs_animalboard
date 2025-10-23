@@ -34,7 +34,7 @@ export default function PostItem({ post }: { post: Post }) {
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
-                            <ItemTitle>{profileName}</ItemTitle>
+                            <ItemTitle className="text-base">{profileName}</ItemTitle>
                         </ItemContent>
                         <ItemContent className="flex-none text-right">
                             <ItemDescription>Poster: <span className="font-bold">{userName}</span></ItemDescription>
@@ -55,7 +55,7 @@ export default function PostItem({ post }: { post: Post }) {
                     <ItemFooter>
                         <ItemActions>
                             <PostLikes postId={postId} likes={post.likes} isLiked={isLiked} />
-                            <Button><MessageSquareText />&nbsp;0</Button>
+                            <Button className="py-6 sm:py-4"><MessageSquareText />&nbsp;0</Button>
                         </ItemActions>
                     </ItemFooter>
                 </Item>
@@ -107,7 +107,7 @@ export function ProfilePostItem({ post }: { post: Post }) {
                 <Item variant="outline" className="p-4">
                     <ItemContent>
                         <ItemTitle className="text-xl">{post.title}</ItemTitle>
-                        <ItemDescription>{post.content}</ItemDescription>
+                        <ItemDescription className="text-base">{post.content}</ItemDescription>
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
@@ -119,7 +119,7 @@ export function ProfilePostItem({ post }: { post: Post }) {
                     <ItemFooter>
                         <ItemActions>
                             <PostLikes postId={postId} likes={post.likes} isLiked={isLiked} />
-                            <Button><MessageSquareText />&nbsp;0</Button>
+                            <Button className="py-6 sm:py-4"><MessageSquareText />&nbsp;0</Button>
                         </ItemActions>
                         <ItemContent className="flex-none text-right">
                             <ItemDescription>Poster: <span className="font-bold">{userName}</span></ItemDescription>

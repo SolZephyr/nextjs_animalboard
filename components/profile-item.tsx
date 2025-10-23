@@ -19,10 +19,10 @@ export default function ProfileItem({ profile }: { profile: Profile }) {
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
-                            <ItemTitle>{profile.name}</ItemTitle>
+                            <ItemTitle className="text-base">{profile.name}</ItemTitle>
                             <ItemDescription>{profile.animal}</ItemDescription>
                         </ItemContent>
-                        <ItemContent className="flex flex-col mb-0">
+                        <ItemContent className="flex flex-col mb-0 self-end">
                             <ProfileFavs profileId={profile.id ?? -1} favourites={profile.followers} isFavourite={isFav} />
                         </ItemContent>
                     </ItemHeader>

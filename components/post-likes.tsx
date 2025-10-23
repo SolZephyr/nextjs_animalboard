@@ -26,8 +26,8 @@ export default function PostLikes({ postId, likes = 0, isLiked = false }: { post
     return (
         <>
             {isLoading
-                ? <Button><LoaderCircle className="animate-spin"/>&nbsp;{count}</Button>
-                : <Button className="cursor-pointer" onClick={(e) => handleClick(e)}><Heart className={`${hasLike ? "fill-red-500 stroke-red-500" : "hover:fill-red-300 hover:stroke-red-500"}`} />&nbsp;{count}</Button>
+                ? <Button className="py-6 sm:py-4"><LoaderCircle className="animate-spin"/>&nbsp;{count}</Button>
+                : <Button className="py-6 sm:py-4 cursor-pointer" onClick={(e) => handleClick(e)}><Heart className={`${hasLike ? "fill-red-500 stroke-red-500" : "hover:fill-red-300 hover:stroke-red-500"}`} />&nbsp;{count}</Button>
             }
         </>
     );

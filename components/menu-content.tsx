@@ -47,7 +47,8 @@ export function MenuNavigation() {
                 </ul>
             </nav>
             <Separator />
-            <Collapsible className="flex flex-col gap-2 justify-start items-start">
+            {/* TODO: Tags */}
+            <Collapsible className="flex flex-col gap-2 justify-start items-start hidden">
                 <CollapsibleTrigger className="w-full text-left inline-block hover:bg-black hover:text-white p-2 cursor-pointer">Explore</CollapsibleTrigger>
                 <CollapsibleContent className="w-full">
                     <ul>
