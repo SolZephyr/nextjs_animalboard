@@ -7,7 +7,7 @@ export default async function ProfileImages({ profileId }: { profileId: number }
 
     const result = await data;
     if (!result || result.length <= 0) {
-        return <p>No images found.</p>
+        return (<p className="p-4 text-base text-center">No images were found.</p>);
     }
 
     return (

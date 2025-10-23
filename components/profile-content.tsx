@@ -33,16 +33,16 @@ export default async function ProfileContent({ profileId, postParams }: { profil
     return (
         <>
             <article className="p-4 border border-border rounded-md">
-                <h2 className="hidden">Profile</h2>
+                <h2 className="sr-only">Profile</h2>
                 <div className="flex flex-row justify-between">
                     <section className="flex flex-row">
                         <Avatar className="size-30 border border-black">
-                            <AvatarImage src={profile.avatar?.source} className="rounded-full" />
-                            <AvatarFallback>ER</AvatarFallback>
+                            <AvatarImage src={profile.avatar?.source} alt={`Avatar for ${profile.name}`} className="rounded-full" />
+                            <AvatarFallback><Skeleton className="size-30 rounded-full" /></AvatarFallback>
                         </Avatar>
                         <aside className="flex flex-col ml-4">
                             <h3 className="text-2xl">{profile.name}</h3>
-                            <p>{profile.animal}</p>
+                            <p className="text-lg">{profile.animal}</p>
                             <p>{profile.breed}</p>
                             <p>Joined:&nbsp;{profile.created.toDateString()}</p>
                         </aside>
@@ -52,18 +52,18 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                     </aside>
                 </div>
                 <section className="py-4">
-                    <h3 className="text-xl my-2">Lives</h3>
-                    <p>Owner:&nbsp;{profile.user}</p>
-                    <p>Country:&nbsp;{profile.country}</p>
-                    <p>Home:&nbsp;{profile.home}</p>
+                    <h3 className="my-2 text-2xl sm:text-xl">Lives</h3>
+                    <p>Owner:&nbsp;<span>{profile.user}</span></p>
+                    <p>Country:&nbsp;<span>{profile.country}</span></p>
+                    <p>Home:&nbsp;<span>{profile.home}</span></p>
                 </section>
                 <section className="py-4">
-                    <h3 className="text-xl my-2">About</h3>
-                    <p>{profile.about}</p>
+                    <h3 className="my-2 text-2xl sm:text-xl">About</h3>
+                    <p className="text-lg sm:text-base">{profile.about}</p>
                 </section>
                 {/* TODO: Tags */}
                 <section className="py-4 hidden">
-                    <h3 className="text-xl my-2">Personality</h3>
+                    <h3 className="my-2 text-2xl sm:text-xl">Personality</h3>
                     <ul className="flex flex-row">
                         <li className="flex flex-row gap-1">
                             <ProfileTag label="Hello" />
@@ -72,15 +72,15 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                     </ul>
                 </section>
                 <section>
-                    <h3 className="text-xl my-2">Images</h3>
+                    <h3 className="my-2 text-2xl sm:text-xl">Images</h3>
                     <Suspense>
                         <ProfileImages profileId={profileId} />
                     </Suspense>
                 </section>
             </article>
-            <section>
-                <div className="flex flex-col sm:flex-row justify-between my-2">
-                    <h2 className="text-xl my-1">Posts</h2>
+            <section className="p-2">
+                <div className="flex flex-col sm:flex-row justify-between my-4">
+                    <h2 className="my-1 text-2xl sm:text-xl">Posts</h2>
                     <Suspense>
                         <ProfilePostsFilter />
                     </Suspense>
@@ -95,7 +95,7 @@ export function ProfileContentSkeleton() {
     return (
         <>
             <div className="p-4 border border-border rounded-md">
-                <h2 className="hidden">Profile</h2>
+                <h2 className="sr-only">Profile</h2>
                 <section className="flex flex-row">
                     <Skeleton className="size-30 rounded-full" />
                     <aside className="flex flex-col ml-4">

@@ -16,6 +16,9 @@ export default async function PostsList({ params, card }: { params: PostListPara
     const result = await PostsService().getPosts(params);
     const paging = result.data?.meta;
     const posts = result.data?.posts ?? [];
+    if (posts.length <= 0) {
+        return (<p className="p-4 text-base text-center">No posts were found.</p>);
+    }
 
     return (
         <>

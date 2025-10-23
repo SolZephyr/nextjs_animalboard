@@ -4,7 +4,9 @@ import { SignIn } from '@clerk/nextjs'
 export default function Page() {
     return (
         <ContentMain>
-            <SignIn />
+            <section className="flex justify-center py-10">
+                <SignIn />
+            </section>
         </ContentMain>
     );
 }

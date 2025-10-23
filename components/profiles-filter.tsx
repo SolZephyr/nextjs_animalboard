@@ -37,8 +37,9 @@ export function ProfilesFilter({ data }: { data: Promise<[StringListResult, Stri
 
     return (
         <section className="flex flex-col sm:flex-row gap-2">
+            <label htmlFor="filterAnimal" className="sr-only">Filter by animal</label>
             <Select onValueChange={(e) => onAnimalChange(e)}>
-                <SelectTrigger className="w-full sm:w-40 cursor-pointer">
+                <SelectTrigger id="filterAnimal" className="w-full sm:w-40 cursor-pointer">
                     <SelectValue placeholder="Animal" />
                 </SelectTrigger>
                 <SelectContent>
@@ -48,8 +49,9 @@ export function ProfilesFilter({ data }: { data: Promise<[StringListResult, Stri
                     ))}
                 </SelectContent>
             </Select>
+            <label htmlFor="filterCountry" className="sr-only">Filter by country</label>
             <Select onValueChange={(e) => onCountryChange(e)}>
-                <SelectTrigger className="w-full sm:w-40 cursor-pointer">
+                <SelectTrigger id="filterCountry" className="w-full sm:w-40 cursor-pointer">
                     <SelectValue placeholder="Country" />
                 </SelectTrigger>
                 <SelectContent>

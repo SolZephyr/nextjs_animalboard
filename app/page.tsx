@@ -15,6 +15,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   }
   return (
     <ContentMain>
+      <h2 className="sr-only">Posts</h2>
       <Suspense>
         <PostsFilter />
       </Suspense>

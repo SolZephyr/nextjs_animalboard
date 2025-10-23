@@ -24,7 +24,7 @@ export default async function PostContent({ postId }: { postId: number }) {
     }
 
     postId = post.id ?? -1;
-    const profile = post.profile?.name ?? "[Profile]";
+    const profileName = post.profile?.name ?? "[Profile]";
     const userName = post.profile?.user;
     const avatarSrc = post.profile?.avatar?.source;
     const images = post.images ? post.images : undefined;
@@ -33,19 +33,19 @@ export default async function PostContent({ postId }: { postId: number }) {
     return (
         <>
             <article className="border border-border rounded-md">
-                <h2 className="hidden">Profile</h2>
+                <h2 className="sr-only">Profile</h2>
                 <Item>
                     <ItemHeader>
                         <ItemMedia>
                             <Avatar className="size-10">
-                                <AvatarImage src={avatarSrc} className="rounded-full" />
-                                <AvatarFallback>ER</AvatarFallback>
+                                <AvatarImage src={avatarSrc} alt={`Avatar for ${profileName}`} className="rounded-full" />
+                                <AvatarFallback><Skeleton className="size-30 rounded-full" /></AvatarFallback>
                             </Avatar>
                         </ItemMedia>
                         <ItemContent>
                             <ItemTitle>
                                 <Link href={`/profiles/${post.profile?.id ?? "#"}`} className="text-base hover:underline">
-                                    {profile}
+                                    {profileName}
                                 </Link>
                             </ItemTitle>
                         </ItemContent>
@@ -55,8 +55,8 @@ export default async function PostContent({ postId }: { postId: number }) {
                         </ItemContent>
                     </ItemHeader>
                     <ItemContent>
-                        <ItemTitle className="text-xl">{post.title}</ItemTitle>
-                        <ItemDescription>{post.content}</ItemDescription>
+                        <ItemTitle className="text-2xl sm:text-xl">{post.title}</ItemTitle>
+                        <ItemDescription className="text-lg sm:text-base">{post.content}</ItemDescription>
                         <ItemMedia className="flex flex-row justify-center w-full">
                             {images ?
                                 <Suspense>
@@ -68,7 +68,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                     <ItemFooter>
                         <ItemActions>
                             <PostLikes postId={postId} likes={post.likes} isLiked={isLiked} />
-                            <Link href={`/`}><Button><MessageSquareText />&nbsp;0</Button></Link>
+                            <Link href={`/`}><Button className="py-6 sm:py-4"><MessageSquareText />&nbsp;0</Button></Link>
                         </ItemActions>
                     </ItemFooter>
                 </Item>
@@ -77,7 +77,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                 <div className="flex flex-row justify-between my-2">
                     <h2 className="text-xl">Comments</h2>
                 </div>
-                <p>Something here.</p>
+                <p className="p-4 text-base text-center">No posts have been made yet.</p>
             </section>
         </>
     );
@@ -86,7 +86,7 @@ export default async function PostContent({ postId }: { postId: number }) {
 export function PostContentSkeleton() {
     return (
         <div className="border border-border rounded-md">
-            <h2 className="hidden">Profile</h2>
+            <h2 className="sr-only">Profile</h2>
             <Item>
                 <ItemHeader>
                     <ItemMedia>

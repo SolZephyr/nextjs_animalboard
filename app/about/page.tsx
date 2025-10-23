@@ -26,11 +26,11 @@ export default function Page() {
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque deserunt possimus tempora aperiam magnam maiores.</p>
                     <form action="" className="flex flex-col gap-2 my-4">
                         <label htmlFor="email">Email</label>
-                        <input type="email" name="email" placeholder="name@example.com" className="border border-border p-2 rounded-md" />
+                        <input type="email" name="email" id="email" placeholder="name@example.com" className="border border-border p-2 rounded-md" />
                         <label htmlFor="title">Title</label>
-                        <input type="text" name="text" placeholder="..." className="border border-border p-2 rounded-md" />
+                        <input type="text" name="title" id="title" placeholder="Your title here..." className="border border-border p-2 rounded-md" />
                         <label htmlFor="text">Details</label>
-                        <textarea name="text" cols={10} className="border border-border p-2 rounded-md"></textarea>
+                        <textarea name="text" id="text" cols={10} placeholder="Your text here..." className="border border-border p-2 rounded-md"></textarea>
                         <Button className="p-6" disabled>Submit</Button>
                     </form>
                 </section>
