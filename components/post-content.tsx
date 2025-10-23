@@ -33,7 +33,7 @@ export default async function PostContent({ postId }: { postId: number }) {
     return (
         <>
             <article className="border border-border rounded-md">
-                <h2 className="hidden">Profile</h2>
+                <h2 className="sr-only">Profile</h2>
                 <Item>
                     <ItemHeader>
                         <ItemMedia>
@@ -86,7 +86,7 @@ export default async function PostContent({ postId }: { postId: number }) {
 export function PostContentSkeleton() {
     return (
         <div className="border border-border rounded-md">
-            <h2 className="hidden">Profile</h2>
+            <h2 className="sr-only">Profile</h2>
             <Item>
                 <ItemHeader>
                     <ItemMedia>

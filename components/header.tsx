@@ -15,7 +15,7 @@ export default function Header() {
         <header className="content-grid fixed top-[0] left-[0] right-[0] z-999 w-full h-(--header-height) bg-gray-100">
             <section className="flex flex-row items-center justify-between h-full border border-red-500 text-black p-2">
                 <div>
-                    <Link href={`/`} className="hidden sm:flex flex-row items-center cursor-pointer mr-2 hover:stroke-blue-500 hover:text-blue-500">
+                    <Link href={`/`} className="sr-only sm:not-sr-only sm:flex flex-row items-center cursor-pointer mr-2 hover:stroke-blue-500 hover:text-blue-500">
                         <Icon />
                         <h1 className="text-2xl font-bold">PET•PROJECT</h1>
                     </Link>

@@ -33,7 +33,7 @@ export default async function ProfileContent({ profileId, postParams }: { profil
     return (
         <>
             <article className="p-4 border border-border rounded-md">
-                <h2 className="hidden">Profile</h2>
+                <h2 className="sr-only">Profile</h2>
                 <div className="flex flex-row justify-between">
                     <section className="flex flex-row">
                         <Avatar className="size-30 border border-black">
@@ -95,7 +95,7 @@ export function ProfileContentSkeleton() {
     return (
         <>
             <div className="p-4 border border-border rounded-md">
-                <h2 className="hidden">Profile</h2>
+                <h2 className="sr-only">Profile</h2>
                 <section className="flex flex-row">
                     <Skeleton className="size-30 rounded-full" />
                     <aside className="flex flex-col ml-4">
