@@ -35,20 +35,20 @@ export default function PostsFilter() {
         <section className="flex flex-col sm:flex-row gap-2">
             <label htmlFor="sortPosts" className="sr-only">Sort posts</label>
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
-                <SelectTrigger id="sortPosts" className="w-full sm:w-1/2 md:max-w-40 cursor-pointer">
+                <SelectTrigger id="sortPosts" className="w-full sm:w-1/2 md:max-w-40 border-border cursor-pointer">
                     <SelectValue placeholder="Sort" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="text-primary">
                     <SelectItem value="latest">Latest</SelectItem>
                     <SelectItem value="popular">Popular</SelectItem>
                 </SelectContent>
             </Select>
             <label htmlFor="filterPosts" className="sr-only">Filter posts</label>
             <Select defaultValue={filter} onValueChange={(e) => onFilterChange(e)}>
-                <SelectTrigger id="filterPosts" className="w-full sm:w-1/2 md:max-w-40 cursor-pointer">
+                <SelectTrigger id="filterPosts" className="w-full sm:w-1/2 md:max-w-40 border-border cursor-pointer">
                     <SelectValue placeholder="Filter" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="text-primary">
                     <SelectItem value="all">All</SelectItem>
                     <SelectItem value="favourites">Favourites</SelectItem>
                 </SelectContent>
@@ -78,10 +78,10 @@ export function ProfilePostsFilter() {
         <section className="flex flex-col gap-2">
             <label htmlFor="sortPosts" className="sr-only">Sort posts</label>
             <Select defaultValue={sort} onValueChange={(e) => onSortChange(e)}>
-                <SelectTrigger id="sortPosts" className="w-full sm:w-40 cursor-pointer">
+                <SelectTrigger id="sortPosts" className="w-full sm:w-40 border-border cursor-pointer">
                     <SelectValue placeholder="Sort" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="text-primary">
                     <SelectItem value="latest">Latest</SelectItem>
                     <SelectItem value="oldest">Oldest</SelectItem>
                     <SelectItem value="popular">Popular</SelectItem>

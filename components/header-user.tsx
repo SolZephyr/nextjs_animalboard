@@ -9,12 +9,12 @@ export default function HeaderUser() {
             <SignedOut>
                 <SignInButton>
                     <button className="flex flex-row justify-center items-center cursor-pointer hover:underline hover:decoration-solid" title="Login">
-                        <UserRound className="w-10 h-10 text-white bg-gray-300 rounded-full hover:bg-gray-500" />
+                        <UserRound className="w-10 h-10 bg-white text-muted-foreground border-3 border-muted-foreground rounded-full hover:bg-black hover:text-white hover:border-black" />
                     </button>
                 </SignInButton>
             </SignedOut>
             <SignedIn>
-                <UserButton fallback={<UserRound className="w-10 h-10 text-white bg-gray-300 rounded-full hover:bg-gray-500" />}/>
+                <UserButton fallback={<UserRound className="w-10 h-10 bg-white text-muted-foreground border-3 border-muted-foreground rounded-full hover:bg-black hover:text-white hover:border-black" />}/>
             </SignedIn>
         </div>
     );

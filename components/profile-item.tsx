@@ -10,7 +10,7 @@ export default function ProfileItem({ profile }: { profile: Profile }) {
     return (
         <Link href={`/profiles/${profile.id}`}>
             <article>
-                <Item variant="outline" className="p-4 hover:bg-gray-50">
+                <Item variant="outline" className="p-4 bg-card hover:bg-card-accent text-card-foreground">
                     <ItemHeader>
                         <ItemMedia>
                             <Avatar className="size-16 sm:size-10">

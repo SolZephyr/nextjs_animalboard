@@ -31,7 +31,7 @@ export function PaginationPaging({ params }: { params: PagingResult | undefined 
     }
 
     return (
-        <section className="flex flex-row justify-center items-center w-full p-2 border rounded-md gap-2 my-2">
+        <section className="flex flex-row justify-center items-center w-full p-2 border rounded-md gap-2 my-2 bg-card text-card-foreground">
             <Pagination className="">
                 <PaginationContent>
                     {total > 0 && page > 1 ? (
@@ -46,7 +46,7 @@ export function PaginationPaging({ params }: { params: PagingResult | undefined 
                     )}
                     {
                         <PaginationItem key={page}>
-                            <PaginationLink href={pageParams(urlParams, page)} className="text-black-500"> {page}</PaginationLink>
+                            <PaginationLink href={pageParams(urlParams, page)} className="text-primary"> {page}</PaginationLink>
                         </PaginationItem>
                     }
                     {total > 0 && page < pageEnd ? (

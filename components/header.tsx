@@ -10,17 +10,16 @@ function Icon() {
 }
 
 export default function Header() {
-
     return (
-        <header className="content-grid fixed top-[0] left-[0] right-[0] z-999 w-full h-(--header-height) bg-gray-100">
-            <section className="flex flex-row items-center justify-between h-full border border-red-500 text-black p-2">
+        <header className="content-grid fixed top-[0] left-[0] right-[0] z-999 w-full h-(--header-height) bg-accent text-accent-foreground border border-b-border">
+            <section className="flex flex-row items-center justify-between h-full border border-transparent p-2">
                 <div className="mr-2">
-                    <Link href={`/`} className="sr-only sm:not-sr-only sm:flex flex-row items-center cursor-pointer hover:stroke-blue-500 hover:text-blue-500">
+                    <Link href={`/`} className="sr-only sm:not-sr-only sm:flex flex-row items-center cursor-pointer text-logo-border stroke-logo-border fill-logo-full hover:text-logo-accent-border hover:stroke-logo-accent-border hover:fill-logo-accent-full">
                         <Icon />
-                        <h1 className="text-2xl font-bold">PET•PROJECT</h1>
+                        <h1 className="text-2xl font-semibold">PET•PROJECT</h1>
                     </Link>
                     <SidebarMobile trigger={
-                        <button className="flex flex-row items-center cursor-pointer hover:stroke-blue-500 hover:text-blue-500"><span className="sr-only">Menu</span><Icon /></button>
+                        <button className="flex flex-row items-center cursor-pointer text-logo-border stroke-logo-border fill-logo-full hover:text-logo-accent-border hover:stroke-logo-accent-border hover:fill-logo-accent-full"><span className="sr-only">Menu</span><Icon /></button>
                     } />
                 </div>
                 <Suspense>

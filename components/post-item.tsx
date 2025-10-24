@@ -25,7 +25,7 @@ export default function PostItem({ post }: { post: Post }) {
     return (
         <Link href={`/posts/${post.id}`}>
             <article className="flex w-full flex-col gap-6">
-                <Item variant="outline" className="p-4">
+                <Item variant="outline" className="p-4 bg-card hover:bg-card-accent text-card-foreground">
                     <ItemHeader>
                         <ItemMedia>
                             <Avatar className="size-10">
@@ -103,7 +103,7 @@ export function ProfilePostItem({ post }: { post: Post }) {
     const isLiked = post.isLiked ? (post.isLiked > 0) : false;
     return (
         <Link href={`/posts/${post.id}`}>
-            <article className="flex w-full flex-col gap-6">
+            <article className="flex w-full flex-col gap-6 bg-card hover:bg-card-accent text-card-foreground">
                 <Item variant="outline" className="p-4">
                     <ItemContent>
                         <ItemTitle className="text-2xl sm:text-xl">{post.title}</ItemTitle>
