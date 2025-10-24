@@ -17,13 +17,13 @@ export function MenuNavigation() {
 
     const navLinks: NavItem[] = [
         {
-            url: "/", label: "Home", paths: ["/", "/posts"]
+            url: "/", label: "HOME", paths: ["/", "/posts"]
         },
         {
-            url: "/profiles", label: "Profiles", paths: ["/profiles"]
+            url: "/profiles", label: "PROFILES", paths: ["/profiles"]
         },
         {
-            url: "/about", label: "About", paths: ["/about"]
+            url: "/about", label: "ABOUT", paths: ["/about"]
         }
     ];
 
@@ -31,7 +31,7 @@ export function MenuNavigation() {
         const path = pathname.split("/")[1] ?? "";
         const current = item.paths.includes(`/${path}`);
         return (
-            <Link href={item.url} className={`w-full inline-block p-2 ${current ? `bg-gray-300 hover:text-white` : ``} hover:text-white hover:bg-black`}>{item.label}</Link>
+            <Link href={item.url} className={`w-full font-medium inline-block p-4 border-t border-sidebar-border ${current ? `bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground` : ``} hover:bg-sidebar-accent hover:text-sidebar-accent-foreground`}>{item.label}</Link>
         );
     }
 
@@ -46,15 +46,15 @@ export function MenuNavigation() {
                     ))}
                 </ul>
             </nav>
-            <Separator />
+            <Separator className="border border-sidebar-border"/>
             {/* TODO: Tags */}
             <Collapsible className="flex flex-col gap-2 justify-start items-start hidden">
-                <CollapsibleTrigger className="w-full text-left inline-block hover:bg-black hover:text-white p-2 cursor-pointer">Explore</CollapsibleTrigger>
+                <CollapsibleTrigger className="w-full text-left inline-block hover:bg-sidebar-accent hover:text-sidebar-accent-foreground p-2 cursor-pointer">Explore</CollapsibleTrigger>
                 <CollapsibleContent className="w-full">
                     <ul>
-                        <li><Link href="" className="w-full inline-block hover:bg-black hover:text-white p-2">Tag</Link></li>
-                        <li><Link href="" className="w-full inline-block hover:bg-black hover:text-white p-2">Tag</Link></li>
-                        <li><Link href="" className="w-full inline-block hover:bg-black hover:text-white p-2">Tag</Link></li>
+                        <li><Link href="" className="w-full inline-block p-2">Tag</Link></li>
+                        <li><Link href="" className="w-full inline-block p-2">Tag</Link></li>
+                        <li><Link href="" className="w-full inline-block p-2">Tag</Link></li>
                     </ul>
                 </CollapsibleContent>
             </Collapsible>

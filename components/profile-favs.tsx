@@ -27,7 +27,7 @@ export default function ProfileFavs({ profileId, favourites = 0, isFavourite = f
             <span className="text-lg sm:text-base">{count}</span>
             {isLoading
                 ? <LoaderCircle className="animate-spin size-8 md:size-6" />
-                : <button type="button" onClick={(e) => handleClick(e)}><span className="sr-only">Favourite profile</span><Star className={`size-8 md:size-6 cursor-pointer ${hasFavourite ? "stroke-yellow-600 fill-yellow-300 hover:stroke-yellow-300" : "stroke-yellow-600"} hover:stroke-yellow-400 hover:fill-yellow-300`} /></button>
+                : <button type="button" onClick={(e) => handleClick(e)}><span className="sr-only">Favourite profile</span><Star className={`size-8 md:size-6 cursor-pointer ${hasFavourite ? "fill-fav-full stroke-fav-border hover:fill-none" : "stroke-fav-border"} hover:fill-fav-full hover:stroke-fav-border`} /></button>
             }
         </div>
     );

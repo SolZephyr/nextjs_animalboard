@@ -44,8 +44,8 @@ export default function SearchBar() {
     return (
         <form className="grid grid-cols-1">
             <label htmlFor="search" className="sr-only">Context search</label>
-            <input type="text" name="search" id="search" placeholder="Search..." className="border border-border rounded-xl col-span-full row-span-full p-2 pl-5 text-xl" onChange={onChange} />
-            <button type="button" onClick={onSearch} className="btn-search col-span-full row-span-full m-1 ml-auto text-black hover:text-white hover:bg-black p-2 rounded-xl cursor-pointer"><span className="sr-only">Search</span><Search /></button>
+            <input type="text" name="search" id="search" placeholder="Search..." className="border border-border rounded-xl bg-input text-foreground col-span-full row-span-full p-2 pl-5 text-xl" onChange={onChange} />
+            <button type="button" onClick={onSearch} className="btn-search col-span-full row-span-full m-1 ml-auto bg-primary text-primary-foreground hover:bg-primary/80 p-2 rounded-xl cursor-pointer"><span className="sr-only">Search</span><Search /></button>
         </form>
     );
 }

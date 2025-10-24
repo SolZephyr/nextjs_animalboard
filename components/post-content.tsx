@@ -32,7 +32,7 @@ export default async function PostContent({ postId }: { postId: number }) {
 
     return (
         <>
-            <article className="border border-border rounded-md">
+            <article className="border border-border rounded-md bg-card text-card-foreground">
                 <h2 className="sr-only">Profile</h2>
                 <Item>
                     <ItemHeader>
@@ -73,7 +73,7 @@ export default async function PostContent({ postId }: { postId: number }) {
                     </ItemFooter>
                 </Item>
             </article>
-            <section>
+            <section className="p-2">
                 <div className="flex flex-row justify-between my-2">
                     <h2 className="text-xl">Comments</h2>
                 </div>

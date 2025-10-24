@@ -32,7 +32,7 @@ export default async function ProfileContent({ profileId, postParams }: { profil
 
     return (
         <>
-            <article className="p-4 border border-border rounded-md">
+            <article className="p-4 border border-border rounded-md bg-card text-card-foreground">
                 <h2 className="sr-only">Profile</h2>
                 <div className="flex flex-row justify-between">
                     <section className="flex flex-row">
