@@ -47,17 +47,6 @@ export interface StringListResult {
     error?: string;
 }
 
-export enum Animal {
-    NONE = "Unknown",
-    Cat = "Cat",
-    Dog = "Dog"
-    // TODO: More
-}
-
-export enum Country {
-    None = "Unknown"
-}
-
 export interface Media {
     id?: number;
     type: string;
@@ -91,7 +80,7 @@ export interface Profile {
     id?: number;
     name: string;
     nicknames: string;
-    user: string;   // TODO: User
+    user: string; 
     avatarId?: number | null;
     avatar: Media | null;
     animal: string;

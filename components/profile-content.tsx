@@ -38,7 +38,7 @@ export default async function ProfileContent({ profileId, postParams }: { profil
                     <section className="flex flex-row">
                         <Avatar className="size-30 border border-black">
                             <AvatarImage src={profile.avatar?.source} alt={`Avatar for ${profile.name}`} className="rounded-full" />
-                            <AvatarFallback><Skeleton className="size-30 rounded-full" /></AvatarFallback>
+                            <AvatarFallback><Skeleton className="size-10 rounded-full" /></AvatarFallback>
                         </Avatar>
                         <aside className="flex flex-col ml-4">
                             <h3 className="text-2xl">{profile.name}</h3>

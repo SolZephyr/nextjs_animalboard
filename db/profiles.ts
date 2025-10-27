@@ -8,12 +8,10 @@ import { createMedia } from './media';
 const db = drizzle(process.env.DATABASE_URL!);
 
 export async function createProfile(profile: Profile): Promise<number> {
-    // Avatar media
+
     if (profile.avatar) {
-        // Create media first
         profile.avatarId = profile.avatar ? await (createMedia(profile.avatar)) : undefined;
     }
-    // Profile
     const data: typeof dbProfiles.$inferInsert = {
         name: profile.name,
         nicknames: profile.nicknames,

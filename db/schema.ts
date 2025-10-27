@@ -6,17 +6,6 @@ const timestamps = {
     updated: timestamp(),
 }
 
-//export const animalEnum = pgEnum("animal", ["Unknown", "Cat", "Dog"]);
-//export const countryEnum = pgEnum("country", ["Unknown"]);
-
-export const dbTest = pgTable("test_users", {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    email: varchar({ length: 50 }).notNull().unique(),
-    firstname: varchar({ length: 50 }).notNull(),
-    lastname: varchar({ length: 50 }).notNull(),
-    ...timestamps
-});
-
 export const dbUsers = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     clerkId: varchar({ length: 50 }).notNull().unique(),
@@ -50,7 +39,7 @@ export const dbProfiles = pgTable("profiles", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 50 }).notNull(),
     nicknames: varchar({ length: 100 }).notNull(),
-    user: varchar({ length: 50 }).notNull(),    // TODO: User
+    user: varchar({ length: 50 }).notNull(),
     avatarId: integer("avatar_id"),
     animal: varchar({ length: 50 }).notNull(),
     breed: varchar({ length: 50 }).notNull(),

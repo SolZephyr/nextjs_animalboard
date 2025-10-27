@@ -26,7 +26,6 @@ export function PaginationPaging({ params }: { params: PagingResult | undefined 
         return `${pathname}?${params.toString()}`;
     };
     if(total <= limit) {
-        // No pagination
         return (<></>);
     }
 
