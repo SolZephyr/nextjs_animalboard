@@ -42,7 +42,7 @@ Jag valde en sociala medier plattform med fokus på att läsa informtion från e
 ## Teknologier
 
 - [Next.js 15 (App Router)](https://nextjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
+- [TypeScript](https:typescriptlang.org/)
 - [Tailwind CSS 4](https://tailwindcss.com/)
 - [Shadcn](https://ui.shadcn.com/)
 - [Clerk](https://clerk.com/)
@@ -92,7 +92,12 @@ Project
     Kör SQL-migrationsscripten under `/db/migration/` i projektet med format `<XXXX_string.sql>` från längsta till högsta tillgänglig.  
     Säkerställ att alla tabeller har skapats utan problem.
 
-4.  Registrera [Clerk-konto](https://clerk.com/docs/getting-started/quickstart/setup-clerk) för nycklar  
+4.  **Aktivera Clerk**
+
+    Registrera [Clerk-konto](https://clerk.com/docs/getting-started/quickstart/setup-clerk).  
+    Se till att skapa ett projekt för Clerk i workspace.
+    Hämta sedan nycklar till projektet under: ```Configure > API keys```
+
 
 5.  **Konfigurera miljö-variabler:**
 
@@ -169,12 +174,12 @@ Om jag bygger vidare på plattformen så vill jag fortsätta det jag var tvungen
 ## Credit
 
 Djur-bilder för innehåll används från dessa källor:  
-https://www.pexels.com/@graeme-travers-637657729/  
-https://www.pexels.com/@shvetsa/  
-https://www.pexels.com/@ingewallu/  
-https://www.pexels.com/@jesse-bannister-32886237/  
-https://www.pexels.com/@barnabas-davoti-31615494/  
-https://www.pexels.com/@marek-kupiec-1696944/  
+https://pexels.com/@graeme-travers-637657729/  
+https://pexels.com/@shvetsa/  
+https://pexels.com/@ingewallu/  
+https://pexels.com/@jesse-bannister-32886237/  
+https://pexels.com/@barnabas-davoti-31615494/  
+https://pexels.com/@marek-kupiec-1696944/  
 
 ## Licens
 
