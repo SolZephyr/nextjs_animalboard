@@ -183,4 +183,4 @@ https://pexels.com/@marek-kupiec-1696944/
 
 ## Licens
 
-Detta projekt är utvecklat i utbildningssyfte och är inte avsett för produktion.
+[MIT](LICENSE)
