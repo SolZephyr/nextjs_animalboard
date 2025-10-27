@@ -92,7 +92,9 @@ Project
     Kör SQL-migrationsscripten under `/db/migration/` i projektet med format `<XXXX_string.sql>` från längsta till högsta tillgänglig.  
     Säkerställ att alla tabeller har skapats utan problem.
 
-4.  **Konfigurera miljö-variabler:**
+4.  Registrera [Clerk-konto](https://clerk.com/docs/getting-started/quickstart/setup-clerk) för nycklar  
+
+5.  **Konfigurera miljö-variabler:**
 
     Skapa en `.env`-fil i projekt-root och lägg till nödvändig information för nedan:
     ```
@@ -106,7 +108,7 @@ Project
     NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
     ```
     
-5.  **Kör utvecklingservern:**
+6.  **Kör utvecklingservern:**
 
     ```bash
     npm run dev
