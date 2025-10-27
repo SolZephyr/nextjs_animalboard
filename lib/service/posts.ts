@@ -16,11 +16,9 @@ export const PostsService = () => {
         const select = await readPostLikes(postId, userId);
         let current = (select.length > 0);
         if (current) {
-            // Remove
             const removed = await deletePostLike(postId, userId);
             current = (removed == 0);
         } else {
-            // Add
             const added = await createPostLike(postId, userId);
             current = (added > 0);
         }

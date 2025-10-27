@@ -38,11 +38,9 @@ export const ProfileService = () => {
         const select = await readProfileFavourites(profileId, userId);
         let current = (select.length > 0);
         if (current) {
-            // Remove
             const removed = await deleteProfileFavourite(profileId, userId);
             current = (removed == 0);
         } else {
-            // Add
             const added = await createProfileFavourite(profileId, userId);
             current = (added > 0);
         }

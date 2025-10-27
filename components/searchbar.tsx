@@ -25,19 +25,13 @@ export default function SearchBar() {
             params.delete("search");
         }
         if (pathname.startsWith("/profiles/")) {
-            // Search under specific profile
             replace(`${pathname}?${params.toString()}`);
         } else if (pathname.startsWith("/profiles")) {
-            // Search under all profiles
             replace(`${pathname}?${params.toString()}`);
         } else if (pathname.startsWith("/about")) {
-            // Search under about(?)
             replace(`${pathname}?${params.toString()}`);
         } else if (pathname === "/") {
-            // Search all posts
             replace(`${pathname}?${params.toString()}`);
-        } else {
-            // Do nothing
         }
     }
 

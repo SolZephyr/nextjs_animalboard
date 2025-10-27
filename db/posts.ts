@@ -9,7 +9,7 @@ import { readProfiles } from './profiles';
 const db = drizzle(process.env.DATABASE_URL!);
 
 export async function createPost(post: Post): Promise<number> {
-    // Post media
+
     const images = post.images?.length ? await createMediaMultiple(post.images) : undefined;
 
     const data: typeof dbPosts.$inferInsert = {
@@ -23,7 +23,6 @@ export async function createPost(post: Post): Promise<number> {
     const result = await db.insert(dbPosts).values(data).returning({ insertedId: dbMedia.id });
     const postId = (result[0].insertedId ?? null);
     if (postId && images) {
-        // Post one-many Media
         if (await createPostMedia(postId, images) < images.length) {
             console.error("Not all images were added to post");
         }

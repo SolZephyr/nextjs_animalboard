@@ -39,7 +39,7 @@ export const dbProfiles = pgTable("profiles", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 50 }).notNull(),
     nicknames: varchar({ length: 100 }).notNull(),
-    user: varchar({ length: 50 }).notNull(),    // TODO: User
+    user: varchar({ length: 50 }).notNull(),
     avatarId: integer("avatar_id"),
     animal: varchar({ length: 50 }).notNull(),
     breed: varchar({ length: 50 }).notNull(),
